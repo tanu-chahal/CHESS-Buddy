@@ -4,8 +4,9 @@
   .container {
     img {
       width: 100%;
-      height: 100%;
-      object-fit: cover;
+      height: 70%;
+      object-fit: fill;
+      position: relative;
     }
     .intro {
       display: flex;
@@ -17,7 +18,7 @@
       top: 35%;
       left: 35%;
       gap: 30px;
-      padding: 50px;
+      padding: 40px;
       backdrop-filter: blur(10px) saturate(150%);
       -webkit-backdrop-filter: blur(10px) saturate(150%);
       background-color: rgba(255, 255, 255, 0.091);
@@ -25,12 +26,12 @@
       border: 1px solid rgba(209, 213, 219, 0.3);
       max-width: 300px;
       .logo {
-        font-size: 30px;
+        font-size: 1.575rem;
         .chess {
-          font-size: 50px;
+          font-size: 2.825rem;
         }
         .buddy {
-        color: white;
+          color: white;
         }
       }
       .btn {
@@ -40,25 +41,106 @@
         color: white;
         align-items: center;
         button {
-            box-shadow: 3px 3px 10px 3px #FF69B4 inset;
+          box-shadow: 3px 3px 10px 3px #ff69b4 inset;
           padding: 10px 20px;
-          color:   #FF69B4;
-          font-size: 15px;
+          color: #ff69b4;
+          font-size: 0.9rem;
           font-weight: 500;
-        border:none;
+          border: none;
           border-radius: 10px;
-          background-color: transparent
+          background-color: transparent;
+          cursor: pointer;
         }
-        button:hover{
-            color: white;
-            background-color:   #FF69B4
+        button:hover {
+          color: white;
+          background-color: #ff69b4;
         }
       }
-      .about{
+      .msg {
         color: white;
-        line-height: 150%;
         text-align: center;
+        font-size: 0.9rem;
       }
     }
+    .copy{
+      position: absolute;
+      max-width:800px;
+      top: 45%;
+      left: 25%;
+      color:white;
+      text-align:center;
+      font-size: 1.5rem;
+      .logo {
+        .chess {
+          font-size: 4.2rem;
+          color:#ff69b4;
+        }
+        .buddy {
+          font-size: 3rem;
+        }
+      }
+    }
+    .howToPlay{
+      display: flex;
+      width: 100%;
+      align-items: center;
+      border: 1px solid rgb(240, 237, 237);
+      padding: 60px 0px;
+      // flex-wrap:wrap-reverse;
+      .left{
+       width: 50%;
+        img{
+          object-fit: cover;
+          max-width:500px;
+          margin: 0px 150px;
+          flex-shrink: 2;
+          box-shadow: 3px 3px 10px 3px #ff69b4;
+        }
+      }
+      .right{
+        // background-color: black;
+        // color: white;
+        color:#ff69b4;
+        text-align: left;
+        padding: 40px;
+        // border: 2px solid #ff69b4;
+        border-radius: 12px;
+        margin: 0px 80px;
+        // box-shadow: 3px 3px 10px 3px #ff69b4 inset;
+        h1{
+          font-size: 2.5rem;
+          padding: 20px;
+          font-weight: 600px;
+        }
+        ol{
+          li{
+            padding: 10px;
+            font-size: 1.2rem;
+          }
+        }
+      }
+    }
+    hr{
+      width: 100%;
+      height: 0px;
+      border: 0.5px solid rgb(240, 237, 237);
+    }
   }
+  // @media (max-width: 1000px) {
+  //   .intro{
+  //     top:25%;
+  //     left: 25%;
+  //     padding:40px;
+  //     .about{
+  //       display: none;
+  //     }
+  //   }
+  // }
+  // @media (max-width: 768px) {
+  //   .intro{
+  //     top:25%;
+  //     left: 25%;
+  //     padding:20px 30px;
+  //   }
+  // }
 }
