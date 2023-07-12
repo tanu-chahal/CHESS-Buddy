@@ -10,7 +10,7 @@ const Register = () =>{
                     <img src="./img/illustration-1.png"/>
                 </div>
                 <form>
-                    <h1>Log In</h1>
+                    <h1>Join / Sign Up</h1>
                     <label htmlFor="">Name</label>
                     <input name="name" type="text" placeholder="Full Name"/>
                     <label htmlFor="">Email</label>

@@ -4,7 +4,7 @@ import getCurrentUser from "../../utils/getCurrentUser.js"
 import {Link} from "react-router-dom"
 
 const Navbar = () => {
-  const currentUser = getCurrentUser();
+  const currentUser = true//getCurrentUser();
   return (
     <div className="Navbar">
       <div className="container">

@@ -1,0 +1,24 @@
+.ChessBoard {
+  .row {
+    display: flex;
+  }
+  .square {
+    width: 60px;
+    height: 60px;
+    font-size: 3rem;
+    text-align: center;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    cursor: pointer;
+  }
+  .row:nth-child(even) .square:nth-child(odd),
+  .row:nth-child(odd) .square:nth-child(even) {
+    background-color: #ff69b4;
+  }
+
+  .row:nth-child(odd) .square:nth-child(odd),
+  .row:nth-child(even) .square:nth-child(even) {
+    background-color: #f1add3;
+  }
+}

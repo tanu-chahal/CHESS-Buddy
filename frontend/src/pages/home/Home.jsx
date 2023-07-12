@@ -4,7 +4,7 @@ import getCurrentUser from "../../utils/getCurrentUser.js"
 import {Link} from "react-router-dom"
 
 const Home = () =>{
-    const currentUser = getCurrentUser();
+    const currentUser = true //getCurrentUser();
     return (
         <div className="Home">
         <div className="container">
@@ -33,7 +33,7 @@ const Home = () =>{
             </div>}
             <div className="howToPlay">
                 <div className="left">
-                    <img src="./img/how.jpg"/>
+                    <img src="./img/chess-board-4.png"/>
                 </div>
                 <div className="right">
                     <h1>How To Play?</h1>

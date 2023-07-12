@@ -1,0 +1,66 @@
+.Games {
+  display: flex;
+  justify-content: center;
+  background-color: black;
+  .container {
+    color:white;
+    padding: 50px;
+    width: 1350px;
+    min-height: 1000px;
+    .title {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 50px;
+      button {
+        box-shadow: 3px 3px 10px 3px #ff69b4 inset;
+        padding: 10px 20px;
+        color: #ff69b4;
+        font-size: 0.9rem;
+        font-weight: 500;
+        border: none;
+        border-radius: 10px;
+        background-color: transparent;
+        cursor: pointer;
+      }
+      button:hover {
+        color: white;
+        background-color: #ff69b4;
+      }
+    }
+    table {
+      width: 100%;
+      tr {
+        height: 70px;
+        th {
+          text-align: left;
+        }
+        td {
+          img {
+            width: 30px;
+            object-fit: cover;
+          }
+          button {
+            box-shadow: 3px 3px 10px 3px #ff69b4 inset;
+            padding: 10px 20px;
+            color: #ff69b4;
+            font-size: 0.9rem;
+            font-weight: 500;
+            border: none;
+            border-radius: 10px;
+            background-color: transparent;
+            cursor: pointer;
+          }
+          button:hover {
+            color: white;
+            background-color: #ff69b4;
+          }
+        }
+        &:nth-child(even) {
+          background-color: #b195ac1c;
+        }
+      }
+    }
+  }
+}

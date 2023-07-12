@@ -1,0 +1,30 @@
+.Game{
+    display:flex;
+    justify-content: center;
+    background-color:black;
+    min-height: 1000px;
+    .container{
+        padding: 50px;
+        display:flex;
+        gap:50px;
+        .left{
+            justify-self:flex-start;
+            .opponent{
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items:center;
+                gap:10px;
+                img{
+                    width: 100px;
+                    object-fit: cover;
+                    border-radius: 50%;
+                }
+                span{
+                    color: white;
+                    font-size: 1.2rem;
+                }
+            }
+        }
+    }
+}
