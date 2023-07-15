@@ -51,9 +51,40 @@
         border: 2px solid white;
         border-radius: 50%;
         object-fit: contain;
+        cursor: pointer;
       }
       span {
         color: white;
+        user-select: none;
+        cursor: pointer;
+      }
+      .options{
+        background-color: white;
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        padding: 25px 20px;
+        border-radius: 12px;
+        gap:10px;
+        top: 75px; 
+        justify-content: center;    
+        align-items: flex-start;   
+        
+        span{
+          display: flex;
+          justify-content: center;  
+          align-items: center;
+          gap:5px;  
+          color: black;
+          user-select: none;
+          cursor: pointer;
+          img{
+            width:15px;
+            object-fit: cover;
+            border-radius: 0px;
+            cursor: pointer;
+          }
+        }
       }
     }
     }

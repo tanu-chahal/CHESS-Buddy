@@ -7,6 +7,7 @@
       height: 70%;
       object-fit: fill;
       position: relative;
+      z-index: -1000;
     }
     .intro {
       display: flex;
@@ -95,31 +96,29 @@
           object-fit: cover;
           max-height:400px;
           flex-shrink: 2;
-          transition: transform 2s;
+          z-index:0;
         }
-        img:hover{
-          transform: rotate(360deg);
-        }
+        
       }
       .right{
-        // border: 2px solid white;
-        color:#ff69b4;
+        color: white;
         text-align: left;
         padding: 0px 40px;
         min-height:500px;
         display:flex;
         flex-direction: column;
-        align-items: center;
+        align-items: flex-start;
         justify-content: center;
         h1{
-          font-size: 2.5rem;
-          padding: 20px;
+          text-align: left;
+          font-size: 3rem;
+          padding: 20px 0px;
           font-weight: 600px;
         }
         ol{
           li{
             padding: 10px;
-            font-size: 1.2rem;
+            font-size: 1.3rem;
           }
         }
       }
