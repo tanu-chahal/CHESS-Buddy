@@ -46,7 +46,7 @@ const Home = () => {
 
         <div className="howToPlay">
           <div className="left">
-            <img src="/img/illustration-2.png" />
+            <img src="/img/illustration-2.png" alt=""/>
           </div>
           <div className="right">
             <h1>How To Play?</h1>

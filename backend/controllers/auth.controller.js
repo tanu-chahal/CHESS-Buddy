@@ -19,7 +19,7 @@ export const Login = async (req, res, next)=>{
 
         const oneDay = 1000 * 60 * 60 * 24;
         
-        res.cookie("accessToken", token, {httpOnly: true,expires: new Date(Date.now() + oneDay), sameSite: "none", secure: true}).status(200).send(info)
+        res.cookie("accessToken", token, {httpOnly: true, sameSite: "none", secure: true, expires: new Date(Date.now() + oneDay)}).status(200).send(info)
     }catch(error){ next(error) }
 }
 
