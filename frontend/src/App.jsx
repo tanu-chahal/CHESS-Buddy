@@ -8,14 +8,21 @@ import Login from "./pages/login/Login.jsx"
 import Register from "./pages/register/Register.jsx"
 import Navbar from "./components/navbar/Navbar.jsx"
 import Footer from "./components/footer/Footer.jsx"
+import {
+  QueryClient,
+  QueryClientProvider,
+} from '@tanstack/react-query'
 
 function App() {
+  const queryClient = new QueryClient();
   const Layout = () => {
     return (
       <div className="app">
+        <QueryClientProvider client={queryClient}>
         <Navbar />
         <Outlet />
         <Footer />
+        </QueryClientProvider>
       </div>
     );
   };

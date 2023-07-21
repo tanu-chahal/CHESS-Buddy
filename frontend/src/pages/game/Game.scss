@@ -1,4 +1,5 @@
 .Game{
+    color:white;
     display:flex;
     justify-content: center;
     background-color:black;
@@ -9,21 +10,33 @@
         gap:50px;
         .left{
             justify-self:flex-start;
-            .opponent{
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
-                align-items:center;
-                gap:10px;
-                img{
-                    width: 100px;
-                    object-fit: cover;
-                    border-radius: 50%;
-                }
-                span{
-                    color: white;
-                    font-size: 1.2rem;
-                }
+        }
+        .opponent, .me{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items:center;
+            gap:10px;
+            img{
+                width: 100px;
+                height: 100px;
+                object-fit: contain;
+                padding: 2px;
+                border-radius: 50%;
+                border: 2px solid white;
+            }
+            span{
+                color: white;
+                font-size: 1.2rem;
+            }
+            .captured{
+                min-width: 200px;
+                max-width: 100%;
+                min-height: 60px;
+                background-color: #f1add3;
+                border: 2px solid white;
+                margin: 20px 0px;
+                border-radius: 12px;
             }
         }
     }

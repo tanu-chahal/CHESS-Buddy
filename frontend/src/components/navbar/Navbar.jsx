@@ -30,12 +30,16 @@ const Navbar = () => {
       setOpen(!open)
       const url = await upload(file)
       setEdit(!edit)
-      const res = await newRequest.put(`/user/${currentUser?._id}`,{img: url})
+      const res = await newRequest.patch(`/user`,{img: url})
       localStorage.setItem("currentUser",JSON.stringify(res.data))
       navigate("/")
     }catch(err){
       setError(err.response.data)
     }
+  };
+
+  const handleNavigate = () => {
+    window.location.href = `/games?reload=true`;
   };
 
   return (
@@ -50,9 +54,7 @@ const Navbar = () => {
 
         <div className="other">
           {currentUser ? (
-            <Link to="/games" className="link">
-              <button>Play</button>
-            </Link>
+              <button onClick = {handleNavigate}>Play</button>
           ) : (
             <Link to="/login" className="link">
               <button>Play</button>
@@ -65,7 +67,7 @@ const Navbar = () => {
                 alt=""
                 onClick={() => setOpen(!open)}
               />
-              <span onClick={() => setOpen(!open)}>Tanu Chahal</span>
+              <span onClick={() => setOpen(!open)}>{currentUser.fullName}</span>
               {open && (
                 <div className="options">
                   <span onClick={() => setEdit(!edit)}>

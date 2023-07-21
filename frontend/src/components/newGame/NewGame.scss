@@ -1,0 +1,29 @@
+.NewGame{
+    position: absolute;
+    top: 200px;
+    left:40%;
+    form{
+        min-width:350px;
+        border-radius: 12px;
+        padding: 40px;
+        background-color: white;
+        color: black;
+        display: flex;
+        flex-direction: column;
+        gap:20px;
+        label {
+            font-size: 1.2rem;
+        }  
+        input{
+         padding: 10px;
+         border: 1px solid #ff69b48f;
+        }
+        span{
+            font-size: 1.2rem;
+        } 
+        .msg{
+            color:red;
+            font-size: 0.8rem;
+        }
+    }
+}

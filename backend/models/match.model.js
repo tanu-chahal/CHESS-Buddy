@@ -1,6 +1,17 @@
 import mongoose from'mongoose'
 const {Schema} = mongoose
 
+const initialBoardState = [
+    ['♜', '♞', '♝', '♛', '♚', '♝', '♞', '♜'],
+    ['♟︎', '♟︎', '♟︎', '♟︎', '♟︎', '♟︎', '♟︎', '♟︎'],
+    ['', '', '', '', '', '', '', ''],
+    ['', '', '', '', '', '', '', ''],
+    ['', '', '', '', '', '', '', ''],
+    ['', '', '', '', '', '', '', ''],
+    ['♙', '♙', '♙', '♙', '♙', '♙', '♙', '♙'],
+    ['♖', '♘', '♗', '♕', '♔', '♗', '♘', '♖'],
+  ];
+
 const matchSchema = new Schema({
     players: {
         type: [String],
@@ -16,10 +27,14 @@ const matchSchema = new Schema({
         enum: ['Finished', 'Paused', 'Cancelled'],
         default: 'Paused', 
     },
+    boardState: {
+        type: [[String]],
+        default: initialBoardState,
+      },
     captured:{
         type: [String],
         enum: ['♜', '♞', '♝', '♛', '♚','♟︎', '♙', '♖', '♘', '♗', '♕', '♔'],
-        required: true,
+        default: []
     },
     winner:{
         type: String,

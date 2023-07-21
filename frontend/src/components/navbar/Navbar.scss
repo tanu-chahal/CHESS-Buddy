@@ -47,10 +47,12 @@
         gap: 10px;
         img {
           width: 30px;
+          height: 30px;
           border: 2px solid white;
           border-radius: 50%;
           object-fit: contain;
           cursor: pointer;
+          background-color: white;
         }
         span {
           color: white;
@@ -79,6 +81,7 @@
             cursor: pointer;
             img {
               width: 15px;
+              height: 15px;
               object-fit: cover;
               border-radius: 0px;
               cursor: pointer;

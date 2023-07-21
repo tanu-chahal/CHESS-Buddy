@@ -5,6 +5,7 @@ import mongoose from "mongoose"
 import cookieParser from "cookie-parser"
 import authRoute from "./routes/auth.route.js"
 import userRoute from "./routes/user.route.js"
+import matchRoute from "./routes/match.route.js"
 
 const app = express()
 dotenv.config()
@@ -29,7 +30,8 @@ app.get("/", (req, res) => {
 })
 
 app.use("/api/auth", authRoute)
-app.use("/api/user", userRoute);
+app.use("/api/user", userRoute)
+app.use("/api/match", matchRoute)
 
 app.use((err, req, res, next) => {
   const errorStatus = err.status || 500
