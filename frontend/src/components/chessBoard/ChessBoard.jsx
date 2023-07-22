@@ -1,4 +1,5 @@
-import React from "react";
+import React,{useEffect} from "react";
+import { io } from "socket.io-client";
 import "./ChessBoard.scss";
 
 const ChessBoard = ({ boardState }) => {
@@ -15,6 +16,23 @@ const ChessBoard = ({ boardState }) => {
     ["♙", "♙", "♙", "♙", "♙", "♙", "♙", "♙"],
     ["♖", "♘", "♗", "♕", "♔", "♗", "♘", "♖"],
   ];
+
+  useEffect(() => {
+    const socket = io("http://localhost:4000");
+
+    socket.on("connect", () => {
+      console.log(socket.id)
+      console.log("Connected to Socket.IO server!");
+    });
+
+    socket.on("disconnect", () => {
+      console.log("Disconnected from Socket.IO server!");
+    })
+
+    return () => {
+      socket.disconnect();
+    };
+  }, []);
 
   return (
     <div className="ChessBoard">
