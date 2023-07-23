@@ -38,6 +38,10 @@ const matchSchema = new Schema({
     },
     winner:{
         type: String,
+    },
+    turn:{
+        type: String,
+        required: true,
     }
 
 },{

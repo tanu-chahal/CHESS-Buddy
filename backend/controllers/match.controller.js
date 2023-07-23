@@ -46,6 +46,7 @@ export const createMatch = async (req, res, next) => {
     const match = new Match({
       code: req.body.code,
       players: [req.userId, user._id],
+      turn: req.userId,
     });
 
     await match.save();

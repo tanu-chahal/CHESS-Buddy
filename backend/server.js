@@ -55,7 +55,7 @@ app.use((err, req, res, next) => {
 // })
 
 io.on("connection", (socket) => {
-  console.log(socket.id);
+  // console.log(socket.id);
   console.log("A User Connected!");
 });
 
