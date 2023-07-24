@@ -42,6 +42,10 @@ const matchSchema = new Schema({
     turn:{
         type: String,
         required: true,
+    },
+    moves: {
+        type: Number,
+        default:0,
     }
 
 },{
