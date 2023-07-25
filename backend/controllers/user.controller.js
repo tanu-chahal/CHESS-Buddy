@@ -20,7 +20,7 @@ export const Update = async (req, res) => {
         $set: {
           img: req.body.img,
         },
-      }
+      }, { new: true },
     );
     if (!user) return next(createError(404, "User not found!"));
     const { password, ...info } = user._doc;

@@ -8,6 +8,7 @@ import cookieParser from "cookie-parser";
 import authRoute from "./routes/auth.route.js";
 import userRoute from "./routes/user.route.js";
 import matchRoute from "./routes/match.route.js";
+import {updateMatch} from "./controllers/match.controller.js"
 
 const app = express();
 const httpServer = createServer(app);
@@ -57,6 +58,13 @@ app.use((err, req, res, next) => {
 io.on("connection", (socket) => {
   // console.log(socket.id);
   console.log("A User Connected!");
+
+  socket.on("move", (data) => {
+    console.log("Received move data:", data);
+    // const updatedData = updateMatch(data);
+    // socket.emit("updated", updatedData);
+  });
+
 });
 
 // httpServer.listen(4000)

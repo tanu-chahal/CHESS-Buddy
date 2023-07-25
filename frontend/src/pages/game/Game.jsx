@@ -37,7 +37,7 @@ const Game = () => {
           </div>
         </div>
         <div className="right">
-          <ChessBoard boardState={data.boardState} whiteP={data.players[0]}  blackP={data.players[1]} turnP={data.turn} moves={data.moves}/>
+          <ChessBoard id={id} boardState={data.boardState} whiteP={data.players[0]}  blackP={data.players[1]} turnP={data.turn} moves={data.moves}/>
         </div>
         <div className="me">
           <div className="captured">{data.captured}</div>
