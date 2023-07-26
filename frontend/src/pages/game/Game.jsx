@@ -33,14 +33,12 @@ const Game = () => {
           <div className="opponent">
             <img src={data.opponentImg || "/img/profile.png"} alt="" />
             <span>{data.opponentName || "Opponent"}</span>
-            <div className="captured">{data.captured}</div>
           </div>
         </div>
         <div className="right">
-          <ChessBoard id={id} boardState={data.boardState} whiteP={data.players[0]}  blackP={data.players[1]} turnP={data.turn} moves={data.moves}/>
+          <ChessBoard code={data.code} boardState={data.boardState} whiteP={currentUser._id === data.players[0] ? data.players[0] : data.players[1]} blackP={currentUser._id === data.players[0] ? data.players[1] : data.players[0]} turnP={data.turn} moves={data.moves}/>
         </div>
         <div className="me">
-          <div className="captured">{data.captured}</div>
           <img src={currentUser?.img || "/img/profile.png"} alt="" />
           <span>{currentUser?.fullName || "Me"}</span>
         </div>

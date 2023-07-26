@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { io } from "socket.io-client";
 import "./ChessBoard.scss";
+import getCurrentUser from "../../utils/getCurrentUser.js";
 
-const ChessBoard = ({ id, boardState, whiteP, blackP, turnP, moves }) => {
+const ChessBoard = ({ code, boardState, whiteP, blackP, turnP, moves }) => {
+  const currentUser = getCurrentUser();
   const socket = io("http://localhost:4000");
   useEffect(() => {
     const handleUpdated = (updatedData) => {
@@ -13,9 +15,13 @@ const ChessBoard = ({ id, boardState, whiteP, blackP, turnP, moves }) => {
     };
 
     socket.on("connect", () => {
-      console.log(socket.id)
-      console.log("Connected to Socket.IO server!");
+      // console.log(socket.id)
+      // console.log("Connected to Socket.IO server!");
     });
+    socket.emit("joinMatch", code);
+
+    socket.on("message", (message) => {
+      console.log(message);});
 
     socket.on("updated", handleUpdated);
 
@@ -32,7 +38,6 @@ const ChessBoard = ({ id, boardState, whiteP, blackP, turnP, moves }) => {
   const [board, setBoard] = useState(boardState);
   const [toMove, setToMove] = useState({})
   const [isCapture, setCapture] = useState(false)
-  const [capturedPiece, setCapturedPiece] = useState(null)
   const [turn, setTurn] = useState(turnP);
   const [moveN, setMoveN] = useState(moves);
   const rows = ["8", "7", "6", "5", "4", "3", "2", "1"];
@@ -81,6 +86,7 @@ const ChessBoard = ({ id, boardState, whiteP, blackP, turnP, moves }) => {
       } else if (piece === "") {
       } else {
         setHighlighted([]);
+        setCapture(false)
       }
     } 
     else {
@@ -92,6 +98,7 @@ const ChessBoard = ({ id, boardState, whiteP, blackP, turnP, moves }) => {
           boardState
         );
         setHighlighted(allowedSquares);
+        setToMove({r: r, c: c});
       } else if (piece === "") {
         const allowedSquares = calculateAllowedSquaresForPawn(
           r,
@@ -103,6 +110,7 @@ const ChessBoard = ({ id, boardState, whiteP, blackP, turnP, moves }) => {
       } else if (piece === "") {
       } else {
         setHighlighted([]);
+        setCapture(false)
       }
     }
   };
@@ -111,19 +119,20 @@ const ChessBoard = ({ id, boardState, whiteP, blackP, turnP, moves }) => {
     if (isPieceWhite(piece)) {
       if (moveN === 0) {
         const allowed = [
-          { row: r, col: c },
           { row: r - 1, col: c },
           { row: r - 2, col: c },
         ];
         return allowed;
       } else {
-        let allowed =[{ row: r, col: c },];
+        let allowed =[];
         if(isPieceBlack(board[r-1][c+1])){
           allowed.push({ row: r - 1, col: c+1 });
           setCapture(true);
         }
-        else if(isPieceBlack(board[r-1][c-1])){allowed.push({ row: r - 1, col: c-1 });}
-        else{
+        if(isPieceBlack(board[r-1][c-1])){allowed.push({ row: r - 1, col: c-1 });
+        setCapture(true);
+      }
+        if(!isPieceWhite(board[r-1][c]) && !isPieceBlack(board[r-1][c]) ){
           allowed.push({ row: r - 1, col: c });
         }
         return allowed;
@@ -131,21 +140,22 @@ const ChessBoard = ({ id, boardState, whiteP, blackP, turnP, moves }) => {
     } else {
       if (moveN === 1) {
         const allowed = [
-          { row: r, col: c },
           { row: r + 1, col: c },
           { row: r + 2, col: c },
         ];
         return allowed;
       } else {
-        let allowed =[{ row: r, col: c },];
+        let allowed =[];
         if(isPieceWhite(boardState[r+1][c+1])){
-          allowed = [
-            { row: r + 1, col: c+1 },
-          ];
-        }else{
-          allowed = [
-            { row: r + 1, col: c },
-          ];
+          allowed.push({ row: r + 1, col: c+1 })
+          setCapture(true);
+        }
+        if(isPieceWhite(boardState[r+1][c-1])){
+          allowed.push({ row: r+1, col: c-1 })
+          setCapture(true);
+        }
+        if(!isPieceWhite(board[r+1][c]) && !isPieceBlack(board[r+1][c])){
+          allowed.push({ row: r + 1, col: c })
         }
         return allowed;
       }
@@ -154,7 +164,6 @@ const ChessBoard = ({ id, boardState, whiteP, blackP, turnP, moves }) => {
 
   const handleMovement = (row, col)=>{
     if(!isSquareHighlighted(row,col)){return;}
-    if(isCapture) {setCapturedPiece(board[row][col])}
     let tempBoard = board;
     tempBoard[row][col] = board[toMove.r][toMove.c];
     tempBoard[toMove.r][toMove.c] = ""
@@ -162,7 +171,6 @@ const ChessBoard = ({ id, boardState, whiteP, blackP, turnP, moves }) => {
     setToMove({});
     setMoveN(moveN+1)
     turn === whiteP ? setTurn(blackP) : setTurn(whiteP)
-    if(isCapture){handleCapture(); setCapture(false); return;}
 
     const data = {id: id,
       boardState: board,
@@ -171,19 +179,7 @@ const ChessBoard = ({ id, boardState, whiteP, blackP, turnP, moves }) => {
     }
     socket.emit("move",data);
     setHighlighted([]);
-    setCapturedPiece(null);
-  }
-
-  const handleCapture = () =>{
-    const data = {id: id,
-      boardState: board,
-      moves: moveN,
-      turn: turn,
-      captured: capturedPiece
-    }
-    socket.emit("move","la la la");
-    setHighlighted([]);
-    setCapturedPiece(null);
+    setCapture(false)
   }
 
   const isSquareHighlighted = (r, c) => {
@@ -202,8 +198,8 @@ const ChessBoard = ({ id, boardState, whiteP, blackP, turnP, moves }) => {
                 isSquareHighlighted(rowIndex, columnIndex)
                   ? {
                       boxSizing: "border-box",
-                      border: "2px solid green",
-                      backgroundColor: "#82ae61",
+                      border: isCapture ?  "2px solid red" : "2px solid green",
+                      backgroundColor: isCapture ? "#FF4500": "#82ae61",
                     }
                   : {}
               }

@@ -31,11 +31,6 @@ const matchSchema = new Schema({
         type: [[String]],
         default: initialBoardState,
       },
-    captured:{
-        type: [String],
-        enum: ['♜', '♞', '♝', '♛', '♚','♟︎', '♙', '♖', '♘', '♗', '♕', '♔'],
-        default: []
-    },
     winner:{
         type: String,
     },

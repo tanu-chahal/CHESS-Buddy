@@ -57,12 +57,19 @@ app.use((err, req, res, next) => {
 
 io.on("connection", (socket) => {
   // console.log(socket.id);
-  console.log("A User Connected!");
+  // console.log("A User Connected!");
 
-  socket.on("move", (data) => {
+  socket.on("joinMatch", (code) => {
+    socket.join(code);
+    console.log("Connected in room!");
+    socket.emit("message", "You joined the match successfully!");
+  });
+
+  socket.on("move", async (data) => {
     console.log("Received move data:", data);
-    // const updatedData = updateMatch(data);
-    // socket.emit("updated", updatedData);
+    const updatedData = await updateMatch(data);
+    console.log(updatedData)
+    io.to(updatedData.code).emit("updated", updatedData);
   });
 
 });

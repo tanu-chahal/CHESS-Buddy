@@ -57,18 +57,9 @@ export const createMatch = async (req, res, next) => {
 };
 
 export const updateMatch = async (data) => {
-  const { captured, id, ...body } = data;
-
-  const update = {};
-
-  if (captured) {
-    update.$push = { captured: captured };
-  }
-
-  update.$set = { ...body };
-
+  const {id, ...body } = data;
   try {
-    const updatedData = await Match.findByIdAndUpdate(id, update, { new: true });
+    const updatedData = await Match.findByIdAndUpdate(id, { $set: { ...body } }, { new: true });
     return updatedData;
   } catch (err) {
     console.log("Error updating database:", err);
