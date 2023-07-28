@@ -6,8 +6,7 @@ export const getMatch = async (req, res, next) => {
   try {
     const match = await Match.findById(req.params.id);
     if (!match) return next(createError(404, "Match not found!"));
-    const opponentId =
-      req.userId === match.players[0] ? match.players[1] : match.players[0];
+    const opponentId = req.userId === match.white ? match.black : match.white;
     const user = await User.findById(opponentId);
     if (!user)
       return next(createError(404, "Your buddy not found on ChessBuddy."));
@@ -24,7 +23,9 @@ export const getMatch = async (req, res, next) => {
 
 export const getMatches = async (req, res, next) => {
   try {
-    const matches = await Match.find({ players: { $eq: req.userId } });
+    const matches = await Match.find({
+      $or: [{ white: req.userId }, { black: req.userId }],
+    });
     if (!matches) return next(createError(404, "Match nor found!"));
     res.status(200).send(matches);
   } catch (err) {
@@ -45,7 +46,8 @@ export const createMatch = async (req, res, next) => {
 
     const match = new Match({
       code: req.body.code,
-      players: [req.userId, user._id],
+      white: req.userId,
+      black: user._id,
       turn: req.userId,
     });
 
@@ -57,9 +59,13 @@ export const createMatch = async (req, res, next) => {
 };
 
 export const updateMatch = async (data) => {
-  const {id, ...body } = data;
+  const { id, ...body } = data;
   try {
-    const updatedData = await Match.findByIdAndUpdate(id, { $set: { ...body } }, { new: true });
+    const updatedData = await Match.findByIdAndUpdate(
+      id,
+      { $set: { ...body } },
+      { new: true }
+    );
     return updatedData;
   } catch (err) {
     console.log("Error updating database:", err);

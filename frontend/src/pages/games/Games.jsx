@@ -32,7 +32,7 @@ const Games = () => {
       const fetchUserNames = async () => {
         const promises = data.map((m) => {
           const opponentId =
-            currentUser?._id === m.players[0] ? m.players[1] : m.players[0];
+            currentUser?._id === m?.white ? m?.black : m?.white;
           return fetchUserData(opponentId);
         });
         const names = await Promise.all(promises);
