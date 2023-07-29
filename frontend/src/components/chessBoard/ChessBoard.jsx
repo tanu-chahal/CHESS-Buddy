@@ -53,7 +53,9 @@ const ChessBoard = ({ id, code, boardState, whiteP, blackP, turnP, moves }) => {
       turn: turn,
     };
     console.log("Data: ", data);
-   moveN!==moves ? socket.emit("move", data) : console.log("No change so no emit");
+    moveN !== moves
+      ? socket.emit("move", data)
+      : console.log("No change so no emit");
   }, [moveN]);
 
   const initialBoardState = [
@@ -97,7 +99,23 @@ const ChessBoard = ({ id, code, boardState, whiteP, blackP, turnP, moves }) => {
         setHighlighted(allowedSquares);
         setToMove({ r: r, c: c });
       } else if (piece === "♘") {
+        const allowedSquares = calculateAllowedSquaresForKnight(
+          r,
+          c,
+          piece,
+          board
+        );
+        setHighlighted(allowedSquares);
+        setToMove({ r: r, c: c });
       } else if (piece === "♗") {
+        const allowedSquares = calculateAllowedSquaresForBishop(
+          r,
+          c,
+          piece,
+          board
+        );
+        setHighlighted(allowedSquares);
+        setToMove({ r: r, c: c });
       } else if (piece === "♕") {
       } else if (piece === "♔") {
       } else {
@@ -121,11 +139,48 @@ const ChessBoard = ({ id, code, boardState, whiteP, blackP, turnP, moves }) => {
           piece,
           board
         );
-        console.log(allowedSquares);
         setHighlighted(allowedSquares);
         setToMove({ r: r, c: c });
-      } else if (piece === "") {
-      } else {
+      } else if (piece === "♞") {
+        const allowedSquares = calculateAllowedSquaresForKnight(
+          r,
+          c,
+          piece,
+          board
+        );
+        setHighlighted(allowedSquares);
+        setToMove({ r: r, c: c });
+      } else if (piece === "♝") {
+        const allowedSquares = calculateAllowedSquaresForBishop(
+          r,
+          c,
+          piece,
+          board
+        );
+        setHighlighted(allowedSquares);
+        setToMove({ r: r, c: c });
+      }
+      else if (piece === "♛") {
+        const allowedSquares = calculateAllowedSquaresForBishop(
+          r,
+          c,
+          piece,
+          board
+        );
+        setHighlighted(allowedSquares);
+        setToMove({ r: r, c: c });
+      }
+      else if (piece === "♚") {
+        const allowedSquares = calculateAllowedSquaresForBishop(
+          r,
+          c,
+          piece,
+          board
+        );
+        setHighlighted(allowedSquares);
+        setToMove({ r: r, c: c });
+      }
+      else {
         setHighlighted([]);
         setCapture(false);
       }
@@ -181,90 +236,136 @@ const ChessBoard = ({ id, code, boardState, whiteP, blackP, turnP, moves }) => {
   };
 
   const calculateAllowedSquaresForRook = (r, c, piece, board) => {
-    let allowed = [];
+    const allowed = [];
 
-    for (let j = c+1; j < 8; j++) {
-      if (
-        (isPieceWhite(piece) && isPieceWhite(board[r][j])) ||
-        (isPieceBlack(piece) && isPieceBlack(board[r][j]))
-      ){
-        break;}
-      else if (
-        (isPieceWhite(piece) && isPieceBlack(board[r][j])) ||
-        (isPieceBlack(piece) && isPieceWhite(board[r][j]))
-      ) {
-        allowed.push({ row: r, col: j });
-        setCapture(true);
-        break;
-      } else {
-        allowed.push({ row: r, col: j });
+    const checkSquare = (row, col) => {
+      if (row < 0 || row >= 8 || col < 0 || col >= 8) {
+        return true;
       }
+
+      const targetPiece = board[row][col];
+
+      if (isPieceWhite(piece) && isPieceWhite(targetPiece)) {
+        return true;
+      }
+
+      if (isPieceBlack(piece) && isPieceBlack(targetPiece)) {
+        return true;
+      }
+
+      allowed.push({ row, col });
+
+      if (isPieceWhite(piece) && isPieceBlack(targetPiece)) {
+        setCapture(true);
+        return true;
+      }
+
+      if (isPieceBlack(piece) && isPieceWhite(targetPiece)) {
+        setCapture(true);
+        return true;
+      }
+
+      return false;
+    };
+
+    for (let i = 1; i < 8; i++) {
+      if (checkSquare(r + i, c)) break;
     }
-    for (let j = c-1; j >= 0; j--) {
-      if (
-        (isPieceWhite(piece) && isPieceWhite(board[r][j])) ||
-        (isPieceBlack(piece) && isPieceBlack(board[r][j]))
-      ){
-        break;}
-      else if (
-        (isPieceWhite(piece) && isPieceBlack(board[r][j])) ||
-        (isPieceBlack(piece) && isPieceWhite(board[r][j]))
-      ) {
-        allowed.push({ row: r, col: j });
-        setCapture(true);
-        break;
-      } else {
-        allowed.push({ row: r, col: j });
-      }
+    for (let i = 1; i < 8; i++) {
+      if (checkSquare(r - i, c)) break;
+    }
+    for (let j = 1; j < 8; j++) {
+      if (checkSquare(r, c + j)) break;
+    }
+    for (let j = 1; j < 8; j++) {
+      if (checkSquare(r, c - j)) break;
     }
 
-    for (let i = r+1; i < 8; i++) {
-      if (
-        (isPieceWhite(piece) && isPieceWhite(board[i][c])) ||
-        (isPieceBlack(piece) && isPieceBlack(board[i][c]))
-      ){
-        break;}
-      else if (
-        (isPieceWhite(piece) && isPieceBlack(board[i][c])) ||
-        (isPieceBlack(piece) && isPieceWhite(board[i][c]))
-      ) {
-        allowed.push({ row: i, col: c });
-        setCapture(true);
-        break;
-      } else {
-        allowed.push({ row: i, col: c });
-      }
-    }
-    for (let i = r-1; i >= 0; i--) {
-      if (
-        (isPieceWhite(piece) && isPieceWhite(board[i][c])) ||
-        (isPieceBlack(piece) && isPieceBlack(board[i][c]))
-      ){
-        break;}
-      else if (
-        (isPieceWhite(piece) && isPieceBlack(board[i][c])) ||
-        (isPieceBlack(piece) && isPieceWhite(board[i][c]))
-      ) {
-        allowed.push({ row: i, col: c });
-        setCapture(true);
-        break;
-      } else {
-        allowed.push({ row: i, col: c });
-      }
-    }
     return allowed;
   };
 
   const calculateAllowedSquaresForKnight = (r, c, piece, board) => {
-    if (isPieceWhite(piece)) {
-    } else {
-    }
+    let allowed = [];
+
+    const checkSquare = (row, col) => {
+      if (row < 0 || row >= 8 || col < 0 || col >= 8) {
+        return;
+      }
+      const target = board[row][col];
+      if (
+        (isPieceWhite(piece) && isPieceWhite(target)) ||
+        (isPieceBlack(piece) && isPieceBlack(target))
+      ) {
+        return;
+      }
+
+      if (
+        (isPieceWhite(piece) && isPieceBlack(target)) ||
+        (isPieceBlack(piece) && isPieceWhite(target))
+      ) {
+        allowed.push({ row, col });
+        setCapture(true);
+        return;
+      }
+
+      if (
+        (isPieceWhite(piece) && !isPieceBlack(target) && !isPieceWhite(target)) ||
+        (isPieceBlack(piece) && !isPieceWhite(target) && !isPieceBlack(target))
+      ) {
+        allowed.push({ row, col });
+        return;
+      }
+    };
+
+    checkSquare(r + 2, c - 1);
+    checkSquare(r + 2, c + 1);
+    checkSquare(r - 2, c - 1);
+    checkSquare(r - 2, c + 1);
+    checkSquare(r - 1, c + 2);
+    checkSquare(r - 1, c + 2);
+    checkSquare(r - 1, c - 2);
+    checkSquare(r - 1, c - 2);
+    return allowed;
   };
 
   const calculateAllowedSquaresForBishop = (r, c, piece, board) => {
-    if (isPieceWhite(piece)) {
-    } else {
+    let allowed =[];
+    const checkSquare = (row, col) =>{
+      if (row < 0 || row >= 8 || col < 0 || col >= 8) {
+        return true;
+      }
+      const target = board[row][col];
+      if (
+        (isPieceWhite(piece) && isPieceWhite(target)) ||
+        (isPieceBlack(piece) && isPieceBlack(target))
+      ) {
+        return true;
+      }
+
+      allowed.push({ row, col });
+
+      if (
+        (isPieceWhite(piece) && isPieceBlack(target)) ||
+        (isPieceBlack(piece) && isPieceWhite(target))
+      ) {
+        setCapture(true);
+        return true;
+      }
+      return false;
     }
+    for(let i=1; i<8; i++){
+        if(checkSquare(r+i,c+i)){break;}
+    }
+    for(let i=1; i<8; i++){
+        if(checkSquare(r-i,c+i)){break;}
+    }
+    for(let i=1; i<8; i++){
+        if(checkSquare(r+i,c-i)){break;}
+    }
+    for(let i=1; i<8; i++){
+        if(checkSquare(r-i,c-i)){break;}
+    }
+    return allowed;
   };
 
   const calculateAllowedSquaresForQueen = (r, c, piece, board) => {
