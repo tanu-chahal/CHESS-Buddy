@@ -76,115 +76,167 @@ const ChessBoard = ({ id, code, boardState, whiteP, blackP, turnP, moves }) => {
     return black.some((e) => e === piece);
   };
 
+  // const handleHighlight = (r, c) => {
+  //   const piece = board[r][c];
+  //   setCapture(false);
+  //   if (turn === whiteP && currentUser?._id === whiteP) {
+  //     if (piece === "♙") {
+  //       const allowedSquares = calculateAllowedSquaresForPawn(
+  //         r,
+  //         c,
+  //         piece,
+  //         board
+  //       );
+  //       setHighlighted(allowedSquares);
+  //       setToMove({ r: r, c: c });
+  //     } else if (piece === "♖") {
+  //       const allowedSquares = calculateAllowedSquaresForRook(
+  //         r,
+  //         c,
+  //         piece,
+  //         board
+  //       );
+  //       setHighlighted(allowedSquares);
+  //       setToMove({ r: r, c: c });
+  //     } else if (piece === "♘") {
+  //       const allowedSquares = calculateAllowedSquaresForKnight(
+  //         r,
+  //         c,
+  //         piece,
+  //         board
+  //       );
+  //       setHighlighted(allowedSquares);
+  //       setToMove({ r: r, c: c });
+  //     } else if (piece === "♗") {
+  //       const allowedSquares = calculateAllowedSquaresForBishop(
+  //         r,
+  //         c,
+  //         piece,
+  //         board
+  //       );
+  //       setHighlighted(allowedSquares);
+  //       setToMove({ r: r, c: c });
+  //     } else if (piece === "♕") {
+  //       const allowedSquares = calculateAllowedSquaresForQueen(
+  //         r,
+  //         c,
+  //         piece,
+  //         board
+  //       );
+  //       setHighlighted(allowedSquares);
+  //       setToMove({ r: r, c: c });
+  //     } else if (piece === "♔") {
+  //       const allowedSquares = calculateAllowedSquaresForKing(
+  //         r,
+  //         c,
+  //         piece,
+  //         board
+  //       );
+  //       setHighlighted(allowedSquares);
+  //       setToMove({ r: r, c: c });
+  //     } else {
+  //       setHighlighted([]);
+  //       setCapture(false);
+  //     }
+  //   } else if (turn === blackP && currentUser?._id === blackP) {
+  //     if (piece === "♟︎") {
+  //       const allowedSquares = calculateAllowedSquaresForPawn(
+  //         r,
+  //         c,
+  //         piece,
+  //         board
+  //       );
+  //       setHighlighted(allowedSquares);
+  //       setToMove({ r: r, c: c });
+  //     } else if (piece === "♜") {
+  //       const allowedSquares = calculateAllowedSquaresForRook(
+  //         r,
+  //         c,
+  //         piece,
+  //         board
+  //       );
+  //       setHighlighted(allowedSquares);
+  //       setToMove({ r: r, c: c });
+  //     } else if (piece === "♞") {
+  //       const allowedSquares = calculateAllowedSquaresForKnight(
+  //         r,
+  //         c,
+  //         piece,
+  //         board
+  //       );
+  //       setHighlighted(allowedSquares);
+  //       setToMove({ r: r, c: c });
+  //     } else if (piece === "♝") {
+  //       const allowedSquares = calculateAllowedSquaresForBishop(
+  //         r,
+  //         c,
+  //         piece,
+  //         board
+  //       );
+  //       setHighlighted(allowedSquares);
+  //       setToMove({ r: r, c: c });
+  //     } else if (piece === "♛") {
+  //       const allowedSquares = calculateAllowedSquaresForQueen(
+  //         r,
+  //         c,
+  //         piece,
+  //         board
+  //       );
+  //       setHighlighted(allowedSquares);
+  //       setToMove({ r: r, c: c });
+  //     } else if (piece === "♚") {
+  //       const allowedSquares = calculateAllowedSquaresForKing(
+  //         r,
+  //         c,
+  //         piece,
+  //         board
+  //       );
+  //       setHighlighted(allowedSquares);
+  //       setToMove({ r: r, c: c });
+  //     } else {
+  //       setHighlighted([]);
+  //       setCapture(false);
+  //     }
+  //   }
+  // };
+
   const handleHighlight = (r, c) => {
     const piece = board[r][c];
     setCapture(false);
-    if (turn === whiteP && currentUser?._id === whiteP) {
-      if (piece === "♙") {
-        const allowedSquares = calculateAllowedSquaresForPawn(
-          r,
-          c,
-          piece,
-          board
-        );
-        setHighlighted(allowedSquares);
-        setToMove({ r: r, c: c });
-      } else if (piece === "♖") {
-        const allowedSquares = calculateAllowedSquaresForRook(
-          r,
-          c,
-          piece,
-          board
-        );
-        setHighlighted(allowedSquares);
-        setToMove({ r: r, c: c });
-      } else if (piece === "♘") {
-        const allowedSquares = calculateAllowedSquaresForKnight(
-          r,
-          c,
-          piece,
-          board
-        );
-        setHighlighted(allowedSquares);
-        setToMove({ r: r, c: c });
-      } else if (piece === "♗") {
-        const allowedSquares = calculateAllowedSquaresForBishop(
-          r,
-          c,
-          piece,
-          board
-        );
-        setHighlighted(allowedSquares);
-        setToMove({ r: r, c: c });
-      } else if (piece === "♕") {
-      } else if (piece === "♔") {
-      } else {
-        setHighlighted([]);
-        setCapture(false);
-      }
-    } else if (turn === blackP && currentUser?._id === blackP) {
-      if (piece === "♟︎") {
-        const allowedSquares = calculateAllowedSquaresForPawn(
-          r,
-          c,
-          piece,
-          board
-        );
-        setHighlighted(allowedSquares);
-        setToMove({ r: r, c: c });
-      } else if (piece === "♜") {
-        const allowedSquares = calculateAllowedSquaresForRook(
-          r,
-          c,
-          piece,
-          board
-        );
-        setHighlighted(allowedSquares);
-        setToMove({ r: r, c: c });
-      } else if (piece === "♞") {
-        const allowedSquares = calculateAllowedSquaresForKnight(
-          r,
-          c,
-          piece,
-          board
-        );
-        setHighlighted(allowedSquares);
-        setToMove({ r: r, c: c });
-      } else if (piece === "♝") {
-        const allowedSquares = calculateAllowedSquaresForBishop(
-          r,
-          c,
-          piece,
-          board
-        );
-        setHighlighted(allowedSquares);
-        setToMove({ r: r, c: c });
-      }
-      else if (piece === "♛") {
-        const allowedSquares = calculateAllowedSquaresForBishop(
-          r,
-          c,
-          piece,
-          board
-        );
-        setHighlighted(allowedSquares);
-        setToMove({ r: r, c: c });
-      }
-      else if (piece === "♚") {
-        const allowedSquares = calculateAllowedSquaresForBishop(
-          r,
-          c,
-          piece,
-          board
-        );
-        setHighlighted(allowedSquares);
-        setToMove({ r: r, c: c });
-      }
-      else {
-        setHighlighted([]);
-        setCapture(false);
-      }
+  
+    const currentPlayer = turn === whiteP ? whiteP : blackP;
+    const allowedSquares = calculateAllowedSquares(piece, r, c, board, currentPlayer);
+  
+    setHighlighted(allowedSquares);
+    setToMove({ r: r, c: c });
+  };
+  
+  const calculateAllowedSquares = (piece, r, c, board, currentPlayer) => {
+    const pieceMap = {
+      "♙": calculateAllowedSquaresForPawn,
+      "♖": calculateAllowedSquaresForRook,
+      "♘": calculateAllowedSquaresForKnight,
+      "♗": calculateAllowedSquaresForBishop,
+      "♕": calculateAllowedSquaresForQueen,
+      "♔": calculateAllowedSquaresForKing,
+      "♟︎": calculateAllowedSquaresForPawn,
+      "♜": calculateAllowedSquaresForRook,
+      "♞": calculateAllowedSquaresForKnight,
+      "♝": calculateAllowedSquaresForBishop,
+      "♛": calculateAllowedSquaresForQueen,
+      "♚": calculateAllowedSquaresForKing,
+    };
+  
+    const allowedSquaresFn = pieceMap[piece];
+    if (allowedSquaresFn && currentPlayer === getCurrentPlayerForPiece(piece)) {
+      return allowedSquaresFn(r, c, piece, board);
     }
+  
+    return [];
+  };
+  
+  const getCurrentPlayerForPiece = (piece) => {
+    return isPieceWhite(piece) ? whiteP : blackP;
   };
 
   const calculateAllowedSquaresForPawn = (r, c, piece, board) => {
@@ -298,22 +350,12 @@ const ChessBoard = ({ id, code, boardState, whiteP, blackP, turnP, moves }) => {
       ) {
         return;
       }
-
+      allowed.push({ row, col });
       if (
         (isPieceWhite(piece) && isPieceBlack(target)) ||
         (isPieceBlack(piece) && isPieceWhite(target))
       ) {
-        allowed.push({ row, col });
         setCapture(true);
-        return;
-      }
-
-      if (
-        (isPieceWhite(piece) && !isPieceBlack(target) && !isPieceWhite(target)) ||
-        (isPieceBlack(piece) && !isPieceWhite(target) && !isPieceBlack(target))
-      ) {
-        allowed.push({ row, col });
-        return;
       }
     };
 
@@ -322,15 +364,15 @@ const ChessBoard = ({ id, code, boardState, whiteP, blackP, turnP, moves }) => {
     checkSquare(r - 2, c - 1);
     checkSquare(r - 2, c + 1);
     checkSquare(r - 1, c + 2);
-    checkSquare(r - 1, c + 2);
+    checkSquare(r + 1, c + 2);
     checkSquare(r - 1, c - 2);
-    checkSquare(r - 1, c - 2);
+    checkSquare(r + 1, c - 2);
     return allowed;
   };
 
   const calculateAllowedSquaresForBishop = (r, c, piece, board) => {
-    let allowed =[];
-    const checkSquare = (row, col) =>{
+    let allowed = [];
+    const checkSquare = (row, col) => {
       if (row < 0 || row >= 8 || col < 0 || col >= 8) {
         return true;
       }
@@ -352,32 +394,68 @@ const ChessBoard = ({ id, code, boardState, whiteP, blackP, turnP, moves }) => {
         return true;
       }
       return false;
+    };
+    for (let i = 1; i < 8; i++) {
+      if (checkSquare(r + i, c + i)) {
+        break;
+      }
     }
-    for(let i=1; i<8; i++){
-        if(checkSquare(r+i,c+i)){break;}
+    for (let i = 1; i < 8; i++) {
+      if (checkSquare(r - i, c + i)) {
+        break;
+      }
     }
-    for(let i=1; i<8; i++){
-        if(checkSquare(r-i,c+i)){break;}
+    for (let i = 1; i < 8; i++) {
+      if (checkSquare(r + i, c - i)) {
+        break;
+      }
     }
-    for(let i=1; i<8; i++){
-        if(checkSquare(r+i,c-i)){break;}
-    }
-    for(let i=1; i<8; i++){
-        if(checkSquare(r-i,c-i)){break;}
+    for (let i = 1; i < 8; i++) {
+      if (checkSquare(r - i, c - i)) {
+        break;
+      }
     }
     return allowed;
   };
 
   const calculateAllowedSquaresForQueen = (r, c, piece, board) => {
-    if (isPieceWhite(piece)) {
-    } else {
-    }
+    const bishop = calculateAllowedSquaresForBishop(r, c, piece, board);
+    const rook = calculateAllowedSquaresForRook(r, c, piece, board);
+    const allowed = [...new Set([...bishop, ...rook])];
+    return allowed;
   };
 
   const calculateAllowedSquaresForKing = (r, c, piece, board) => {
-    if (isPieceWhite(piece)) {
-    } else {
-    }
+    let allowed = [];
+    const checkSquare = (row, col) => {
+      if (row < 0 || row >= 8 || col < 0 || col >= 8) {
+        return;
+      }
+      const target = board[row][col];
+      if (
+        (isPieceWhite(piece) && isPieceWhite(target)) ||
+        (isPieceBlack(piece) && isPieceBlack(target))
+      ) {
+        return;
+      }
+      allowed.push({ row, col });
+      if (
+        (isPieceWhite(piece) && isPieceBlack(target)) ||
+        (isPieceBlack(piece) && isPieceWhite(target))
+      ) {
+        setCapture(true);
+      }
+    };
+    checkSquare(r-1,c);
+    checkSquare(r-1,c-1);
+    checkSquare(r-1,c+1);
+    checkSquare(r+1,c);
+    checkSquare(r+1,c-1);
+    checkSquare(r+1,c+1);
+    checkSquare(r,c-1);
+    checkSquare(r,c+1);
+
+    return allowed;
   };
 
   const handleMovement = (row, col) => {

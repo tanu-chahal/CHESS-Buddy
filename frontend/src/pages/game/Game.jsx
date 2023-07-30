@@ -33,6 +33,7 @@ const Game = () => {
           <div className="opponent">
             <img src={data.opponentImg || "/img/profile.png"} alt="" />
             <span>{data.opponentName || "Opponent"}</span>
+            {data.turn !== currentUser?._id && <button>Turn</button>}
           </div>
         </div>
         <div className="right">
@@ -49,6 +50,7 @@ const Game = () => {
         <div className="me">
           <img src={currentUser?.img || "/img/profile.png"} alt="" />
           <span>{currentUser?.fullName || "Me"}</span>
+          {data.turn === currentUser?._id && <button>Turn</button>}
         </div>
       </div>
     </div>
