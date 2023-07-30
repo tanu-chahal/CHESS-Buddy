@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState} from "react";
 import { io } from "socket.io-client";
 import "./ChessBoard.scss";
 import getCurrentUser from "../../utils/getCurrentUser.js";
@@ -203,15 +203,15 @@ const ChessBoard = ({ id, code, boardState, whiteP, blackP, turnP, moves }) => {
   const handleHighlight = (r, c) => {
     const piece = board[r][c];
     setCapture(false);
-  
-    const currentPlayer = turn === whiteP ? whiteP : blackP;
-    const allowedSquares = calculateAllowedSquares(piece, r, c, board, currentPlayer);
-  
+    if(turn === currentUser?._id && ((isPieceWhite(piece) && (currentUser?._id === whiteP)) || (isPieceBlack(piece)&& (currentUser?._id === blackP))) ){
+    const allowedSquares = calculateAllowedSquares(piece, r, c, board);
     setHighlighted(allowedSquares);
     setToMove({ r: r, c: c });
+    }else{setHighlighted([]);
+        setCapture(false);}
   };
   
-  const calculateAllowedSquares = (piece, r, c, board, currentPlayer) => {
+  const calculateAllowedSquares = (piece, r, c, board) => {
     const pieceMap = {
       "♙": calculateAllowedSquaresForPawn,
       "♖": calculateAllowedSquaresForRook,
@@ -228,17 +228,9 @@ const ChessBoard = ({ id, code, boardState, whiteP, blackP, turnP, moves }) => {
     };
   
     const allowedSquaresFn = pieceMap[piece];
-    if (allowedSquaresFn && currentPlayer === getCurrentPlayerForPiece(piece)) {
       return allowedSquaresFn(r, c, piece, board);
-    }
-  
-    return [];
   };
   
-  const getCurrentPlayerForPiece = (piece) => {
-    return isPieceWhite(piece) ? whiteP : blackP;
-  };
-
   const calculateAllowedSquaresForPawn = (r, c, piece, board) => {
     if (isPieceWhite(piece)) {
       if (moveN === 0) {
