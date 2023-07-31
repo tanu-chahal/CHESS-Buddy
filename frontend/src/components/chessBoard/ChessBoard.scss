@@ -22,4 +22,30 @@
   .row:nth-child(even) .square:nth-child(even) {
     background-color: #f1add3;
   }
+
+  .end{
+    padding: 30px 50px;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    color: black;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    border-radius: 12px;
+    position: absolute;
+    top:40%;
+    left:40%;
+    font-size: 1.5rem;
+    user-select: none;
+    .checkMate{
+      color: #ff69b4;
+    }
+    button{
+      color:white;
+      padding: 5px 10px;
+      background-color: #82ae61;
+      border: none;
+    }
+  }
 }

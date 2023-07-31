@@ -29,8 +29,8 @@ const matchSchema = new Schema(
     },
     status: {
       type: String,
-      enum: ["Finished", "Paused", "Cancelled"],
-      default: "Paused",
+      enum: ["Finished", "Active", "Cancelled"],
+      default: "Active",
     },
     boardState: {
       type: [[String]],
@@ -47,6 +47,10 @@ const matchSchema = new Schema(
       type: Number,
       default: 0,
     },
+    checkedKing: {
+      type: String,
+      default:null,
+    }
   },
   {
     timestamps: true,
