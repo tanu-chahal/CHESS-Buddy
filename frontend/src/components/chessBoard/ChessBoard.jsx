@@ -2,14 +2,34 @@ import React, { useEffect, useState } from "react";
 import { io } from "socket.io-client";
 import "./ChessBoard.scss";
 import getCurrentUser from "../../utils/getCurrentUser.js";
+import {
+  isPieceWhite,
+  isPieceBlack,
+  findKingPosition,
+  isValidMove,
+} from "../../utils/chessUtils.js";
+import calculateAllowedSquaresForPawn from "../../utils/pieces/pawn.js";
+import calculateAllowedSquaresForRook from "../../utils/pieces/rook.js";
+import calculateAllowedSquaresForKnight from "../../utils/pieces/knight.js";
+import calculateAllowedSquaresForBishop from "../../utils/pieces/bishop.js";
+import calculateAllowedSquaresForQueen from "../../utils/pieces/queen.js";
 
-const ChessBoard = ({ id, code, boardState, whiteP, blackP, turnP, moves, cK }) => {
+const ChessBoard = ({
+  id,
+  code,
+  boardState,
+  whiteP,
+  blackP,
+  turnP,
+  moves,
+  cK,
+}) => {
   const currentUser = getCurrentUser();
   const [highlighted, setHighlighted] = useState([]);
   const [board, setBoard] = useState(boardState);
   const [toMove, setToMove] = useState({});
   const [isCapture, setCapture] = useState(false);
-  const [danger, setDanger] = useState(null);
+  // const [danger, setDanger] = useState([]);
   const [checkedKing, setCheckedKing] = useState(cK);
   const [checkMate, setCheckMate] = useState(false);
   const [winner, setWinner] = useState(null);
@@ -17,34 +37,7 @@ const ChessBoard = ({ id, code, boardState, whiteP, blackP, turnP, moves, cK }) 
   const [moveN, setMoveN] = useState(moves);
   const rows = ["8", "7", "6", "5", "4", "3", "2", "1"];
   const columns = ["A", "B", "C", "D", "E", "F", "G", "H"];
-  const white = ["♙", "♖", "♘", "♗", "♕", "♔"];
-  const black = ["♛", "♚", "♝", "♞", "♜", "♟︎"];
   const socket = io("http://localhost:4000");
-
-  const isPieceWhite = (piece) => {
-    return white.some((e) => e === piece);
-  };
-  const isPieceBlack = (piece) => {
-    return black.some((e) => e === piece);
-  };
-
-  const findKingPosition = (board, kingColor) => {
-    for (let row = 0; row < 8; row++) {
-      for (let col = 0; col < 8; col++) {
-        const piece = board[row][col];
-        if (kingColor === "white" && piece === "♔") {
-          return { row, col };
-        } else if (kingColor === "black" && piece === "♚") {
-          return { row, col };
-        }
-      }
-    }
-    return null;
-  };
-
-  const isValidMove = (row, col) => {
-    return row >= 0 && row < 8 && col >= 0 && col < 8;
-  };
 
   const handleGameWin = (winningPlayer) => {
     setTimeout(() => {
@@ -52,7 +45,7 @@ const ChessBoard = ({ id, code, boardState, whiteP, blackP, turnP, moves, cK }) 
     }, 4000);
   };
 
-  const handleOver = async () => {
+  const handleOver = () => {
     const data = {
       id: id,
       boardState: board,
@@ -70,6 +63,7 @@ const ChessBoard = ({ id, code, boardState, whiteP, blackP, turnP, moves, cK }) 
       setBoard(updatedData.boardState);
       setTurn(updatedData.turn);
       setMoveN(updatedData.moves);
+      handleCheckAndCheckmate(board, turn, whiteP, blackP);
     };
 
     socket.on("connect", () => {
@@ -99,13 +93,13 @@ const ChessBoard = ({ id, code, boardState, whiteP, blackP, turnP, moves, cK }) 
       boardState: board,
       moves: moveN,
       turn: turn,
-      checkedKing: checkedKing
+      checkedKing: checkedKing,
     };
     console.log("Data: ", data);
     if (moveN !== moves && !checkMate) {
       socket.emit("move", data);
+      // handleCheckAndCheckmate(board, turn, whiteP, blackP);
     }
-    handleCheckAndCheckmate(board, turn, whiteP, blackP);
   }, [moveN]);
 
   const handleNavigate = () => {
@@ -137,8 +131,9 @@ const ChessBoard = ({ id, code, boardState, whiteP, blackP, turnP, moves, cK }) 
       ((isPieceWhite(piece) && currentUser?._id === whiteP) ||
         (isPieceBlack(piece) && currentUser?._id === blackP))
     ) {
-      const allowedSquares = calculateAllowedSquares(piece, r, c, board);
-      setHighlighted(allowedSquares);
+      const {allowed, capture} = calculateAllowedSquares(piece, r, c, board);
+      setHighlighted(allowed);
+      setCapture(capture);
       setToMove({ r: r, c: c });
     } else {
       setHighlighted([]);
@@ -166,194 +161,8 @@ const ChessBoard = ({ id, code, boardState, whiteP, blackP, turnP, moves, cK }) 
     if (allowedSquaresFn) {
       return allowedSquaresFn(r, c, piece, board);
     } else {
-      return [];
+      return {allowed: [], capture: false};
     }
-  };
-
-  const calculateAllowedSquaresForPawn = (r, c, piece, board) => {
-    if (isPieceWhite(piece)) {
-      if (moveN === 0) {
-        const allowed = [
-          { row: r - 1, col: c },
-          { row: r - 2, col: c },
-        ];
-        return allowed;
-      } else {
-        let allowed = [];
-        if (isPieceBlack(board[r - 1][c + 1])) {
-          allowed.push({ row: r - 1, col: c + 1 });
-          setCapture(true);
-        }
-        if (isPieceBlack(board[r - 1][c - 1])) {
-          allowed.push({ row: r - 1, col: c - 1 });
-          setCapture(true);
-        }
-        if (!isPieceWhite(board[r - 1][c]) && !isPieceBlack(board[r - 1][c])) {
-          allowed.push({ row: r - 1, col: c });
-        }
-        return allowed;
-      }
-    } else {
-      if (moveN === 1) {
-        const allowed = [
-          { row: r + 1, col: c },
-          { row: r + 2, col: c },
-        ];
-        return allowed;
-      } else {
-        let allowed = [];
-        if (isPieceWhite(boardState[r + 1][c + 1])) {
-          allowed.push({ row: r + 1, col: c + 1 });
-          setCapture(true);
-        }
-        if (isPieceWhite(boardState[r + 1][c - 1])) {
-          allowed.push({ row: r + 1, col: c - 1 });
-          setCapture(true);
-        }
-        if (!isPieceWhite(board[r + 1][c]) && !isPieceBlack(board[r + 1][c])) {
-          allowed.push({ row: r + 1, col: c });
-        }
-        return allowed;
-      }
-    }
-  };
-
-  const calculateAllowedSquaresForRook = (r, c, piece, board) => {
-    const allowed = [];
-
-    const checkSquare = (row, col) => {
-      if (!isValidMove(row, col)) {
-        return true;
-      }
-
-      const targetPiece = board[row][col];
-
-      if (isPieceWhite(piece) && isPieceWhite(targetPiece)) {
-        return true;
-      }
-
-      if (isPieceBlack(piece) && isPieceBlack(targetPiece)) {
-        return true;
-      }
-
-      allowed.push({ row, col });
-
-      if (isPieceWhite(piece) && isPieceBlack(targetPiece)) {
-        setCapture(true);
-        return true;
-      }
-
-      if (isPieceBlack(piece) && isPieceWhite(targetPiece)) {
-        setCapture(true);
-        return true;
-      }
-
-      return false;
-    };
-
-    for (let i = 1; i < 8; i++) {
-      if (checkSquare(r + i, c)) break;
-    }
-    for (let i = 1; i < 8; i++) {
-      if (checkSquare(r - i, c)) break;
-    }
-    for (let j = 1; j < 8; j++) {
-      if (checkSquare(r, c + j)) break;
-    }
-    for (let j = 1; j < 8; j++) {
-      if (checkSquare(r, c - j)) break;
-    }
-
-    return allowed;
-  };
-
-  const calculateAllowedSquaresForKnight = (r, c, piece, board) => {
-    let allowed = [];
-
-    const checkSquare = (row, col) => {
-      if (!isValidMove(row, col)) {
-        return;
-      }
-      const target = board[row][col];
-      if (
-        (isPieceWhite(piece) && isPieceWhite(target)) ||
-        (isPieceBlack(piece) && isPieceBlack(target))
-      ) {
-        return;
-      }
-      allowed.push({ row, col });
-      if (
-        (isPieceWhite(piece) && isPieceBlack(target)) ||
-        (isPieceBlack(piece) && isPieceWhite(target))
-      ) {
-        setCapture(true);
-      }
-    };
-
-    checkSquare(r + 2, c - 1);
-    checkSquare(r + 2, c + 1);
-    checkSquare(r - 2, c - 1);
-    checkSquare(r - 2, c + 1);
-    checkSquare(r - 1, c + 2);
-    checkSquare(r + 1, c + 2);
-    checkSquare(r - 1, c - 2);
-    checkSquare(r + 1, c - 2);
-    return allowed;
-  };
-
-  const calculateAllowedSquaresForBishop = (r, c, piece, board) => {
-    let allowed = [];
-    const checkSquare = (row, col) => {
-      if (!isValidMove(row, col)) {
-        return true;
-      }
-      const target = board[row][col];
-      if (
-        (isPieceWhite(piece) && isPieceWhite(target)) ||
-        (isPieceBlack(piece) && isPieceBlack(target))
-      ) {
-        return true;
-      }
-
-      allowed.push({ row, col });
-
-      if (
-        (isPieceWhite(piece) && isPieceBlack(target)) ||
-        (isPieceBlack(piece) && isPieceWhite(target))
-      ) {
-        setCapture(true);
-        return true;
-      }
-      return false;
-    };
-    for (let i = 1; i < 8; i++) {
-      if (checkSquare(r + i, c + i)) {
-        break;
-      }
-    }
-    for (let i = 1; i < 8; i++) {
-      if (checkSquare(r - i, c + i)) {
-        break;
-      }
-    }
-    for (let i = 1; i < 8; i++) {
-      if (checkSquare(r + i, c - i)) {
-        break;
-      }
-    }
-    for (let i = 1; i < 8; i++) {
-      if (checkSquare(r - i, c - i)) {
-        break;
-      }
-    }
-    return allowed;
-  };
-
-  const calculateAllowedSquaresForQueen = (r, c, piece, board) => {
-    const bishop = calculateAllowedSquaresForBishop(r, c, piece, board);
-    const rook = calculateAllowedSquaresForRook(r, c, piece, board);
-    const allowed = [...new Set([...bishop, ...rook])];
-    return allowed;
   };
 
   const calculateAllowedSquaresForKing = (r, c, piece, board) => {
@@ -386,12 +195,34 @@ const ChessBoard = ({ id, code, boardState, whiteP, blackP, turnP, moves, cK }) 
     checkSquare(r, c - 1);
     checkSquare(r, c + 1);
 
+    const king = board[r][c];
+    for (let i = 0; i < allowed.length; i++) {
+      const dangerous = dangerousPositions(
+        board,
+        king,
+        allowed[i].row,
+        allowed[i].col
+      );
+      allowed = allowed.filter(
+        (pos) => !dangerous.some((d) => d.row === pos.row && d.col === pos.col)
+      );
+    }
+    console.log(allowed);
     return allowed;
   };
 
   const isKingInCheck = (board, kingRow, kingCol) => {
     const king = board[kingRow][kingCol];
     console.log("KingToTest: ", king);
+    const dangerous = dangerousPositions(board, king, kingRow, kingCol);
+    if (dangerous.length == 0) {
+      setCheckedKing(null);
+      return false;
+    } else return true;
+  };
+
+  const dangerousPositions = (board, king, kingRow, kingCol) => {
+    let dangerous = [];
     for (let row = 0; row < 8; row++) {
       for (let col = 0; col < 8; col++) {
         const piece = board[row][col];
@@ -411,14 +242,16 @@ const ChessBoard = ({ id, code, boardState, whiteP, blackP, turnP, moves, cK }) 
               allowedSquares[i].col === kingCol
             ) {
               setCheckedKing(king);
-              setDanger(piece);
-              return true;
+              dangerous.push({
+                row: allowedSquares[i].row,
+                col: allowedSquares[i].col,
+              });
             }
           }
         }
       }
     }
-    return false;
+    return dangerous;
   };
 
   const isCheckmate = (board, kingPosition) => {
@@ -453,7 +286,9 @@ const ChessBoard = ({ id, code, boardState, whiteP, blackP, turnP, moves, cK }) 
     if (!isSquareHighlighted(row, col)) {
       return;
     }
-    if((board[toMove.r][toMove.c] === checkedKing) || (board[toMove.r][toMove.c] === danger))  {setCheckedKing(null); setDanger(null);}
+    if (board[toMove.r][toMove.c] === checkedKing) {
+      setCheckedKing(null);
+    }
     let tempBoard = board;
     tempBoard[row][col] = board[toMove.r][toMove.c];
     tempBoard[toMove.r][toMove.c] = "";
@@ -463,7 +298,7 @@ const ChessBoard = ({ id, code, boardState, whiteP, blackP, turnP, moves, cK }) 
     setMoveN(moveN + 1);
     turn === whiteP ? setTurn(blackP) : setTurn(whiteP);
 
-    handleCheckAndCheckmate(tempBoard, turn, whiteP, blackP);
+    // handleCheckAndCheckmate(tempBoard, turn, whiteP, blackP);
 
     setHighlighted([]);
     setCapture(false);
@@ -494,7 +329,12 @@ const ChessBoard = ({ id, code, boardState, whiteP, blackP, turnP, moves, cK }) 
             >
               <span
                 onClick={() => handleHighlight(rowIndex, columnIndex)}
-                style={(checkedKing&&(board[rowIndex][columnIndex]===checkedKing)) ? { color: "yellow" } : {}}
+                style={
+                  checkedKing !== null &&
+                  board[rowIndex][columnIndex] === checkedKing
+                    ? { color: "yellow" }
+                    : {}
+                }
               >
                 {board[rowIndex][columnIndex]}
               </span>
