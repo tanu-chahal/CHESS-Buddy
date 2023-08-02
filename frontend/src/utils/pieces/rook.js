@@ -1,7 +1,8 @@
 import { isPieceWhite, isPieceBlack, isValidMove } from "../chessUtils.js";
 
 const calculateAllowedSquaresForRook = (r, c, piece, board) => {
-    const allowed = [];
+    let allowed = [];
+    let capture = false;
 
     const checkSquare = (row, col) => {
       if (!isValidMove(row, col)) {
@@ -10,26 +11,16 @@ const calculateAllowedSquaresForRook = (r, c, piece, board) => {
 
       const targetPiece = board[row][col];
 
-      if (isPieceWhite(piece) && isPieceWhite(targetPiece)) {
-        return true;
-      }
-
-      if (isPieceBlack(piece) && isPieceBlack(targetPiece)) {
+      if( (isPieceWhite(piece) && isPieceWhite(targetPiece)) || (isPieceBlack(piece) && isPieceBlack(targetPiece)) ){
         return true;
       }
 
       allowed.push({ row, col });
 
-      if (isPieceWhite(piece) && isPieceBlack(targetPiece)) {
-        setCapture(true);
+      if ((isPieceWhite(piece) && isPieceBlack(targetPiece)) || (isPieceBlack(piece) && isPieceWhite(targetPiece))) {
+        capture=true;
         return true;
       }
-
-      if (isPieceBlack(piece) && isPieceWhite(targetPiece)) {
-        setCapture(true);
-        return true;
-      }
-
       return false;
     };
 
@@ -46,7 +37,7 @@ const calculateAllowedSquaresForRook = (r, c, piece, board) => {
       if (checkSquare(r, c - j)) break;
     }
 
-    return allowed;
+    return {allowed, capture};
   };
 
   export default calculateAllowedSquaresForRook

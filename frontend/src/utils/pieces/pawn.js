@@ -1,52 +1,37 @@
 import { isPieceWhite, isPieceBlack, isValidMove } from "../chessUtils.js";
-let capture = false;
 
  const calculateAllowedSquaresForPawn = (r, c, piece, board) => {
-    if (isPieceWhite(piece)) {
-      if (moveN === 0) {
-        const allowed = [
-          { row: r - 1, col: c },
-          { row: r - 2, col: c },
-        ];
-        return allowed;
-      } else {
-        let allowed = [];
-        if (isPieceBlack(board[r - 1][c + 1])) {
-          allowed.push({ row: r - 1, col: c + 1 });
-          setCapture(true);
-        }
-        if (isPieceBlack(board[r - 1][c - 1])) {
-          allowed.push({ row: r - 1, col: c - 1 });
-          setCapture(true);
-        }
-        if (!isPieceWhite(board[r - 1][c]) && !isPieceBlack(board[r - 1][c])) {
-          allowed.push({ row: r - 1, col: c });
-        }
-        return allowed;
-      }
-    } else {
-      if (moveN === 1) {
-        const allowed = [
-          { row: r + 1, col: c },
-          { row: r + 2, col: c },
-        ];
-        return allowed;
-      } else {
-        let allowed = [];
-        if (isPieceWhite(boardState[r + 1][c + 1])) {
-          allowed.push({ row: r + 1, col: c + 1 });
-          capture = true
-        }
-        if (isPieceWhite(boardState[r + 1][c - 1])) {
-          allowed.push({ row: r + 1, col: c - 1 });
-          capture = true
-        }
-        if (!isPieceWhite(board[r + 1][c]) && !isPieceBlack(board[r + 1][c])) {
-          allowed.push({ row: r + 1, col: c });
-        }
-        return {allowed, capture};
-      }
+  const color = isPieceWhite(piece) ? "white" : "black";
+  const direction = color === "white" ? -1 : 1;
+
+  let allowed = [];
+  let capture = false;
+
+  if (isValidMove(r + direction, c) && !board[r + direction][c]) {
+    allowed.push({ row: r + direction, col: c });
+  }
+
+  if ((color==="white"&& r===6) || (color==="black"&& r===1)) {
+    if (isValidMove(r + direction * 2, c) && !board[r + direction * 2][c] && !board[r + direction][c]) {
+      allowed.push({ row: r + direction * 2, col: c });
     }
-  };
+  }  
+
+  if (isValidMove(r + direction, c - 1) && isPieceOpponent(board[r + direction][c - 1], color)) {
+    allowed.push({ row: r + direction, col: c - 1 });
+    capture=true;
+  }
+  if (isValidMove(r + direction, c + 1) && isPieceOpponent(board[r + direction][c + 1], color)) {
+    allowed.push({ row: r + direction, col: c + 1 });
+    capture=true;
+  }
+
+  return {allowed, capture};
+
+};
+
+  const isPieceOpponent = (piece, color) => {
+    return (color === "white" && isPieceBlack(piece)) || (color === "black" && isPieceWhite(piece));
+};
 
   export default calculateAllowedSquaresForPawn

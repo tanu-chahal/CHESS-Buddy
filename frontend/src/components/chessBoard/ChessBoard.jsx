@@ -63,6 +63,7 @@ const ChessBoard = ({
       setBoard(updatedData.boardState);
       setTurn(updatedData.turn);
       setMoveN(updatedData.moves);
+      setCheckedKing(updatedData.checkedKing)
       handleCheckAndCheckmate(board, turn, whiteP, blackP);
     };
 
@@ -110,7 +111,6 @@ const ChessBoard = ({
     const checkedKingColor = turn === whiteP ? "white" : "black";
     const kingPosition = findKingPosition(board, checkedKingColor);
     if (isKingInCheck(board, kingPosition.row, kingPosition.col)) {
-      // setCheck(true);
       if (isCheckmate(board, kingPosition)) {
         setCheckMate(true);
         const w = isPieceWhite(checkedKing) ? blackP : whiteP;
@@ -167,6 +167,7 @@ const ChessBoard = ({
 
   const calculateAllowedSquaresForKing = (r, c, piece, board) => {
     let allowed = [];
+    let capture = false;
     const checkSquare = (row, col) => {
       if (!isValidMove(row, col)) {
         return;
@@ -183,7 +184,7 @@ const ChessBoard = ({
         (isPieceWhite(piece) && isPieceBlack(target)) ||
         (isPieceBlack(piece) && isPieceWhite(target))
       ) {
-        setCapture(true);
+        capture = true;
       }
     };
     checkSquare(r - 1, c);
@@ -208,7 +209,7 @@ const ChessBoard = ({
       );
     }
     console.log(allowed);
-    return allowed;
+    return {allowed, capture};
   };
 
   const isKingInCheck = (board, kingRow, kingCol) => {
@@ -227,8 +228,8 @@ const ChessBoard = ({
       for (let col = 0; col < 8; col++) {
         const piece = board[row][col];
         if (
-          (isPieceWhite(king) && isPieceBlack(piece)) ||
-          (isPieceBlack(king) && isPieceWhite(piece))
+          ((isPieceWhite(king) && isPieceBlack(piece)) ||
+          (isPieceBlack(king) && isPieceWhite(piece)))
         ) {
           const allowedSquares = calculateAllowedSquares(
             piece,
@@ -260,7 +261,7 @@ const ChessBoard = ({
     }
 
     const { row, col } = kingPosition;
-
+    
     for (let dx = -1; dx <= 1; dx++) {
       for (let dy = -1; dy <= 1; dy++) {
         if (dx === 0 && dy === 0) {

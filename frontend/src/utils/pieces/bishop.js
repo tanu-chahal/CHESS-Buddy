@@ -1,8 +1,8 @@
 import { isPieceWhite, isPieceBlack, isValidMove } from "../chessUtils.js";
-let capture = false;
 
 const calculateAllowedSquaresForBishop = (r, c, piece, board) => {
     let allowed = [];
+    let capture = false;
     const checkSquare = (row, col) => {
       if (!isValidMove(row, col)) {
         return true;
