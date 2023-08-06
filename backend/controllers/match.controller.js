@@ -1,6 +1,7 @@
 import Match from "../models/match.model.js";
 import User from "../models/user.model.js";
 import createError from "../utils/createError.js";
+import { handleCheckAndCheckmate } from "../utils/gameUtils.js";
 
 export const getMatch = async (req, res, next) => {
   try {
@@ -61,12 +62,35 @@ export const createMatch = async (req, res, next) => {
 export const updateMatch = async (data) => {
   const { id, ...body } = data;
   try {
+    console.log("body: ", body);
     const updatedData = await Match.findByIdAndUpdate(
       id,
       { $set: { ...body } },
       { new: true }
     );
-    return updatedData;
+
+    const isCheck = handleCheckAndCheckmate(
+      updatedData.turn,
+      updatedData.boardState,
+      updatedData.white,
+      updatedData.black
+    );
+    let newData = JSON.parse(JSON.stringify(updatedData));
+    console.log("isCheck: ", isCheck);
+  
+      newData.checkedKing = isCheck.checkedKing;
+      if (isCheck.checkMate) {
+        newData.turn = null;
+        const w = updatedData.turn === black ? white : black;
+        newData.winner = w;
+      }
+    
+    const finalUpdate = await Match.findByIdAndUpdate(
+      id,
+      { $set: { ...newData } },
+      { new: true }
+    );
+    return finalUpdate;
   } catch (err) {
     console.log("Error updating database:", err);
     throw err;

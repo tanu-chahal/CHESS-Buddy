@@ -66,9 +66,9 @@ io.on("connection", (socket) => {
   });
 
   socket.on("move", async (data) => {
-    console.log("Received move data:", data);
+    // console.log("Received move data:", data);
     const updatedData = await updateMatch(data);
-    console.log(updatedData)
+    console.log("updatedCheckedKing ",updatedData.checkedKing)
     io.to(updatedData.code).emit("updated", updatedData);
   });
 
