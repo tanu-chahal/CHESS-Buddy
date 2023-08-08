@@ -161,8 +161,8 @@ const ChessBoard = ({
 
       {winner && (
         <div className="end">
-          <span className="checkMate">CheckMate!</span>
-          <span>Winner {winner === whiteP ? "White " : "Black"}</span>
+          <span className="checkMate">{winner === "Draw" ? "StaleMate!" : "CheckMate!"}</span>
+          <span>{winner === whiteP ? "Winner White " : winner === blackP ? "Winner Black" : "Draw Match"}</span>
           <button onClick={handleNavigate}>Game Over</button>
         </div>
       )}

@@ -28,6 +28,12 @@ export const getMatch = async (req, res, next) => {
         newData.winner = w;
         newData.status = "Finished";
       }
+
+      if(isCheck.stale){
+        newData.turn = null;
+        newData.winner = "Draw";
+        newData.status = "Finished";
+      }
     }
 
     const final = newData
@@ -114,6 +120,12 @@ export const updateMatch = async (data) => {
           ? updatedData.white
           : updatedData.black;
       newData.winner = w;
+      newData.status = "Finished";
+    }
+
+    if(isCheck.stale){
+      newData.turn = null;
+      newData.winner = "Draw";
       newData.status = "Finished";
     }
 
