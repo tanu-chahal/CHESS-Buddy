@@ -46,6 +46,7 @@ const Game = () => {
             turnP={data.turn}
             moves={data.moves}
             cKing={data.checkedKing}
+            w = {data.winner}
           />
         </div>
         <div className="me">

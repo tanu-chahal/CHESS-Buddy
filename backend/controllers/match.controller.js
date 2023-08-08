@@ -8,11 +8,41 @@ export const getMatch = async (req, res, next) => {
     const match = await Match.findById(req.params.id);
     if (!match) return next(createError(404, "Match not found!"));
     const opponentId = req.userId === match.white ? match.black : match.white;
+
+    let newData = null;
+
+    if (match.status === "Active") {
+      newData = JSON.parse(JSON.stringify(match));
+
+      const isCheck = handleCheckAndCheckmate(
+        match.turn,
+        match.boardState,
+        match.white,
+        match.black
+      );
+
+      newData.checkedKing = isCheck.checkedKing;
+      if (isCheck.checkMate) {
+        newData.turn = null;
+        const w = match.turn === match.black ? match.white : match.black;
+        newData.winner = w;
+        newData.status = "Finished";
+      }
+    }
+
+    const final = newData
+      ? await Match.findByIdAndUpdate(
+          req.params.id,
+          { $set: { ...newData } },
+          { new: true }
+        )
+      : match;
+
     const user = await User.findById(opponentId);
     if (!user)
       return next(createError(404, "Your buddy not found on ChessBuddy."));
     const matchData = {
-      ...match._doc,
+      ...final._doc,
       opponentName: user._doc.fullName,
       opponentImg: user._doc.img,
     };
@@ -62,7 +92,6 @@ export const createMatch = async (req, res, next) => {
 export const updateMatch = async (data) => {
   const { id, ...body } = data;
   try {
-    console.log("body: ", body);
     const updatedData = await Match.findByIdAndUpdate(
       id,
       { $set: { ...body } },
@@ -76,15 +105,18 @@ export const updateMatch = async (data) => {
       updatedData.black
     );
     let newData = JSON.parse(JSON.stringify(updatedData));
-    console.log("isCheck: ", isCheck);
-  
-      newData.checkedKing = isCheck.checkedKing;
-      if (isCheck.checkMate) {
-        newData.turn = null;
-        const w = updatedData.turn === black ? white : black;
-        newData.winner = w;
-      }
-    
+
+    newData.checkedKing = isCheck.checkedKing;
+    if (isCheck.checkMate) {
+      newData.turn = null;
+      const w =
+        updatedData.turn === updatedData.black
+          ? updatedData.white
+          : updatedData.black;
+      newData.winner = w;
+      newData.status = "Finished";
+    }
+
     const finalUpdate = await Match.findByIdAndUpdate(
       id,
       { $set: { ...newData } },

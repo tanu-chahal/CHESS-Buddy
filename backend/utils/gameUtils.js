@@ -11,37 +11,36 @@ export const handleCheckAndCheckmate = (turnClr, board, whiteP, blackP) => {
   if (!kingPosition || !board[kingPosition.row][kingPosition.col]) return;
 
   const king = board[kingPosition.row][kingPosition.col];
-  if (king !== "♔" && king !== "♚") return;
-
   let checkedKing = null;
+
+  if (king !== "♔" && king !== "♚") return { checkedKing, checkMate };
+
   const check = isKingInCheck(board, kingPosition, turnClr, whiteP, blackP);
 
   if (check) {
     checkedKing = king;
     if (isCheckmate(board, kingPosition, turnClr, whiteP, blackP)) {
       checkMate = true;
-      console.log("CheckMate: ", checkMate);
     }
   }
-  console.log("Checked: ", checkedKing);
-  return {checkedKing, checkMate };
+  return { checkedKing, checkMate };
 };
 
 const isKingInCheck = (board, kingPosition, turn, whiteP, blackP) => {
   const king = board[kingPosition.row][kingPosition.col];
   if (king !== "♔" && king !== "♚") return;
-  console.log("KingToTest: ", king);
   const dangerous = dangerousPositions(
     board,
     king,
     kingPosition.row,
     kingPosition.col,
-    turn, whiteP, blackP
+    turn,
+    whiteP,
+    blackP
   );
   if (dangerous.length == 0) {
     return false;
   } else {
-    console.log("Dangerous", dangerous);
     return true;
   }
 };
@@ -52,6 +51,7 @@ const isCheckmate = (board, kingPosition, turn, whiteP, blackP) => {
   }
 
   const { row, col } = kingPosition;
+  const king = board[row][col];
 
   for (let dx = -1; dx <= 1; dx++) {
     for (let dy = -1; dy <= 1; dy++) {
@@ -61,10 +61,15 @@ const isCheckmate = (board, kingPosition, turn, whiteP, blackP) => {
 
       const newRow = row + dx;
       const newCol = col + dy;
-      const kingPosition = { row: newRow, col: newCol };
 
-      if (isValidMove(newRow, newCol) && !isKingInCheck(board, kingPosition, turn, whiteP, blackP)) {
-        return false;
+      if (isValidMove(newRow, newCol)) {
+        const kingPosition = { row: newRow, col: newCol };
+        let tempBoard = board.map((r) => [...r]);
+        tempBoard[newRow][newCol] = king;
+        tempBoard[row][col] = "";
+        if (!isKingInCheck(tempBoard, kingPosition, turn, whiteP, blackP)) {
+          return false;
+        }
       }
     }
   }

@@ -3,7 +3,7 @@ import { io } from "socket.io-client";
 import "./ChessBoard.scss";
 import getCurrentUser from "../../utils/getCurrentUser.js";
 import { isPieceWhite, isPieceBlack } from "../../utils/chessUtils.js";
-import {calculateAllowedSquares} from "../../utils/allowedSquares.js";
+import { calculateAllowedSquares } from "../../utils/allowedSquares.js";
 
 const ChessBoard = ({
   id,
@@ -14,6 +14,7 @@ const ChessBoard = ({
   turnP,
   moves,
   cK,
+  w,
 }) => {
   const currentUser = getCurrentUser();
   const [highlighted, setHighlighted] = useState([]);
@@ -21,18 +22,12 @@ const ChessBoard = ({
   const [toMove, setToMove] = useState({});
   const [isCapture, setCapture] = useState(false);
   const [checkedKing, setCheckedKing] = useState(cK);
-  const [winner, setWinner] = useState(null);
+  const [winner, setWinner] = useState(w);
   const [turn, setTurn] = useState(turnP);
   const [moveN, setMoveN] = useState(moves);
   const rows = ["8", "7", "6", "5", "4", "3", "2", "1"];
   const columns = ["A", "B", "C", "D", "E", "F", "G", "H"];
   const socket = io("http://localhost:4000");
-
-  const handleOver = () => {
-    setTimeout(() => {
-      handleNavigate();
-    }, 4000);
-  };
 
   useEffect(() => {
     const handleUpdated = (updatedData) => {
@@ -151,8 +146,8 @@ const ChessBoard = ({
               <span
                 onClick={() => handleHighlight(rowIndex, columnIndex)}
                 style={
-                  (checkedKing !== null) &&
-                  (board[rowIndex][columnIndex] === checkedKing)
+                  checkedKing !== null &&
+                  board[rowIndex][columnIndex] === checkedKing
                     ? { color: "yellow" }
                     : {}
                 }
@@ -168,7 +163,7 @@ const ChessBoard = ({
         <div className="end">
           <span className="checkMate">CheckMate!</span>
           <span>Winner {winner === whiteP ? "White " : "Black"}</span>
-          <button onClick={handleOver}>Game Over</button>
+          <button onClick={handleNavigate}>Game Over</button>
         </div>
       )}
     </div>
