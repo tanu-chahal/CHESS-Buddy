@@ -68,30 +68,32 @@ const Games = () => {
             <thead>
               <tr>
                 <th>Game</th>
+                <th>Sr.No</th>
                 <th>Opponent</th>
-                <th>Code</th>
                 <th>Status</th>
                 <th>Action</th>
-                <th>Delete</th>
+                <th>Winner</th>
               </tr>
             </thead>
             <tbody>
-              {data.map((match) => {
+              {data.slice().sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)).map((match,index) => {
                 return (
                   <tr key={match._id}>
                     <td>
                       <img src="./img/chess-board.png" />
                     </td>
-                    <td>{fullName[match._id]}</td>
-                    <td>{match.code}</td>
-                    <td>{match.status}</td>
+                    <td>{data.length - 1 - index +1}</td>
+                    <td className= "names">{fullName[match._id]}</td>
+                    <td className={match.status}>{match.status}</td>
                     <td>
                       <button onClick={() => handleNavigate(match)}>
-                        Continue
+                        {match.winner ? "Check Out" : "Continue"}
                       </button>
                     </td>
                     <td>
-                      <img src="./img/delete.png" />
+                      {match.winner ? match.winner===currentUser?._id ? "YOU" : "OPPONENT": <button>
+                        Abort
+                      </button>}
                     </td>
                   </tr>
                 );

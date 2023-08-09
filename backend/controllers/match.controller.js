@@ -24,7 +24,7 @@ export const getMatch = async (req, res, next) => {
       newData.checkedKing = isCheck.checkedKing;
       if (isCheck.checkMate) {
         newData.turn = null;
-        const w = match.turn === match.black ? match.white : match.black;
+        const w = match.turn === match.black ? match.black: match.white;
         newData.winner = w;
         newData.status = "Finished";
       }
@@ -117,8 +117,8 @@ export const updateMatch = async (data) => {
       newData.turn = null;
       const w =
         updatedData.turn === updatedData.black
-          ? updatedData.white
-          : updatedData.black;
+          ? updatedData.black
+          : updatedData.white;
       newData.winner = w;
       newData.status = "Finished";
     }

@@ -36,6 +36,18 @@
         th {
           text-align: left;
         }
+        .Finished{
+          color: yellow;
+        }.Active{
+          color: lightgreen;
+        }
+        .Aborted{
+          color: red;
+        }
+        .names{
+          text-transform: uppercase;
+          font-size: 1.1rem;
+        }
         td {
           img {
             width: 30px;
