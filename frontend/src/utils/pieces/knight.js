@@ -13,7 +13,8 @@ const calculateAllowedSquaresForKnight = (
   board,
   turn,
   whiteP,
-  blackP
+  blackP,
+  lastMove
 ) => {
   let allowed = [];
   let capture = false;
@@ -67,7 +68,8 @@ const calculateAllowedSquaresForKnight = (
         kingPosition.col,
         turn,
         whiteP,
-        blackP
+        blackP,
+        lastMove
       );
       if (dangerousPositionsArr.length !== 0) allowed.splice(i, 1);
     }

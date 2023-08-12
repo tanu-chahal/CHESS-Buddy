@@ -5,7 +5,7 @@ import calculateAllowedSquaresForBishop from "./pieces/bishop.js";
 import calculateAllowedSquaresForQueen from "./pieces/queen.js";
 import calculateAllowedSquaresForKing from "./pieces/king.js";
 
-export const calculateAllowedSquares = (piece, r, c, tempBoard, turn, whiteP, blackP) => {
+export const calculateAllowedSquares = (piece, r, c, tempBoard, turn, whiteP, blackP, lastMove) => {
     const pieceMap = {
       "♙": calculateAllowedSquaresForPawn,
       "♖": calculateAllowedSquaresForRook,
@@ -23,7 +23,7 @@ export const calculateAllowedSquares = (piece, r, c, tempBoard, turn, whiteP, bl
 
     const allowedSquaresFn = pieceMap[piece];
     if (allowedSquaresFn) {
-      return allowedSquaresFn(r, c, piece, tempBoard, turn, whiteP, blackP);
+      return allowedSquaresFn(r, c, piece, tempBoard, turn, whiteP, blackP, lastMove);
     } else {
       return { allowed: [], capture: false };
     }

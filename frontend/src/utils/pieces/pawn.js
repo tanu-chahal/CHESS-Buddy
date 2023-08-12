@@ -6,6 +6,10 @@ import {
   dangerousPositions,
 } from "../chessUtils.js";
 
+const adjacentPawn = (board,r,c)=>{
+  return board[r][c] === "♙" || board[r][c] === "♟︎";
+}
+
 const calculateAllowedSquaresForPawn = (
   r,
   c,
@@ -13,13 +17,15 @@ const calculateAllowedSquaresForPawn = (
   board,
   turn,
   whiteP,
-  blackP
+  blackP, 
+  lastMove
 ) => {
   const color = isPieceWhite(piece) ? "white" : "black";
   const direction = color === "white" ? -1 : 1;
 
   let allowed = [];
   let capture = false;
+  let enPassant = false;
 
   if (isValidMove(r + direction, c) && !board[r + direction][c]) {
     allowed.push({ row: r + direction, col: c });
@@ -54,6 +60,18 @@ const calculateAllowedSquaresForPawn = (
     (turn === whiteP && isPieceWhite(piece)) ||
     (turn === blackP && isPieceBlack(piece))
   ) {
+    if((adjacentPawn(board, r, c+1) && isPieceOpponent(board[r][c + 1], color)) ||  (adjacentPawn(board,r,c-1) && isPieceOpponent(board[r][c-1], color))){
+      if(lastMove[0] == r+2*direction && lastMove[1]===c+1 && !board[r + direction][c + 1]){
+       allowed.push({row: r + direction, col: c + 1})
+       capture = true;
+       enPassant=true;
+      }
+      else if(lastMove[0] == r+2*direction && lastMove[1]===c-1 && !board[r + direction][c - 1]){
+       allowed.push({row: r + direction, col: c - 1})
+       capture = true;
+       enPassant = true;
+      }
+   }
     const clr = turn === whiteP ? "white" : "black";
 
     const kingPosition = findKingPosition(board, clr);
@@ -76,7 +94,7 @@ const calculateAllowedSquaresForPawn = (
     }
   }
 
-  return { allowed, capture };
+  return { allowed, capture, enPassant };
 };
 
 const isPieceOpponent = (piece, color) => {

@@ -15,6 +15,7 @@ const ChessBoard = ({
   moves,
   cK,
   w,
+  lM
 }) => {
   const currentUser = getCurrentUser();
   const [highlighted, setHighlighted] = useState([]);
@@ -25,6 +26,8 @@ const ChessBoard = ({
   const [winner, setWinner] = useState(w);
   const [turn, setTurn] = useState(turnP);
   const [moveN, setMoveN] = useState(moves);
+  const [lastMove, setLastMove] = useState(lM);
+  const [enPassant, setEnPassant] = useState(false);
   const rows = ["8", "7", "6", "5", "4", "3", "2", "1"];
   const columns = ["A", "B", "C", "D", "E", "F", "G", "H"];
   const socket = io("http://localhost:4000");
@@ -65,6 +68,7 @@ const ChessBoard = ({
       boardState: board,
       moves: moveN,
       turn: turn,
+      lastMove: lastMove,
     };
     if (moveN !== moves) {
       socket.emit("move", data);
@@ -83,17 +87,20 @@ const ChessBoard = ({
       ((isPieceWhite(piece) && currentUser?._id === whiteP) ||
         (isPieceBlack(piece) && currentUser?._id === blackP))
     ) {
-      const { allowed, capture } = calculateAllowedSquares(
+      console.log(lastMove)
+      const { allowed, capture, enPassant } = calculateAllowedSquares(
         piece,
         r,
         c,
         board,
         turn,
         whiteP,
-        blackP
+        blackP,
+        lastMove
       );
       setHighlighted(allowed);
       setCapture(capture);
+      setEnPassant(enPassant);
       setToMove({ r: r, c: c });
     } else {
       setHighlighted([]);
@@ -105,13 +112,17 @@ const ChessBoard = ({
     if (!isSquareHighlighted(row, col)) {
       return;
     }
-    if (board[toMove.r][toMove.c] === checkedKing) {
-      setCheckedKing(null);
-    }
     let tempBoard = JSON.parse(JSON.stringify(board));
     tempBoard[row][col] = board[toMove.r][toMove.c];
     tempBoard[toMove.r][toMove.c] = "";
+    enPassant ? tempBoard[lastMove[2]][lastMove[3]] = "" : {};
     setBoard(tempBoard);
+    let newMove = [];
+    newMove[0]=toMove.r;
+    newMove[1]= toMove.c;
+    newMove[2]=row;
+    newMove[3]=col;
+    setLastMove(newMove);
     setToMove({});
     turn === whiteP ? setTurn(blackP) : setTurn(whiteP);
     setMoveN(moveN + 1);

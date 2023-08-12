@@ -9,7 +9,7 @@ import {
   calculateAllowedSquares
 } from "../../frontend/src/utils/allowedSquares.js";
 
-export const handleCheckAndCheckmate = (turnClr, board, whiteP, blackP) => {
+export const handleCheckAndCheckmate = (turnClr, board, whiteP, blackP, lastMove) => {
   let checkMate = false;
   let stale = false;
   const checkedKingColor = turnClr === whiteP ? "white" : "black";
@@ -21,22 +21,22 @@ export const handleCheckAndCheckmate = (turnClr, board, whiteP, blackP) => {
 
   if (king !== "♔" && king !== "♚") return { checkedKing, checkMate };
 
-  const check = isKingInCheck(board, kingPosition, turnClr, whiteP, blackP);
+  const check = isKingInCheck(board, kingPosition, turnClr, whiteP, blackP,lastMove);
 
   if (check) {
     checkedKing = king;
-    if (isCheckmate(board, kingPosition, turnClr, whiteP, blackP)) {
+    if (isCheckmate(board, kingPosition, turnClr, whiteP, blackP, lastMove)) {
       checkMate = true;
       return { checkedKing, checkMate, stale};
     }
   }
   if(!check){
-    stale = isStalemate(board, turnClr, whiteP, blackP)
+    stale = isStalemate(board, turnClr, whiteP, blackP, lastMove)
   }
   return { checkedKing, checkMate, stale};
 };
 
-const isKingInCheck = (board, kingPosition, turn, whiteP, blackP) => {
+const isKingInCheck = (board, kingPosition, turn, whiteP, blackP,lastMove) => {
   const king = board[kingPosition.row][kingPosition.col];
   if (king !== "♔" && king !== "♚") return;
   const dangerous = dangerousPositions(
@@ -46,7 +46,7 @@ const isKingInCheck = (board, kingPosition, turn, whiteP, blackP) => {
     kingPosition.col,
     turn,
     whiteP,
-    blackP
+    blackP, lastMove
   );
   if (dangerous.length == 0) {
     return false;
@@ -55,7 +55,7 @@ const isKingInCheck = (board, kingPosition, turn, whiteP, blackP) => {
   }
 };
 
-const isCheckmate = (board, kingPosition, turn, whiteP, blackP) => {
+const isCheckmate = (board, kingPosition, turn, whiteP, blackP, lastMove) => {
   if (!kingPosition) {
     return false;
   }
@@ -77,7 +77,7 @@ const isCheckmate = (board, kingPosition, turn, whiteP, blackP) => {
         let tempBoard = board.map((r) => [...r]);
         tempBoard[newRow][newCol] = king;
         tempBoard[row][col] = "";
-        if (!isKingInCheck(tempBoard, kingPosition, turn, whiteP, blackP)) {
+        if (!isKingInCheck(tempBoard, kingPosition, turn, whiteP, blackP, lastMove)) {
           return false;
         }
       }
@@ -87,7 +87,7 @@ const isCheckmate = (board, kingPosition, turn, whiteP, blackP) => {
   return true;
 };
 
-const isStalemate = (board, turn , white, black) => {
+const isStalemate = (board, turn , white, black, lastMove) => {
   for (let row = 0; row < 8; row++) {
     for (let col = 0; col < 8; col++) {
       const piece = board[row][col];
@@ -100,7 +100,7 @@ const isStalemate = (board, turn , white, black) => {
           row,
           col,
           board,
-          turn, white, black
+          turn, white, black, lastMove
         );
         if(allowed.length>0) return false;
       }

@@ -8,7 +8,8 @@ const calculateAllowedSquaresForQueen = (
   board,
   turn,
   whiteP,
-  blackP
+  blackP,
+  lastMove
 ) => {
   const bishop = calculateAllowedSquaresForBishop(
     r,
@@ -17,7 +18,8 @@ const calculateAllowedSquaresForQueen = (
     board,
     turn,
     whiteP,
-    blackP
+    blackP,
+    lastMove
   );
   const rook = calculateAllowedSquaresForRook(
     r,
@@ -26,7 +28,8 @@ const calculateAllowedSquaresForQueen = (
     board,
     turn,
     whiteP,
-    blackP
+    blackP,
+    lastMove
   );
   const allowed = [...new Set([...bishop.allowed, ...rook.allowed])];
   const capture = bishop.capture || rook.capture;

@@ -5,7 +5,7 @@ import {
     dangerousPositions,
   } from "../chessUtils.js";
 
-const calculateAllowedSquaresForKing = (r, c, piece, board, turn, whiteP, blackP) => {
+const calculateAllowedSquaresForKing = (r, c, piece, board, turn, whiteP, blackP, lastMove) => {
     let allowed = [];
     const dangerous = [];
     let capture = false;
@@ -52,7 +52,7 @@ const calculateAllowedSquaresForKing = (r, c, piece, board, turn, whiteP, blackP
           king,
           allowed[i].row,
           allowed[i].col,
-          turn, whiteP, blackP
+          turn, whiteP, blackP, lastMove
         );
         dangerous.push(...dangerousPositionsArr);
       }

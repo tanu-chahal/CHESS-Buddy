@@ -47,6 +47,7 @@ const Game = () => {
             moves={data.moves}
             cKing={data.checkedKing}
             w = {data.winner}
+            lM = {data.lastMove}
           />
         </div>
         <div className="me">

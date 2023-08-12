@@ -28,7 +28,7 @@ export const isValidMove = (row, col) => {
   return row >= 0 && row < 8 && col >= 0 && col < 8;
 };
 
-export const dangerousPositions = (tempBoard, king, kingRow, kingCol, turn, whiteP, blackP) => {
+export const dangerousPositions = (tempBoard, king, kingRow, kingCol, turn, whiteP, blackP, lastMove) => {
   const dangerous = [];
   for (let row = 0; row < 8; row++) {
     for (let col = 0; col < 8; col++) {
@@ -42,7 +42,7 @@ export const dangerousPositions = (tempBoard, king, kingRow, kingCol, turn, whit
           row,
           col,
           tempBoard,
-          turn, whiteP, blackP
+          turn, whiteP, blackP, lastMove
         );
         for (let i = 0; i < allowed.length; i++) {
           if (allowed[i].row === kingRow && allowed[i].col === kingCol) {

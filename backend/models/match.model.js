@@ -50,7 +50,11 @@ const matchSchema = new Schema(
     checkedKing: {
       type: String,
       default:null,
-    }
+    },
+    lastMove: {
+      type: [Number],
+      default:[-1, -1, -1, -1],
+    },
   },
   {
     timestamps: true,

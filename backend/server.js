@@ -50,14 +50,7 @@ app.use((err, req, res, next) => {
   return res.status(errorStatus).send(errorMessage);
 });
 
-// app.listen(4000, () => {
-//   connect();
-//   console.log("Server is listening on the port 4000...")
-// })
-
 io.on("connection", (socket) => {
-  // console.log(socket.id);
-  // console.log("A User Connected!");
 
   socket.on("joinMatch", (code) => {
     socket.join(code);
@@ -66,15 +59,12 @@ io.on("connection", (socket) => {
   });
 
   socket.on("move", async (data) => {
-    // console.log("Received move data:", data);
     const updatedData = await updateMatch(data);
-    console.log("updatedCheckedKing ",updatedData.checkedKing)
     io.to(updatedData.code).emit("updated", updatedData);
   });
 
 });
 
-// httpServer.listen(4000)
 const PORT = process.env.PORT || 4000;
 httpServer.listen(PORT, () => {
   connect();

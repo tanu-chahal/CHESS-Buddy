@@ -91,7 +91,7 @@ const Games = () => {
                       </button>
                     </td>
                     <td>
-                      {match.winner ? match.winner===currentUser?._id ? "YOU" : "OPPONENT": <button>
+                      {match.winner ? match.winner===currentUser?._id ? "YOU" : match.winner==="Draw" ?"DRAW" : "OPPONENT": <button>
                         Abort
                       </button>}
                     </td>

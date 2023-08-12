@@ -18,7 +18,8 @@ export const getMatch = async (req, res, next) => {
         match.turn,
         match.boardState,
         match.white,
-        match.black
+        match.black,
+        match.lastMove
       );
 
       newData.checkedKing = isCheck.checkedKing;
@@ -108,7 +109,8 @@ export const updateMatch = async (data) => {
       updatedData.turn,
       updatedData.boardState,
       updatedData.white,
-      updatedData.black
+      updatedData.black,
+      updatedData.lastMove
     );
     let newData = JSON.parse(JSON.stringify(updatedData));
 
