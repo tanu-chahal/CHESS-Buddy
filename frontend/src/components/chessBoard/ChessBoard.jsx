@@ -28,6 +28,10 @@ const ChessBoard = ({
   const [moveN, setMoveN] = useState(moves);
   const [lastMove, setLastMove] = useState(lM);
   const [enPassant, setEnPassant] = useState(false);
+  const [promote, setPromote] = useState(null);
+  const [toPromote, setToPromote] = useState(null);
+  const white = [ "♖", "♘", "♗", "♕"];
+  const black = ["♛", "♝", "♞", "♜"];
   const rows = ["8", "7", "6", "5", "4", "3", "2", "1"];
   const columns = ["A", "B", "C", "D", "E", "F", "G", "H"];
   const socket = io("http://localhost:4000");
@@ -75,9 +79,33 @@ const ChessBoard = ({
     }
   }, [moveN]);
 
+  useEffect(() => {
+    if (promote !== null && toPromote !== null) {
+      const newBoard = JSON.parse(JSON.stringify(board));
+      newBoard[promote.r][promote.c] = toPromote;
+      setBoard(newBoard);
+      setPromote(null);
+      setToPromote(null);
+    }
+  }, [toPromote]);
+
   const handleNavigate = () => {
     window.location.href = `/games?reload=true`;
   };
+
+  const isPromotion = (row,col) => {
+    if (!toMove || !toMove.hasOwnProperty("r") || !toMove.hasOwnProperty("c")) {
+      return false;
+    }
+    const piece = board[toMove.r][toMove.c];
+    if((piece=="♙" && row ==0) || (piece=="♟︎" && row == 7)){
+      setPromote({r: toMove.r, c: toMove.c});
+      handleMovement(row, col);
+    }
+    else{
+      handleMovement(row, col);
+    }
+  }
 
   const handleHighlight = (r, c) => {
     const piece = board[r][c];
@@ -126,7 +154,6 @@ const ChessBoard = ({
     setToMove({});
     turn === whiteP ? setTurn(blackP) : setTurn(whiteP);
     setMoveN(moveN + 1);
-
     setHighlighted([]);
     setCapture(false);
   };
@@ -152,7 +179,8 @@ const ChessBoard = ({
                     }
                   : {}
               }
-              onClick={() => handleMovement(rowIndex, columnIndex)}
+              // onClick={() => handleMovement(rowIndex, columnIndex)}
+              onClick={() => isPromotion(rowIndex, columnIndex)}
             >
               <span
                 onClick={() => handleHighlight(rowIndex, columnIndex)}
@@ -175,6 +203,13 @@ const ChessBoard = ({
           <span className="checkMate">{winner === "Draw" ? "StaleMate!" : "CheckMate!"}</span>
           <span>{winner === whiteP ? "Winner White " : winner === blackP ? "Winner Black" : "Draw Match"}</span>
           <button onClick={handleNavigate}>Game Over</button>
+        </div>
+      )}
+
+      {promote&& (
+        <div className="end promote">
+          <span>Promote {board[promote.r][promote.c]} to :</span>
+          <div>{isPieceWhite(promote) ? white.map(p =>(<button key={p} onClick={()=>setToPromote(p)}>{p}</button>)) : black.map(p =>(<button key={p} onClick={()=>setToPromote(p)}>{p}</button>)) }</div>
         </div>
       )}
     </div>

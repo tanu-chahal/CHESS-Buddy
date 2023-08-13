@@ -46,6 +46,24 @@
       padding: 5px 10px;
       background-color: #82ae61;
       border: none;
+      cursor: pointer;
+    }
+    button:hover{
+      background-color: rgba(147, 199, 107, 0.847)
+    }
+  }
+  .promote{
+    span{
+      font-size: 1rem;
+      font-weight: 400;
+    }
+    div{
+      display: grid;
+      grid-template-columns: auto auto;
+      gap: 15px;
+      button{
+        color:black;
+      }
     }
   }
 }
