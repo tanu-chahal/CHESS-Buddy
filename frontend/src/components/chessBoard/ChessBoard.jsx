@@ -15,7 +15,7 @@ const ChessBoard = ({
   moves,
   cK,
   w,
-  lM
+  lM,
 }) => {
   const currentUser = getCurrentUser();
   const [highlighted, setHighlighted] = useState([]);
@@ -28,9 +28,9 @@ const ChessBoard = ({
   const [moveN, setMoveN] = useState(moves);
   const [lastMove, setLastMove] = useState(lM);
   const [enPassant, setEnPassant] = useState(false);
-  const [promote, setPromote] = useState(null);
+  const [promoteAt, setPromoteAt] = useState(null);
   const [toPromote, setToPromote] = useState(null);
-  const white = [ "♖", "♘", "♗", "♕"];
+  const white = ["♖", "♘", "♗", "♕"];
   const black = ["♛", "♝", "♞", "♜"];
   const rows = ["8", "7", "6", "5", "4", "3", "2", "1"];
   const columns = ["A", "B", "C", "D", "E", "F", "G", "H"];
@@ -80,12 +80,23 @@ const ChessBoard = ({
   }, [moveN]);
 
   useEffect(() => {
-    if (promote !== null && toPromote !== null) {
+    if (promoteAt !== null && toPromote !== null) {
       const newBoard = JSON.parse(JSON.stringify(board));
-      newBoard[promote.r][promote.c] = toPromote;
+      newBoard[promoteAt.row][promoteAt.col] = toPromote;
+      newBoard[toMove.r][toMove.c] = "";
       setBoard(newBoard);
-      setPromote(null);
+      let newMove = [];
+      newMove[0] = toMove.r;
+      newMove[1] = toMove.c;
+      newMove[2] = promoteAt.row;
+      newMove[3] = promoteAt.col;
+      setLastMove(newMove);
+      setToMove({});
+      setHighlighted([]);
+      setCapture(false);
       setToPromote(null);
+      setPromoteAt(null);
+      setMoveN(moveN + 1);
     }
   }, [toPromote]);
 
@@ -93,19 +104,17 @@ const ChessBoard = ({
     window.location.href = `/games?reload=true`;
   };
 
-  const isPromotion = (row,col) => {
+  const isPromotion = (row, col) => {
     if (!toMove || !toMove.hasOwnProperty("r") || !toMove.hasOwnProperty("c")) {
       return false;
     }
     const piece = board[toMove.r][toMove.c];
-    if((piece=="♙" && row ==0) || (piece=="♟︎" && row == 7)){
-      setPromote({r: toMove.r, c: toMove.c});
+    if ((piece == "♙" && row == 0) || (piece == "♟︎" && row == 7)) {
+      setPromoteAt({ row, col });
+    } else {
       handleMovement(row, col);
     }
-    else{
-      handleMovement(row, col);
-    }
-  }
+  };
 
   const handleHighlight = (r, c) => {
     const piece = board[r][c];
@@ -115,7 +124,7 @@ const ChessBoard = ({
       ((isPieceWhite(piece) && currentUser?._id === whiteP) ||
         (isPieceBlack(piece) && currentUser?._id === blackP))
     ) {
-      console.log(lastMove)
+      console.log(lastMove);
       const { allowed, capture, enPassant } = calculateAllowedSquares(
         piece,
         r,
@@ -143,13 +152,13 @@ const ChessBoard = ({
     let tempBoard = JSON.parse(JSON.stringify(board));
     tempBoard[row][col] = board[toMove.r][toMove.c];
     tempBoard[toMove.r][toMove.c] = "";
-    enPassant ? tempBoard[lastMove[2]][lastMove[3]] = "" : {};
+    enPassant ? (tempBoard[lastMove[2]][lastMove[3]] = "") : {};
     setBoard(tempBoard);
     let newMove = [];
-    newMove[0]=toMove.r;
-    newMove[1]= toMove.c;
-    newMove[2]=row;
-    newMove[3]=col;
+    newMove[0] = toMove.r;
+    newMove[1] = toMove.c;
+    newMove[2] = row;
+    newMove[3] = col;
     setLastMove(newMove);
     setToMove({});
     turn === whiteP ? setTurn(blackP) : setTurn(whiteP);
@@ -200,16 +209,36 @@ const ChessBoard = ({
 
       {winner && (
         <div className="end">
-          <span className="checkMate">{winner === "Draw" ? "StaleMate!" : "CheckMate!"}</span>
-          <span>{winner === whiteP ? "Winner White " : winner === blackP ? "Winner Black" : "Draw Match"}</span>
+          <span className="checkMate">
+            {winner === "Draw" ? "StaleMate!" : "CheckMate!"}
+          </span>
+          <span>
+            {winner === whiteP
+              ? "Winner White "
+              : winner === blackP
+              ? "Winner Black"
+              : "Draw Match"}
+          </span>
           <button onClick={handleNavigate}>Game Over</button>
         </div>
       )}
 
-      {promote&& (
+      {promoteAt && (
         <div className="end promote">
-          <span>Promote {board[promote.r][promote.c]} to :</span>
-          <div>{isPieceWhite(promote) ? white.map(p =>(<button key={p} onClick={()=>setToPromote(p)}>{p}</button>)) : black.map(p =>(<button key={p} onClick={()=>setToPromote(p)}>{p}</button>)) }</div>
+          <span>Promote {board[toMove.r][toMove.c]} to :</span>
+          <div>
+            {isPieceWhite(board[toMove.r][toMove.c])
+              ? white.map((p) => (
+                  <button key={p} onClick={() => setToPromote(p)}>
+                    {p}
+                  </button>
+                ))
+              : black.map((p) => (
+                  <button key={p} onClick={() => setToPromote(p)}>
+                    {p}
+                  </button>
+                ))}
+          </div>
         </div>
       )}
     </div>
