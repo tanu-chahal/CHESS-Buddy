@@ -18,7 +18,7 @@ const calculateAllowedSquaresForPawn = (
   turn,
   whiteP,
   blackP, 
-  lastMove
+  lastMove, castling
 ) => {
   const color = isPieceWhite(piece) ? "white" : "black";
   const direction = color === "white" ? -1 : 1;
@@ -88,7 +88,7 @@ const calculateAllowedSquaresForPawn = (
         kingPosition.col,
         turn,
         whiteP,
-        blackP
+        blackP, castling
       );
       if (dangerousPositionsArr.length !== 0) allowed.splice(i, 1);
     }

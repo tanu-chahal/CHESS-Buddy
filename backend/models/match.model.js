@@ -49,11 +49,15 @@ const matchSchema = new Schema(
     },
     checkedKing: {
       type: String,
-      default:null,
+      default: null,
     },
     lastMove: {
       type: [Number],
-      default:[-1, -1, -1, -1],
+      default: [-1, -1, -1, -1],
+    },
+    castling: {
+      type: [Boolean],
+      default: [false, false, false, false, false, false],
     },
   },
   {

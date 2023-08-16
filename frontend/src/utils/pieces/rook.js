@@ -14,7 +14,7 @@ const calculateAllowedSquaresForRook = (
   turn,
   whiteP,
   blackP,
-  lastMove
+  lastMove, castling
 ) => {
   let allowed = [];
   let capture = false;
@@ -79,7 +79,7 @@ const calculateAllowedSquaresForRook = (
         turn,
         whiteP,
         blackP,
-        lastMove
+        lastMove, castling
       );
       if (dangerousPositionsArr.length !== 0) allowed.splice(i, 1);
     }

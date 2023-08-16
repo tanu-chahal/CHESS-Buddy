@@ -9,7 +9,7 @@ const calculateAllowedSquaresForQueen = (
   turn,
   whiteP,
   blackP,
-  lastMove
+  lastMove, castling
 ) => {
   const bishop = calculateAllowedSquaresForBishop(
     r,
@@ -19,7 +19,7 @@ const calculateAllowedSquaresForQueen = (
     turn,
     whiteP,
     blackP,
-    lastMove
+    lastMove, castling
   );
   const rook = calculateAllowedSquaresForRook(
     r,
@@ -29,7 +29,7 @@ const calculateAllowedSquaresForQueen = (
     turn,
     whiteP,
     blackP,
-    lastMove
+    lastMove, castling
   );
   const allowed = [...new Set([...bishop.allowed, ...rook.allowed])];
   const capture = bishop.capture || rook.capture;

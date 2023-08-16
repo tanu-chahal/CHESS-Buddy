@@ -16,6 +16,7 @@ const ChessBoard = ({
   cK,
   w,
   lM,
+  cS,
 }) => {
   const currentUser = getCurrentUser();
   const [highlighted, setHighlighted] = useState([]);
@@ -30,6 +31,8 @@ const ChessBoard = ({
   const [enPassant, setEnPassant] = useState(false);
   const [promoteAt, setPromoteAt] = useState(null);
   const [toPromote, setToPromote] = useState(null);
+  const [castle, setCastle] = useState(null);
+  const [castling, setCastling] = useState(cS);
   const white = ["♖", "♘", "♗", "♕"];
   const black = ["♛", "♝", "♞", "♜"];
   const rows = ["8", "7", "6", "5", "4", "3", "2", "1"];
@@ -43,6 +46,8 @@ const ChessBoard = ({
       setMoveN(updatedData.moves);
       setCheckedKing(updatedData.checkedKing);
       setWinner(updatedData.winner);
+      setLastMove(updatedData.lastMove);
+      setCastling(updatedData.castling);
     };
 
     socket.on("connect", () => {
@@ -73,6 +78,7 @@ const ChessBoard = ({
       moves: moveN,
       turn: turn,
       lastMove: lastMove,
+      castling: castling,
     };
     if (moveN !== moves) {
       socket.emit("move", data);
@@ -104,7 +110,7 @@ const ChessBoard = ({
     window.location.href = `/games?reload=true`;
   };
 
-  const isPromotion = (row, col) => {
+  const handleMove = (row, col) => {
     if (!toMove || !toMove.hasOwnProperty("r") || !toMove.hasOwnProperty("c")) {
       return false;
     }
@@ -124,8 +130,7 @@ const ChessBoard = ({
       ((isPieceWhite(piece) && currentUser?._id === whiteP) ||
         (isPieceBlack(piece) && currentUser?._id === blackP))
     ) {
-      console.log(lastMove);
-      const { allowed, capture, enPassant } = calculateAllowedSquares(
+      const { allowed, capture, enPassant, castle } = calculateAllowedSquares(
         piece,
         r,
         c,
@@ -133,11 +138,13 @@ const ChessBoard = ({
         turn,
         whiteP,
         blackP,
-        lastMove
+        lastMove,
+        castling
       );
       setHighlighted(allowed);
       setCapture(capture);
       setEnPassant(enPassant);
+      setCastle(castle);
       setToMove({ r: r, c: c });
     } else {
       setHighlighted([]);
@@ -152,7 +159,64 @@ const ChessBoard = ({
     let tempBoard = JSON.parse(JSON.stringify(board));
     tempBoard[row][col] = board[toMove.r][toMove.c];
     tempBoard[toMove.r][toMove.c] = "";
-    enPassant ? (tempBoard[lastMove[2]][lastMove[3]] = "") : {};
+
+    if (board[toMove.r][toMove.c] === "♖" && toMove.c === 7) {
+      const temp = [...castling];
+      temp[2] = true;
+      setCastling(temp);
+    } else if (board[toMove.r][toMove.c] === "♖" && toMove.c === 0) {
+      const temp = [...castling];
+      temp[1] = true;
+      setCastling(temp);
+    } else if (board[toMove.r][toMove.c] === "♜" && toMove.c === 0) {
+      const temp = [...castling];
+      temp[4] = true;
+      setCastling(temp);
+    } else if (board[toMove.r][toMove.c] === "♜" && toMove.c === 7) {
+      const temp = [...castling];
+      temp[5] = true;
+      setCastling(temp);
+    } else if (board[toMove.r][toMove.c] === "♔" && col === 4) {
+      const temp = [...castling];
+      temp[0] = true;
+      setCastling(temp);
+    } else if (board[toMove.r][toMove.c] === "♚" && col === 4) {
+      const temp = [...castling];
+      temp[3] = true;
+      setCastling(temp);
+    }
+
+    if (castle === "king-side" && col === toMove.c + 2) {
+      tempBoard[row][col - 1] = board[row][7];
+      tempBoard[row][7] = "";
+      if (isPieceWhite(board[toMove.r][toMove.c])) {
+        const temp = [...castling];
+        temp[0] = true;
+        temp[2] = true;
+        setCastling(temp);
+      } else if (isPieceBlack(board[toMove.r][toMove.c])) {
+        const temp = [...castling];
+        temp[3] = true;
+        temp[5] = true;
+        setCastling(temp);
+      }
+    } else if (castle === "queen-side" && col === toMove.c - 2) {
+      tempBoard[row][col + 1] = board[row][0];
+      tempBoard[row][0] = "";
+      if (isPieceWhite(board[toMove.r][toMove.c])) {
+        const temp = [...castling];
+        temp[0] = true;
+        temp[1] = true;
+        setCastling(temp);
+      } else if (isPieceBlack(board[toMove.r][toMove.c])) {
+        const temp = [...castling];
+        temp[3] = true;
+        temp[4] = true;
+        setCastling(temp);
+      }
+    } else {
+      enPassant ? (tempBoard[lastMove[2]][lastMove[3]] = "") : {};
+    }
     setBoard(tempBoard);
     let newMove = [];
     newMove[0] = toMove.r;
@@ -173,6 +237,9 @@ const ChessBoard = ({
 
   return (
     <div className="ChessBoard">
+      <div className="turnBox">
+        Turn: {turn === whiteP ? "White" : "Black"}{" "}
+      </div>
       {rows.map((row, rowIndex) => (
         <div key={row} className="row">
           {columns.map((column, columnIndex) => (
@@ -188,8 +255,7 @@ const ChessBoard = ({
                     }
                   : {}
               }
-              // onClick={() => handleMovement(rowIndex, columnIndex)}
-              onClick={() => isPromotion(rowIndex, columnIndex)}
+              onClick={() => handleMove(rowIndex, columnIndex)}
             >
               <span
                 onClick={() => handleHighlight(rowIndex, columnIndex)}

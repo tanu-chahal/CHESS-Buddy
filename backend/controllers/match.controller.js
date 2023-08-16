@@ -8,29 +8,28 @@ export const getMatch = async (req, res, next) => {
     const match = await Match.findById(req.params.id);
     if (!match) return next(createError(404, "Match not found!"));
     const opponentId = req.userId === match.white ? match.black : match.white;
-
     let newData = null;
 
     if (match.status === "Active") {
       newData = JSON.parse(JSON.stringify(match));
-
       const isCheck = handleCheckAndCheckmate(
         match.turn,
         match.boardState,
         match.white,
         match.black,
-        match.lastMove
+        match.lastMove,
+        match.castling
       );
 
       newData.checkedKing = isCheck.checkedKing;
       if (isCheck.checkMate) {
         newData.turn = null;
-        const w = match.turn === match.black ? match.black: match.white;
+        const w = match.turn === match.black ? match.black : match.white;
         newData.winner = w;
         newData.status = "Finished";
       }
 
-      if(isCheck.stale){
+      if (isCheck.stale) {
         newData.turn = null;
         newData.winner = "Draw";
         newData.status = "Finished";
@@ -110,7 +109,8 @@ export const updateMatch = async (data) => {
       updatedData.boardState,
       updatedData.white,
       updatedData.black,
-      updatedData.lastMove
+      updatedData.lastMove,
+      updatedData.castling
     );
     let newData = JSON.parse(JSON.stringify(updatedData));
 
@@ -125,7 +125,7 @@ export const updateMatch = async (data) => {
       newData.status = "Finished";
     }
 
-    if(isCheck.stale){
+    if (isCheck.stale) {
       newData.turn = null;
       newData.winner = "Draw";
       newData.status = "Finished";
