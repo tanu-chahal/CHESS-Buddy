@@ -4,6 +4,7 @@ import "./ChessBoard.scss";
 import getCurrentUser from "../../utils/getCurrentUser.js";
 import { isPieceWhite, isPieceBlack } from "../../utils/chessUtils.js";
 import { calculateAllowedSquares } from "../../utils/allowedSquares.js";
+import { availablePromotion } from "../../utils/availablePromotion.js";
 
 const ChessBoard = ({
   id,
@@ -33,8 +34,7 @@ const ChessBoard = ({
   const [toPromote, setToPromote] = useState(null);
   const [castle, setCastle] = useState(null);
   const [castling, setCastling] = useState(cS);
-  const white = ["♖", "♘", "♗", "♕"];
-  const black = ["♛", "♝", "♞", "♜"];
+  const [available, setAvailable] = useState(null);
   const rows = ["8", "7", "6", "5", "4", "3", "2", "1"];
   const columns = ["A", "B", "C", "D", "E", "F", "G", "H"];
   const socket = io("http://localhost:4000");
@@ -116,7 +116,13 @@ const ChessBoard = ({
     }
     const piece = board[toMove.r][toMove.c];
     if ((piece == "♙" && row == 0) || (piece == "♟︎" && row == 7)) {
-      setPromoteAt({ row, col });
+      let tempBoard = JSON.parse(JSON.stringify(board));
+      tempBoard[toMove.r][toMove.c] = "";
+      setAvailable(availablePromotion(tempBoard, piece, row, col, blackP, whiteP, lastMove, castling) )
+      if(available.length!=0){
+        setPromoteAt({ row, col });
+      }
+      else handleMovement(row, col);
     } else {
       handleMovement(row, col);
     }
@@ -291,19 +297,14 @@ const ChessBoard = ({
 
       {promoteAt && (
         <div className="end promote">
-          <span>Promote {board[toMove.r][toMove.c]} to :</span>
+          <span>Available Promotions for {board[toMove.r][toMove.c]} :</span>
           <div>
-            {isPieceWhite(board[toMove.r][toMove.c])
-              ? white.map((p) => (
+            {available.map((p) => (
                   <button key={p} onClick={() => setToPromote(p)}>
                     {p}
                   </button>
                 ))
-              : black.map((p) => (
-                  <button key={p} onClick={() => setToPromote(p)}>
-                    {p}
-                  </button>
-                ))}
+            }
           </div>
         </div>
       )}

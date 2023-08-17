@@ -59,7 +59,7 @@ export const handleCheckAndCheckmate = (
   return { checkedKing, checkMate, stale };
 };
 
-const isKingInCheck = (
+export const isKingInCheck = (
   board,
   kingPosition,
   turn,
