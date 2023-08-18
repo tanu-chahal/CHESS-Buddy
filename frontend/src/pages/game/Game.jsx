@@ -49,6 +49,7 @@ const Game = () => {
             w = {data.winner}
             lM = {data.lastMove}
             cS = {data.castling}
+            status = {data.status}
           />
         </div>
         <div className="me">

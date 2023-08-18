@@ -142,3 +142,20 @@ export const updateMatch = async (data) => {
     throw err;
   }
 };
+
+export const abortMatch = async (req,res,next) => {
+  try {
+    const match = await Match.findById(req.body.id);
+    if (!match) return next(createError(404, "Match not found!"));
+    req.body.winner = req.userId=== match.white ? match.black : match.white;
+    const updatedData = await Match.findByIdAndUpdate(
+      req.body.id,
+      { $set: { ...req.body } },
+      { new: true }
+    );
+    res.status(200).send(updatedData);
+  } catch (err) {
+    next(err)
+  }
+};
+

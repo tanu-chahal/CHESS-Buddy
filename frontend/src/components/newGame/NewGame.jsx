@@ -3,7 +3,7 @@ import "./NewGame.scss";
 import generateRoomCode from "../../utils/generateRoomCode.js";
 import newRequest from "../../utils/newRequest.js";
 
-const NewGame = () => {
+const NewGame = ({close}) => {
   const roomCode = generateRoomCode();
   const [email, setEmail] = useState("");
   const [msg, setMsg] = useState(null);
@@ -32,7 +32,8 @@ const NewGame = () => {
           placeholder="Email"
           onChange={(e) => setEmail(e.target.value)}
         />
-        {btn && <button type="submit">Create</button>}
+        {btn && <button type="submit" className="btn">Create</button>}
+        {btn && <button className="btn" onClick={()=>close(false)}>Close</button>}
         <span>Room Code: {roomCode}</span>
         {msg && <span className="msg">{msg}</span>}
       </form>

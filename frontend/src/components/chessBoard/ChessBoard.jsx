@@ -18,6 +18,7 @@ const ChessBoard = ({
   w,
   lM,
   cS,
+  status
 }) => {
   const currentUser = getCurrentUser();
   const [highlighted, setHighlighted] = useState([]);
@@ -282,7 +283,7 @@ const ChessBoard = ({
       {winner && (
         <div className="end">
           <span className="checkMate">
-            {winner === "Draw" ? "StaleMate!" : "CheckMate!"}
+            {winner === "Draw" ? "StaleMate!" : status=== "Aborted" ? "Aborted" : "CheckMate!"}
           </span>
           <span>
             {winner === whiteP
