@@ -8,7 +8,7 @@ import cookieParser from "cookie-parser";
 import authRoute from "./routes/auth.route.js";
 import userRoute from "./routes/user.route.js";
 import matchRoute from "./routes/match.route.js";
-import {updateMatch} from "./controllers/match.controller.js"
+import { updateMatch } from "./controllers/match.controller.js";
 
 const app = express();
 const httpServer = createServer(app);
@@ -50,19 +50,37 @@ app.use((err, req, res, next) => {
   return res.status(errorStatus).send(errorMessage);
 });
 
+const onlinePlayers = new Map();
+
 io.on("connection", (socket) => {
+  // socket.on("joinMatch", (code) => {
+  //   socket.join(code);
+  //   
+  //   socket.emit("message", "You joined the match successfully!");
+  // });
 
   socket.on("joinMatch", (code) => {
-    socket.join(code);
     console.log("Connected in room!");
-    socket.emit("message", "You joined the match successfully!");
+    if (!onlinePlayers.has(code)) {
+      onlinePlayers.set(code, new Set());
+    }
+    onlinePlayers.get(code).add(socket.id);
+
+    socket.join(code);
+    const numberOfPlayers = onlinePlayers.get(code).size;
+   if(numberOfPlayers===2) io.to(code).emit("OpponentStatus", true);
+   else  socket.to(code).emit("OpponentStatus", false);
+
+    socket.on("disconnect", () => {
+      onlinePlayers.get(code).delete(socket.id);
+      io.to(code).emit("OpponentStatus", false);
+    });
   });
 
   socket.on("move", async (data) => {
     const updatedData = await updateMatch(data);
     io.to(updatedData.code).emit("updated", updatedData);
   });
-
 });
 
 const PORT = process.env.PORT || 4000;

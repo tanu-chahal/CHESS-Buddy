@@ -36,6 +36,13 @@
                 border: none;
                 border-radius: 10px;
             }
+            .online, .player{
+                color: #82ae61;
+                font-size: 0.8rem;
+                border: 0.1px solid #82ae61;
+                padding: 3px 10px;
+                border-radius: 10px;
+            } 
         }
     }
 }

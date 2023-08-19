@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import "./Game.scss";
 import ChessBoard from "../../components/chessBoard/ChessBoard.jsx";
 import newRequest from "../../utils/newRequest.js";
@@ -8,6 +8,7 @@ import { useParams } from "react-router-dom";
 
 const Game = () => {
   const currentUser = getCurrentUser();
+  const [online, setOnline] = useState(false)
   const { id } = useParams();
 
   const { isLoading, error, data } = useQuery({
@@ -17,6 +18,7 @@ const Game = () => {
         return res.data;
       }),
   });
+  const [pTurn, setTurn] = useState(data?.turn)
 
   if (isLoading || error) {
     return (
@@ -33,7 +35,8 @@ const Game = () => {
           <div className="opponent">
             <img src={data.opponentImg || "/img/profile.png"} alt="" />
             <span>{data.opponentName || "Opponent"}</span>
-            
+            <span className="online">{online ? "Online" : "Offline"}</span>
+            {pTurn !== currentUser?._id && <button>Turn</button>}
           </div>
         </div>
         <div className="right">
@@ -50,12 +53,15 @@ const Game = () => {
             lM = {data.lastMove}
             cS = {data.castling}
             status = {data.status}
+            online={setOnline}
+            pTurn = {setTurn}
           />
         </div>
         <div className="me">
+          {pTurn === currentUser?._id && <button>Turn</button>}
           <img src={currentUser?.img || "/img/profile.png"} alt="" />
           <span>{currentUser?.fullName || "Me"}</span>
-          <button>{data.white === currentUser?._id ? "White" : "Black"}</button>
+          <span className="player">{data.white === currentUser?._id ? "White" : "Black"}</span>
         </div>
       </div>
     </div>

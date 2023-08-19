@@ -18,7 +18,9 @@ const ChessBoard = ({
   w,
   lM,
   cS,
-  status
+  status,
+  online,
+  pTurn
 }) => {
   const currentUser = getCurrentUser();
   const [highlighted, setHighlighted] = useState([]);
@@ -49,23 +51,26 @@ const ChessBoard = ({
       setWinner(updatedData.winner);
       setLastMove(updatedData.lastMove);
       setCastling(updatedData.castling);
+      pTurn(updatedData.turn);
     };
 
     socket.on("connect", () => {
       // console.log(socket.id)
-      // console.log("Connected to Socket.IO server!");
+      console.log("Connected to Socket.IO server!");
     });
-    socket.emit("joinMatch", code);
+     socket.emit("joinMatch", code);
 
-    socket.on("message", (message) => {
-      console.log(message);
+     socket.on("disconnect", () => {
+      console.log("Disconnected from Socket.IO server!");
+      online(false); 
+    });
+    
+    socket.on("OpponentStatus", (isOnline) => {
+      online(isOnline); 
     });
 
     socket.on("updated", handleUpdated);
 
-    socket.on("disconnect", () => {
-      console.log("Disconnected from Socket.IO server!");
-    });
 
     return () => {
       socket.off("updated", handleUpdated);
@@ -244,9 +249,6 @@ const ChessBoard = ({
 
   return (
     <div className="ChessBoard">
-      <div className="turnBox">
-        Turn: {turn === whiteP ? "White" : "Black"}{" "}
-      </div>
       {rows.map((row, rowIndex) => (
         <div key={row} className="row">
           {columns.map((column, columnIndex) => (
