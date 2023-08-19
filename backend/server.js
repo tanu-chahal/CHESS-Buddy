@@ -53,11 +53,6 @@ app.use((err, req, res, next) => {
 const onlinePlayers = new Map();
 
 io.on("connection", (socket) => {
-  // socket.on("joinMatch", (code) => {
-  //   socket.join(code);
-  //   
-  //   socket.emit("message", "You joined the match successfully!");
-  // });
 
   socket.on("joinMatch", (code) => {
     console.log("Connected in room!");

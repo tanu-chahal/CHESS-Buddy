@@ -55,7 +55,6 @@ const ChessBoard = ({
     };
 
     socket.on("connect", () => {
-      // console.log(socket.id)
       console.log("Connected to Socket.IO server!");
     });
      socket.emit("joinMatch", code);
