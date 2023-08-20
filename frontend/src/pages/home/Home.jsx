@@ -52,9 +52,10 @@ const Home = () => {
             <h1>How To Play?</h1>
             <ol>
               <li>First sign up or log in to play.</li>
-              <li>Create a new game or join an old Game.</li>
-              <li>Share the room code with your buddy.</li>
-              <li>Both of you can play together by entering the room code.</li>
+              <li>Create a new game.</li>
+              <li>New game can be created by clicking on New Game button and entering your buddy's email (should be registered on CHESSBuddy).</li>
+              <li>Join any game by clicking on Continue Button.</li>
+              <li>You can see if your buddy is online, if Yes then</li>
               <li>Enjoy the game!</li>
             </ol>
           </div>
