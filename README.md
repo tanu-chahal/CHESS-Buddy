@@ -63,8 +63,7 @@ We welcome contributions from the community! To contribute to the project:
 
 2. Clone your forked repository:
 
-```git@github.com:your-username/CHESS-Buddy.git```
-
+```git clone <your-forked-rep-link>```
 
 3. Make your changes and improvements.
 
@@ -81,8 +80,8 @@ We welcome contributions from the community! To contribute to the project:
 
 ## Technologies Used
 
-- **Frontend:** React, Socket.IO, Chess.js
-- **Backend:** Node.js, Express, MongoDB, Socket.IO
+- **Frontend:** React, Socket.IO, Cloudinary, AXIOS, React Query
+- **Backend:** Node.js, Express, Mongoose, MongoDB, Socket.IO
 
 ## Contact
 
