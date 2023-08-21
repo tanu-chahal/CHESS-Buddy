@@ -26,7 +26,7 @@ To get started with the game locally, follow these steps:
 
 ```yarn dev```
 
-The frontend app will be accessible at http://127.0.0.1:5173/
+The frontend app will be accessible at http://localhost:5173/
 
 ### Backend
 
