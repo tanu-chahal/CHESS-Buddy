@@ -22,7 +22,9 @@ To get started with the game locally, follow these steps:
 
 ```yarn```
 
-3. Start the frontend app:
+3. Comment the current baseURL in frontend/src/utils/newRequest.js file and uncomment the localhost one.
+
+4. Start the frontend app:
 
 ```yarn dev```
 

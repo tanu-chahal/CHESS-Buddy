@@ -1,0 +1,3 @@
+AddType text/javascript .mjs
+AddType application/javascript .js
+AddType application/octet-stream .js
