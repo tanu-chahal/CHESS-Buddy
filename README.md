@@ -24,6 +24,8 @@ To get started with the game locally, follow these steps:
 
 3. Comment the current baseURL in frontend/src/utils/newRequest.js file and uncomment the localhost one.
 
+4. Do same for const socket = io("url") in frontend/src/components/chessBoard/ChessBoard.jsx
+
 4. Start the frontend app:
 
 ```yarn dev```

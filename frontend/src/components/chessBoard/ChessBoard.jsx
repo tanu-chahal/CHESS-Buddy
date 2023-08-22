@@ -40,7 +40,8 @@ const ChessBoard = ({
   const [available, setAvailable] = useState(null);
   const rows = ["8", "7", "6", "5", "4", "3", "2", "1"];
   const columns = ["A", "B", "C", "D", "E", "F", "G", "H"];
-  const socket = io("http://localhost:4000");
+  // const socket = io("http://localhost:4000"); //uncomment this while running locally
+  const socket = io("https://chessbuddy.onrender.com");  //comment this while running locally
 
   useEffect(() => {
     const handleUpdated = (updatedData) => {
