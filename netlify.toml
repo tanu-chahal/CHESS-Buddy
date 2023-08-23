@@ -5,3 +5,8 @@ base = "frontend"
 NODE_VERSION = "v18.12.0" 
 
   command = "yarn build" 
+
+  [[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
