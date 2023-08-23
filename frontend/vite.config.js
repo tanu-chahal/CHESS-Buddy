@@ -18,3 +18,20 @@ export default defineConfig({
     },
   },
 });
+
+// import { defineConfig } from 'vite';
+// import react from '@vitejs/plugin-react';
+// import babel from 'vite-plugin-babel';
+
+// export default defineConfig({
+//   plugins: [
+//     react(),
+//     babel(),
+//   ],
+//   build: {
+//     manifest: true,
+//     rollupOptions: {
+//       input: '/src/main.jsx', 
+//     },
+//   },
+// });
