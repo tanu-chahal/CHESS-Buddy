@@ -1,0 +1,69 @@
+.ChessBoard {
+  .row {
+    display: flex;
+  }
+  .square {
+    width: 60px;
+    height: 60px;
+    font-size: 3rem;
+    text-align: center;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    cursor: pointer;
+    color: black;
+  }
+  .row:nth-child(even) .square:nth-child(odd),
+  .row:nth-child(odd) .square:nth-child(even) {
+    background-color: #ff69b4;
+  }
+
+  .row:nth-child(odd) .square:nth-child(odd),
+  .row:nth-child(even) .square:nth-child(even) {
+    background-color: #f1add3;
+  }
+
+  .end{
+    padding: 30px 50px;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    color: black;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    border-radius: 12px;
+    position: absolute;
+    top:40%;
+    left:40%;
+    font-size: 1.5rem;
+    user-select: none;
+    .checkMate{
+      color: #ff69b4;
+    }
+    button{
+      color:white;
+      padding: 5px 10px;
+      background-color: #82ae61;
+      border: none;
+      cursor: pointer;
+    }
+    button:hover{
+      background-color: rgba(147, 199, 107, 0.847)
+    }
+  }
+  .promote{
+    span{
+      font-size: 1rem;
+      font-weight: 400;
+    }
+    div{
+      display: grid;
+      grid-template-columns: auto auto;
+      gap: 15px;
+      button{
+        color:black;
+      }
+    }
+  }
+}

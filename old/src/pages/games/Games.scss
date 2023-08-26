@@ -1,0 +1,97 @@
+.Games {
+  display: flex;
+  justify-content: center;
+  background-color: black;
+  .container {
+    color: white;
+    padding: 50px;
+    width: 1350px;
+    min-height: 1000px;
+    .title {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 50px;
+    }
+    .btn{
+      box-shadow: 3px 3px 10px 3px #ff69b4 inset;
+      padding: 10px 20px;
+      color: #ff69b4;
+      font-size: 0.9rem;
+      font-weight: 500;
+      border: none;
+      border-radius: 10px;
+      background-color: transparent;
+      cursor: pointer;
+    }
+    .btn:hover {
+      color: white;
+      background-color: #ff69b4;
+    }
+    table {
+      width: 100%;
+      tr {
+        height: 70px;
+        th {
+          text-align: left;
+        }
+        .Finished {
+          color: yellow;
+        }
+        .Active {
+          color: lightgreen;
+        }
+        .Aborted {
+          color: red;
+        }
+        .names {
+          text-transform: uppercase;
+          font-size: 1.1rem;
+        }
+        td {
+          img {
+            width: 30px;
+            object-fit: cover;
+          }
+          button {
+            box-shadow: 3px 3px 10px 3px #ff69b4 inset;
+            padding: 10px 20px;
+            color: #ff69b4;
+            font-size: 0.9rem;
+            font-weight: 500;
+            border: none;
+            border-radius: 10px;
+            background-color: transparent;
+            cursor: pointer;
+          }
+          button:hover {
+            color: white;
+            background-color: #ff69b4;
+          }
+        }
+        &:nth-child(even) {
+          background-color: #b195ac1c;
+        }
+      }
+    }
+    .abort {
+      position: absolute;
+      top: 200px;
+      left: 40%;
+      max-width: 300px;
+      border-radius: 12px;
+      padding: 40px;
+      background-color: white;
+      color: black;
+      display: flex;
+      flex-direction: column;
+      font-size: 1.2rem;
+      gap: 20px;
+      div{
+        display: flex;
+        justify-content: space-around;
+      }
+    }
+  }
+}

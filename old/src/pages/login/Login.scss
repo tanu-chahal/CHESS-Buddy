@@ -1,0 +1,70 @@
+.Login{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction:column;
+    min-height:1000px;
+    .container{
+        margin: 100px 0px 0px 0px;
+        display:flex;
+        justify-content:center;
+        .left{
+            padding:0px 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 3px solid black;
+            img{
+                width:350px;
+            }
+        }
+        form{
+            background-color: black;
+            width: 360px;
+            padding: 50px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            color: #ff69b4;
+            h1 {
+                margin-bottom: 20px;
+              }
+            label {
+                font-size: 1.2rem;
+            }  
+            input{
+             padding: 20px;
+             border: 1px solid rgb(216, 214, 214);
+            }    
+            button {
+                box-shadow: 3px 3px 10px 3px #ff69b4 inset;
+                padding: 20px;
+                color: #ff69b4;
+                font-size: 1.2rem;
+                font-weight: 500;
+                border: none;
+                border-radius: 10px;
+                background-color: transparent;
+                cursor: pointer;
+              }
+              button:hover {
+                color: white;
+                background-color: #ff69b4;
+              }
+          
+              span{
+                color: red;
+                font-size: 12px;
+              }
+        }
+    }
+     span{
+        color: grey;
+        font-size: 1rem;
+        padding: 20px 0px;
+        margin: 0px 0px 100px 0px;
+      }
+      span:hover{
+        text-decoration: underline;
+      }
+}

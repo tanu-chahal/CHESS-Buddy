@@ -1,0 +1,132 @@
+.Navbar {
+  position: sticky;
+  .container {
+    width: 100%;
+    height: 80px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: black;
+    color: white;
+
+    .logo {
+      background-color: transparent;
+      font-size: 20px;
+      padding: 0px 20px;
+      .chess {
+        font-size: 30px;
+        color: #ff69b4;
+      }
+    }
+
+    .other {
+      background-color: transparent;
+      display: flex;
+      padding: 0px 20px;
+      gap: 20px;
+      align-items: center;
+      font-size: 1rem;
+      button {
+        box-shadow: 3px 3px 10px 3px #ff69b4 inset;
+        padding: 10px 20px;
+        color: #ff69b4;
+        font-size: 0.9rem;
+        font-weight: 500;
+        border: none;
+        border-radius: 10px;
+        background-color: transparent;
+        cursor: pointer;
+      }
+      button:hover {
+        color: white;
+        background-color: #ff69b4;
+      }
+      .profile {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        img {
+          width: 30px;
+          height: 30px;
+          border: 2px solid white;
+          border-radius: 50%;
+          object-fit: contain;
+          cursor: pointer;
+          background-color: white;
+        }
+        span {
+          color: white;
+          user-select: none;
+          cursor: pointer;
+        }
+        .options {
+          background-color: white;
+          display: flex;
+          flex-direction: column;
+          position: absolute;
+          padding: 25px 20px;
+          border-radius: 12px;
+          gap: 10px;
+          top: 75px;
+          justify-content: center;
+          align-items: flex-start;
+
+          span {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 5px;
+            color: black;
+            user-select: none;
+            cursor: pointer;
+            img {
+              width: 15px;
+              height: 15px;
+              object-fit: cover;
+              border-radius: 0px;
+              cursor: pointer;
+            }
+          }
+        }
+      }
+    }
+
+    .edit {
+      form {
+        border-radius:12px;
+        background-color: black;
+        color: white;
+        padding: 30px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        position: fixed;
+        top: 100px;
+        left: 45%;
+        label{
+          font-size: 1.5rem;
+        }
+        button {
+          box-shadow: 3px 3px 10px 3px #ff69b4 inset;
+          padding: 10px 20px;
+          color: #ff69b4;
+          font-size: 0.9rem;
+          font-weight: 500;
+          border: none;
+          border-radius: 10px;
+          background-color: transparent;
+          cursor: pointer;
+        }
+        button:hover {
+          color: white;
+          background-color: #ff69b4;
+        }
+      }
+    }
+  }
+  hr {
+    width: 100%;
+    height: 0px;
+    border: 0.5px solid rgb(240, 237, 237);
+  }
+}

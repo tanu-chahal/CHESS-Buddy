@@ -26,6 +26,10 @@
         display: flex;
         gap: 20px;
         align-items: center;
+        .link, Link{
+          text-decoration: none;
+          color: inherit;
+      }
       }
      
     }

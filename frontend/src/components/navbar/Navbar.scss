@@ -9,14 +9,17 @@
     background-color: black;
     color: white;
 
-    .logo {
+    .link{
+      text-decoration: none;
+      color: inherit;
+   .logo {
       background-color: transparent;
       font-size: 20px;
       padding: 0px 20px;
       .chess {
         font-size: 30px;
         color: #ff69b4;
-      }
+      }}
     }
 
     .other {
