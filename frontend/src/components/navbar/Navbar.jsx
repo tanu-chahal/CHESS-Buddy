@@ -38,10 +38,6 @@ const Navbar = () => {
     }
   };
 
-  const handleNavigate = () => {
-    window.location.href = `/games?reload=true`;
-  };
-
   return (
     <div className="Navbar">
       <div className="container">
@@ -54,7 +50,7 @@ const Navbar = () => {
 
         <div className="other">
           {currentUser ? (
-              <button onClick = {handleNavigate}>Play</button>
+              <button onClick = {()=>navigate("/games")}>Play</button>
           ) : (
             <Link to="/login" className="link">
               <button>Play</button>
