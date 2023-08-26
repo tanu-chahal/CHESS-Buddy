@@ -3,7 +3,7 @@ import "./NewGame.scss";
 import generateRoomCode from "../../utils/generateRoomCode.js";
 import newRequest from "../../utils/newRequest.js";
 
-const NewGame = ({close}) => {
+const NewGame = ({close, created}) => {
   const roomCode = generateRoomCode();
   const [email, setEmail] = useState("");
   const [msg, setMsg] = useState(null);
@@ -15,9 +15,8 @@ const NewGame = ({close}) => {
       setBtn(false);
       const res = await newRequest.post("/match", { email, code: roomCode });
       setMsg(res.data +" Wait for a few seconds.");
-      setTimeout(() => {
-        window.location.reload();
-      }, 3000);
+      created(true)
+      close(false)
     } catch (err) {
       setMsg(err.response.data);
     }
