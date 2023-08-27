@@ -2,11 +2,11 @@
   display: flex;
   justify-content: center;
   background-color: black;
+  min-height: 1000px;
   .container {
     color: white;
     padding: 50px;
     width: 1350px;
-    min-height: 1000px;
     .title {
       display: flex;
       flex-direction: row;

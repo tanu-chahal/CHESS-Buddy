@@ -5,6 +5,7 @@ import getCurrentUser from "../../utils/getCurrentUser.js";
 import { isPieceWhite, isPieceBlack } from "../../utils/chessUtils.js";
 import { calculateAllowedSquares } from "../../utils/allowedSquares.js";
 import { availablePromotion } from "../../utils/availablePromotion.js";
+import { useNavigate } from "react-router-dom";
 
 const ChessBoard = ({
   id,
@@ -22,6 +23,7 @@ const ChessBoard = ({
   online,
   pTurn
 }) => {
+  const navigate = useNavigate();
   const currentUser = getCurrentUser();
   const [highlighted, setHighlighted] = useState([]);
   const [board, setBoard] = useState(boardState);
@@ -294,7 +296,7 @@ const ChessBoard = ({
               ? "Winner Black"
               : "Draw Match"}
           </span>
-          <button onClick={handleNavigate}>Game Over</button>
+          <button onClick={()=>navigate("/games")}>Game Over</button>
         </div>
       )}
 

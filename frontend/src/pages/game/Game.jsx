@@ -30,6 +30,7 @@ const Game = () => {
 
   return (
     <div className="Game">
+     {isLoading ? "loading..." : error ? "Something went wrong :( Try Refreshing" :
       <div className="container">
         <div className="left">
           <div className="opponent">
@@ -64,8 +65,10 @@ const Game = () => {
           <span className="player">{data.white === currentUser?._id ? "White" : "Black"}</span>
         </div>
       </div>
+      }
     </div>
   );
+
 };
 
 export default Game;

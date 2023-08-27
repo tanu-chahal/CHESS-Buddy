@@ -4,6 +4,7 @@ import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
 import NewGame from "../../components/newGame/NewGame.jsx";
 import newRequest from "../../utils/newRequest.js";
 import getCurrentUser from "../../utils/getCurrentUser.js";
+import {useNavigate } from "react-router-dom";
 
 const fetchUserData = async (opponentId) => {
   try {
@@ -21,6 +22,8 @@ const Games = () => {
   const currentUser = getCurrentUser();
   const [fullName, setFullName] = useState({});
   const [created, setCreated] = useState(false);
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
 
   const { isLoading, error, data } = useQuery({
     queryKey: ["match"],
@@ -32,6 +35,8 @@ const Games = () => {
 
   useEffect(() => {
     if (data) {
+      console.log(data);
+      console.log(typeof(data))
       const fetchUserNames = async () => {
         const promises = data.map((m) => {
           const opponentId =
@@ -49,8 +54,6 @@ const Games = () => {
       fetchUserNames();
     }
   }, [data]);
-
-  const queryClient = useQueryClient();
 
   const mutation = useMutation({
     mutationFn: (match) => {
@@ -91,7 +94,8 @@ const Games = () => {
 
   return (
     <div className="Games">
-      <div className="container">
+     {isLoading? "loading..." : error ? "Something went wrong :( Try Reloading." :
+     <div className="container">
         <div className="title">
           <h1>My Games</h1>
           <button className="btn" onClick={() => setCreate(!create)}>New Game</button>
@@ -114,7 +118,7 @@ const Games = () => {
               </tr>
             </thead>
             <tbody>
-              {data.slice().sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)).map((match,index) => {
+            {Array.isArray(data) ? data.slice().sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)).map((match,index) => {
                 return (
                   <tr key={match._id}>
                     <td>
@@ -124,7 +128,7 @@ const Games = () => {
                     <td className= "names">{fullName[match._id]}</td>
                     <td className={match.status}>{match.status}</td>
                     <td>
-                      <button onClick={() => handleNavigate(match)} className="btn">
+                      <button onClick={() => navigate(`/game/${match._id}`)} className="btn">
                         {match.winner ? "Check Out" : "Continue"}
                       </button>
                     </td>
@@ -135,7 +139,7 @@ const Games = () => {
                     </td>
                   </tr>
                 );
-              })}
+              }) : {} }
             </tbody>
           </table>
         )}
@@ -143,6 +147,7 @@ const Games = () => {
         <div> <button className="btn" onClick= {()=>setAbort(!abort)}>Close</button> <button className="btn" onClick={handleAbort}>Confirm</button></div>
         </div>}
       </div>
+      }
     </div>
   );
 };
