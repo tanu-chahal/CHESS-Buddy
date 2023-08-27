@@ -17,7 +17,7 @@ app.use(cors({ origin: allowedOrigins, credentials: true }));
 const io = new Server(httpServer, {
   cors: {
     origin: allowedOrigins,
-    methods: ["GET", "POST"],
+    methods: ["GET", "POST", "PATCH", "PUT"],
     credentials: true,
   },
 });
