@@ -4,7 +4,6 @@ import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
 import NewGame from "../../components/newGame/NewGame.jsx";
 import newRequest from "../../utils/newRequest.js";
 import getCurrentUser from "../../utils/getCurrentUser.js";
-import {useNavigate } from "react-router-dom";
 
 const fetchUserData = async (opponentId) => {
   try {
@@ -22,7 +21,6 @@ const Games = () => {
   const currentUser = getCurrentUser();
   const [fullName, setFullName] = useState({});
   const [created, setCreated] = useState(false);
-  const navigate = useNavigate();
   const queryClient = useQueryClient();
 
   const { isLoading, error, data } = useQuery({
@@ -128,7 +126,7 @@ const Games = () => {
                     <td className= "names">{fullName[match._id]}</td>
                     <td className={match.status}>{match.status}</td>
                     <td>
-                      <button onClick={() => navigate(`/game/${match._id}`)} className="btn">
+                      <button onClick={handleNavigate} className="btn">
                         {match.winner ? "Check Out" : "Continue"}
                       </button>
                     </td>
