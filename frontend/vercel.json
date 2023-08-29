@@ -5,7 +5,7 @@
             "dest":"/"
           },
           {
-            "src": "/game/:id",
+            "src": "/game",
             "dest": "/"
           },
           {

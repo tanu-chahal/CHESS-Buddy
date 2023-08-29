@@ -28,9 +28,9 @@ const Login = () =>{
                 </div>
                 <form onSubmit={handleSubmit}>
                     <h1>Log In</h1>
-                    <label htmlFor="">Email</label>
+                    <label>Email</label>
                     <input name="email" type="email" placeholder="Email" onChange={(e)=>setEmail(e.target.value)}/>
-                    <label htmlFor="">Password</label>
+                    <label>Password</label>
                     <input name="password" type="password" placeholder="Password" onChange={(e)=>setPassword(e.target.value)}/>
                     <button type="submit">Log In</button>
                     {error && <span>{error}</span>}
