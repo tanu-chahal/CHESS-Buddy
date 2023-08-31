@@ -17,9 +17,9 @@ export const Login = async (req, res, next)=>{
 
         const {password, ...info} = user._doc
 
-        const oneDay = 1000 * 60 * 60 * 24;
+        const days = 30*1000 * 60 * 60 * 24;
         
-        res.cookie("accessToken", token, {httpOnly: true, SameSite: "none", secure: true, expires: new Date(Date.now() + oneDay)}).status(200).send(info)
+        res.cookie("accessToken", token, {httpOnly: true, sameSite: "None", secure: true, expires: new Date(Date.now() + days)}).status(200).send(info)
     }catch(error){ next(error) }
 }
 
