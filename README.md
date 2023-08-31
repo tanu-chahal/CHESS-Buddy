@@ -8,6 +8,10 @@ Welcome to the Chess Multiplayer Game project! This is a real-time multiplayer c
 
 Check out our [Preview Video](https://vimeo.com/855970301) to see the game in action!
 
+## Live Site
+
+Check out the site live [here](https://chessbuddy.vercel.app/)
+
 ## Getting Started
 
 To get started with the game locally, follow these steps:
