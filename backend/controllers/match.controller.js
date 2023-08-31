@@ -63,7 +63,7 @@ export const getMatches = async (req, res, next) => {
     const matches = await Match.find({
       $or: [{ white: req.userId }, { black: req.userId }],
     });
-    if (!matches) return next(createError(404, "Match nor found!"));
+    if (!matches) return next(createError(404, "Match not found!"));
     res.status(200).send(matches);
   } catch (err) {
     next(err);

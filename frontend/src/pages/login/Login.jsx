@@ -24,14 +24,14 @@ const Login = () =>{
         <div className="Login">
             <div className="container">
                 <div className="left">
-                    <img src="./img/illustration-1.png"/>
+                    <img src="./img/illustration-1.png" alt=""/>
                 </div>
                 <form onSubmit={handleSubmit}>
                     <h1>Log In</h1>
                     <label htmlFor="email">Email</label>
-                    <input name="email" type="email" id="email" placeholder="Email" autocomplete="email" onChange={(e)=>setEmail(e.target.value)}/>
+                    <input name="email" type="email" id="email" placeholder="Email" autoComplete="email" onChange={(e)=>setEmail(e.target.value)}/>
                     <label htmlFor="password">Password</label>
-                    <input name="password" id="password" type="password" placeholder="Password" autocomplete="current-password" onChange={(e)=>setPassword(e.target.value)}/>
+                    <input name="password" id="password" type="password" placeholder="Password" autoComplete="current-password" onChange={(e)=>setPassword(e.target.value)}/>
                     <button type="submit">Log In</button>
                     {error && <span>{error}</span>}
                 </form>

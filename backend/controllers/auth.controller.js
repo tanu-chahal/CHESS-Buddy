@@ -19,7 +19,7 @@ export const Login = async (req, res, next)=>{
 
         const oneDay = 1000 * 60 * 60 * 24;
         
-        res.cookie("accessToken", token, {httpOnly: true, sameSite: "none", secure: true, expires: new Date(Date.now() + oneDay)}).status(200).send(info)
+        res.cookie("accessToken", token, {httpOnly: true, SameSite: "none", secure: true, expires: new Date(Date.now() + oneDay)}).status(200).send(info)
     }catch(error){ next(error) }
 }
 
@@ -38,8 +38,5 @@ export const Register = async (req, res, next) => {
 }
 
 export const Logout = async (req, res) =>{
-    res.clearCookie("accessToken",{
-        sameSite: "none",
-        secure: true,
-    }).status(200).send("Logged Out Successfully.");
+    res.clearCookie("accessToken").status(200).send("Logged Out Successfully.");
 }

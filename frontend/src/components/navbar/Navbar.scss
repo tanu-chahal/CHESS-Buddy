@@ -59,6 +59,7 @@
         }
         span {
           color: white;
+          -webkit-user-select: none;
           user-select: none;
           cursor: pointer;
         }
@@ -80,6 +81,7 @@
             align-items: center;
             gap: 5px;
             color: black;
+            -webkit-user-select: none;
             user-select: none;
             cursor: pointer;
             img {
