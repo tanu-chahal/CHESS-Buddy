@@ -28,9 +28,9 @@ const Login = () =>{
                 </div>
                 <form onSubmit={handleSubmit}>
                     <h1>Log In</h1>
-                    <label>Email</label>
+                    <label htmlFor="email">Email</label>
                     <input name="email" type="email" id="email" placeholder="Email" autocomplete="email" onChange={(e)=>setEmail(e.target.value)}/>
-                    <label>Password</label>
+                    <label htmlFor="password">Password</label>
                     <input name="password" id="password" type="password" placeholder="Password" autocomplete="current-password" onChange={(e)=>setPassword(e.target.value)}/>
                     <button type="submit">Log In</button>
                     {error && <span>{error}</span>}
