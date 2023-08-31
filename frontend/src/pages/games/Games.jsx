@@ -33,8 +33,6 @@ const Games = () => {
 
   useEffect(() => {
     if (data) {
-      console.log(data);
-      console.log(typeof(data))
       const fetchUserNames = async () => {
         const promises = data.map((m) => {
           const opponentId =
@@ -57,34 +55,36 @@ const Games = () => {
     mutationFn: (match) => {
       return newRequest.patch("/match", match);
     },
-    onSuccess:()=>{
-      queryClient.invalidateQueries(["match"])
-    }
+    onSuccess: () => {
+      queryClient.invalidateQueries(["match"]);
+    },
   });
 
   const mutationGet = useMutation({
     mutationFn: (match) => {
       return newRequest.get("/match");
     },
-    onSuccess:()=>{
-      queryClient.invalidateQueries(["match"])
-    }
+    onSuccess: () => {
+      queryClient.invalidateQueries(["match"]);
+    },
   });
 
-  if(created){ mutationGet.mutate();
-  setCreated(false)}
-
-  const readyAbort =(id)=>{
-    setAbort(!abort);
-    const match = {id: id, status: "Aborted", turn: null }
-    setToAbort(match);
+  if (created) {
+    mutationGet.mutate();
+    setCreated(false);
   }
 
-  const handleAbort = ()=>{
+  const readyAbort = (id) => {
+    setAbort(!abort);
+    const match = { id: id, status: "Aborted", turn: null };
+    setToAbort(match);
+  };
+
+  const handleAbort = () => {
     mutation.mutate(toAbort);
     setAbort(!abort);
     setToAbort(null);
-  }
+  };
 
   const handleNavigate = (match) => {
     window.location.href = `/game/${match._id}?reload=true`;
@@ -92,60 +92,103 @@ const Games = () => {
 
   return (
     <div className="Games">
-     {isLoading? "loading..." : error ? "Something went wrong :( Try Reloading." :
-     <div className="container">
-        <div className="title">
-          <h1>My Games</h1>
-          <button className="btn" onClick={() => setCreate(!create)}>New Game</button>
-          {create && <NewGame close={setCreate} created={setCreated} />}
+      {isLoading ? (
+        "loading..."
+      ) : error ? (
+        "Something went wrong :( Try Reloading."
+      ) : (
+        <div className="container">
+          <div className="title">
+            <h1>My Games</h1>
+            <button className="btn" onClick={() => setCreate(!create)}>
+              New Game
+            </button>
+            {create && <NewGame close={setCreate} created={setCreated} />}
+          </div>
+          {isLoading ? (
+            "loading..."
+          ) : error ? (
+            "Something went wrong"
+          ) : (
+            <table>
+              <thead>
+                <tr>
+                  <th>Game</th>
+                  <th>Sr.No</th>
+                  <th>Opponent</th>
+                  <th>Status</th>
+                  <th>Action</th>
+                  <th>Winner</th>
+                </tr>
+              </thead>
+              <tbody>
+                {Array.isArray(data)
+                  ? data
+                      .slice()
+                      .sort(
+                        (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+                      )
+                      .map((match, index) => {
+                        return (
+                          <tr key={match._id}>
+                            <td>
+                              <img src="./img/chess-board.png" />
+                            </td>
+                            <td>{data.length - 1 - index + 1}</td>
+                            <td className="names">{fullName[match._id]}</td>
+                            <td className={match.status}>{match.status}</td>
+                            <td>
+                              <button
+                                onClick={() => handleNavigate(match)}
+                                className="btn"
+                              >
+                                {match.winner ? "Check Out" : "Continue"}
+                              </button>
+                            </td>
+                            <td>
+                              {match.winner ? (
+                                match.winner === currentUser?._id ? (
+                                  "YOU"
+                                ) : match.winner === "Draw" ? (
+                                  "DRAW"
+                                ) : (
+                                  "OPPONENT"
+                                )
+                              ) : (
+                                <button
+                                  className="btn"
+                                  onClick={() => readyAbort(match._id)}
+                                >
+                                  Abort
+                                </button>
+                              )}
+                            </td>
+                          </tr>
+                        );
+                      })
+                  : {}}
+              </tbody>
+            </table>
+          )}
+          {abort && (
+            <div className="abort">
+              <span>
+                If you abort, you will be considered as the loser. Are you sure
+                to abort?
+              </span>
+              <div>
+                {" "}
+                <button className="btn" onClick={() => setAbort(!abort)}>
+                  Close
+                </button>{" "}
+                <button className="btn" onClick={handleAbort}>
+                  Confirm
+                </button>
+              </div>
+            </div>
+          )}
         </div>
-        {isLoading ? (
-          "loading..."
-        ) : error ? (
-          "Something went wrong"
-        ) : (
-          <table>
-            <thead>
-              <tr>
-                <th>Game</th>
-                <th>Sr.No</th>
-                <th>Opponent</th>
-                <th>Status</th>
-                <th>Action</th>
-                <th>Winner</th>
-              </tr>
-            </thead>
-            <tbody>
-            {Array.isArray(data) ? data.slice().sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)).map((match,index) => {
-                return (
-                  <tr key={match._id}>
-                    <td>
-                      <img src="./img/chess-board.png" />
-                    </td>
-                    <td>{data.length - 1 - index +1}</td>
-                    <td className= "names">{fullName[match._id]}</td>
-                    <td className={match.status}>{match.status}</td>
-                    <td>
-                      <button onClick={handleNavigate} className="btn">
-                        {match.winner ? "Check Out" : "Continue"}
-                      </button>
-                    </td>
-                    <td>
-                      {match.winner ? match.winner===currentUser?._id ? "YOU" : match.winner==="Draw" ?"DRAW" : "OPPONENT": <button className="btn" onClick= {()=>readyAbort(match._id)}>
-                        Abort
-                      </button>}
-                    </td>
-                  </tr>
-                );
-              }) : {} }
-            </tbody>
-          </table>
-        )}
-        {abort && <div className="abort"><span>If you abort, you will be considered as the loser. Are you sure to abort?</span>
-        <div> <button className="btn" onClick= {()=>setAbort(!abort)}>Close</button> <button className="btn" onClick={handleAbort}>Confirm</button></div>
-        </div>}
-      </div>
-      }
+      )}
     </div>
   );
 };
