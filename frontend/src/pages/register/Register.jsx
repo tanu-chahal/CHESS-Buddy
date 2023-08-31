@@ -38,12 +38,12 @@ const Register = () =>{
                 </div>
                 <form onSubmit={handleSubmit}>
                     <h1>Join / Sign Up</h1>
-                    <label htmlFor="">Name</label>
-                    <input name="fullName" type="text" placeholder="Full Name" onChange={handleChange}/>
+                    <label>Name</label>
+                    <input name="name" type="text" id="name" autocomplete="name" placeholder="Full Name" onChange={handleChange}/>
                     <label htmlFor="">Email</label>
-                    <input name="email" type="email" placeholder="Email" onChange={handleChange}/>
+                    <input name="email" type="email" id="email" autocomplete="email" placeholder="Email" onChange={handleChange}/>
                     <label htmlFor="">Password</label>
-                    <input name="password" type="password" placeholder="Password" onChange={handleChange}/>
+                    <input name="password" type="password" id="password" autocomplete="new-password" placeholder="Password" onChange={handleChange}/>
                     <button type="submit">Join</button>
                     {error && <span>{error}</span>}
                 </form>
