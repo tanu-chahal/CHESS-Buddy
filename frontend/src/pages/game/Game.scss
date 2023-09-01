@@ -45,4 +45,27 @@
             } 
         }
     }
+
+    @media only screen and (max-width: 900px) {
+        .container{
+         align-self: center;
+         flex-direction: column;
+         width: 90%;
+         .left{
+             align-self: flex-start;
+         }
+         .right{
+            align-self: center;
+         }
+          .opponent, .me{
+       
+             span{ 
+                 font-size: 1rem;
+             }
+         }
+         .me{
+             align-self: flex-end;
+         }
+     }
+     }
 }

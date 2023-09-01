@@ -68,4 +68,28 @@
       span:hover{
         text-decoration: underline;
       }
+
+      @media only screen and (max-width: 600px) {
+        .container{
+        display: block;
+        min-height: fit-content;
+        .left{
+          display: none;
+        }
+        form{
+          width: 320px;
+          padding: 30px;
+          label{
+            font-size: 1rem;
+          }
+          input{
+            padding: 15px;
+          }
+          button{
+            font-size: 1rem;
+            padding: 15px;
+          }
+        }
+      }
+        }
 }

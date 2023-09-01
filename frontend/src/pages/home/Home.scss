@@ -130,21 +130,31 @@
       border: 0.5px solid rgb(240, 237, 237);
     }
   }
-  // @media (max-width: 1000px) {
-  //   .intro{
-  //     top:25%;
-  //     left: 25%;
-  //     padding:40px;
-  //     .about{
-  //       display: none;
-  //     }
-  //   }
-  // }
-  // @media (max-width: 768px) {
-  //   .intro{
-  //     top:25%;
-  //     left: 25%;
-  //     padding:20px 30px;
-  //   }
-  // }
+  @media only screen and (max-width: 600px) {
+  .container{
+    .howToPlay{
+    font-size: 0.5rem;
+    display: block;
+    .left{
+      display: none;
+    }
+    .right{
+      max-width: 100%;
+    }
+    h1{
+      font-size: 0.7rem;
+    }
+  }
+  .copy, .intro{
+    visibility: hidden;
+  }
+}
+  }
+  
+  @media only screen and (min-width: 600px) and (max-width: 900px) {
+    .copy, .intro{
+      visibility: hidden;
+    }
+  }
+  
 }

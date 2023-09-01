@@ -32,7 +32,7 @@ const NewGame = ({close, created}) => {
           onChange={(e) => setEmail(e.target.value)}
         />
         {btn && <button type="submit" className="btn">Create</button>}
-        {btn && <button className="btn" onClick={()=>close(false)}>Close</button>}
+        <button className="btn" onClick={()=>close(false)}>Close</button>
         <span>Room Code: {roomCode}</span>
         {msg && <span className="msg">{msg}</span>}
       </form>
