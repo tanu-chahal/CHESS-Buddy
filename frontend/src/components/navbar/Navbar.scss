@@ -22,14 +22,14 @@
       }}
     }
 
-    .other {
+    .other{
       background-color: transparent;
       display: flex;
       padding: 0px 20px;
       gap: 20px;
       align-items: center;
       font-size: 1rem;
-      button {
+      .playBtn{
         box-shadow: 3px 3px 10px 3px #ff69b4 inset;
         padding: 10px 20px;
         color: #ff69b4;
@@ -90,6 +90,7 @@
               object-fit: cover;
               border-radius: 0px;
               cursor: pointer;
+              border: none;
             }
           }
         }
@@ -128,10 +129,67 @@
         }
       }
     }
+
+    .menu{display: none;}
   }
   hr {
     width: 100%;
     height: 0px;
     border: 0.5px solid rgb(240, 237, 237);
   }
+
+  @media only screen and (max-width: 600px) {
+    .container{
+      height: 60px;
+      .other{
+        flex-direction: column;
+        position: absolute;
+        align-items: flex-start;
+        top: 0%;
+        left:0%;
+        height: 20vh;
+        min-width: 30vw;
+        z-index: 1;
+        background-color: #ff69b48b;
+        padding: 100px 40px;
+        .playBtn{
+        box-shadow: none;
+        padding: 0px;
+        font-size: 1.5rem;
+        font-weight: 500;
+        border: none;
+        color: white;
+        cursor: pointer;
+      }
+      .profile{
+        img{
+          width: 20px;
+          height: 20px;
+          border: 0.5px solid black;
+        }
+        .options{
+          top: 175px;
+        }
+      }
+    } 
+  
+      .sidebarGo{
+        transform: translate(-443px, 0px);
+        position: absolute;
+        transition:  transform 0.2s ease-out;
+    }
+
+    .edit{
+      form{
+        left:10%;
+      }
+    }
+    .menu{
+      display: inline;
+      width: 20px;
+      padding: 10px 20px;
+    }
+
+    }
+}
 }

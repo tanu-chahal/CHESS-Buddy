@@ -13,6 +13,13 @@ const Navbar = () => {
   const [file, setFile] = useState(undefined);
   const [edit, setEdit] = useState(false);
   const [error, setError] = useState(false);
+  const [mobile, setMobile] = useState(false);
+  const [sidebar, setSidebar] = useState(false);
+
+   console.log(window.innerWidth);
+  // if (window.innerWidth <= 600) {
+  //   setMobile(true);
+  // }
 
   const handleLogout = async () => {
     try {
@@ -26,15 +33,15 @@ const Navbar = () => {
 
   const handleEdit = async (e) => {
     e.preventDefault();
-    try{
-      setOpen(!open)
-      const url = await upload(file)
-      setEdit(!edit)
-      const res = await newRequest.patch(`/user`,{img: url})
-      localStorage.setItem("currentUser",JSON.stringify(res.data))
-      navigate("/")
-    }catch(err){
-      setError(err.response.data)
+    try {
+      setOpen(!open);
+      const url = await upload(file);
+      setEdit(!edit);
+      const res = await newRequest.patch(`/user`, { img: url });
+      localStorage.setItem("currentUser", JSON.stringify(res.data));
+      navigate("/");
+    } catch (err) {
+      setError(err.response.data);
     }
   };
 
@@ -52,12 +59,12 @@ const Navbar = () => {
           </div>
         </Link>
 
-        <div className="other">
+        <div className={sidebar ?"other":"other sidebarGo"}>
           {currentUser ? (
-              <button onClick = {handleNavigate}>Play</button>
+            <span className="playBtn" onClick={handleNavigate}>Play</span>
           ) : (
             <Link to="/login" className="link">
-              <button>Play</button>
+              <span className="playBtn">Play</span>
             </Link>
           )}
           {currentUser && (
@@ -71,11 +78,11 @@ const Navbar = () => {
               {open && (
                 <div className="options">
                   <span onClick={() => setEdit(!edit)}>
-                    <img src="/img/edit.png" alt=""/>
+                    <img src="/img/edit.png" alt="" />
                     Edit
                   </span>
                   <span onClick={handleLogout}>
-                    <img src="/img/logout.png" alt=""/>
+                    <img src="/img/logout.png" alt="" />
                     Logout
                   </span>
                 </div>
@@ -83,22 +90,33 @@ const Navbar = () => {
             </div>
           )}
 
-{edit && <div className="edit">
-          <form onSubmit={handleEdit}>
-            <label htmlFor="">Profile Photo</label>
-            <input
-              name="userImg"
-              type="file"
-              placeholder="Choose Picture"
-              onChange={(e) => setFile(e.target.files[0])}
-            />
-            <button type="submit">Upload</button>
-            <button onClick={() => setEdit(!edit)}>Close</button>
-            {error && <span>{error}</span>}
-          </form>
-        </div>}
+          {edit && (
+            <div className="edit">
+              <form onSubmit={handleEdit}>
+                <label htmlFor="">Profile Photo</label>
+                <input
+                  name="userImg"
+                  type="file"
+                  placeholder="Choose Picture"
+                  onChange={(e) => setFile(e.target.files[0])}
+                />
+                <button type="submit">Upload</button>
+                <button onClick={() => setEdit(!edit)}>Close</button>
+                {error && <span>{error}</span>}
+              </form>
+            </div>
+          )}
         </div>
+
+          <img
+            src="/img/menu-1.png"
+            alt="menu"
+            className="menu"
+            onClick={() => setSidebar(!sidebar)}
+          />
+       
       </div>
+
       <hr />
     </div>
   );

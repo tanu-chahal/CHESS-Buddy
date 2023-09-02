@@ -26,4 +26,19 @@
             font-size: 0.8rem;
         }
     }
+    @media only screen and (max-width: 600px) {
+        left: 10%;
+        form{
+            min-width: 250px;
+            label{
+                font-size: 0.7rem;
+            }
+            input{
+                padding: 5px;
+            }
+            span{
+                font-size: 1rem;
+            }
+        }
+    }
 }

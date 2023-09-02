@@ -94,4 +94,38 @@
       }
     }
   }
+
+  @media only screen and (max-width: 600px) {
+    .container{
+      width: 100%;
+      .btn{
+        font-size: 0.7rem;
+        padding: 10px 15px;
+       }
+      table{
+        font-size: 0.5rem;
+        tr{
+          height: 50px;
+          .names{
+          font-size: 0.5rem;
+        }
+        td{
+          .btn,button{
+            font-size: 0.5rem;
+            padding: 5px 10px;
+           }
+         img{
+          width: 15px;
+         }
+      }
+      }
+      }
+      .abort{
+        top: 40%;
+        left: 10%;
+        font-size: 0.8rem;
+        padding: 20px;
+      }
+    }
+    }
 }
