@@ -13,13 +13,8 @@ const Navbar = () => {
   const [file, setFile] = useState(undefined);
   const [edit, setEdit] = useState(false);
   const [error, setError] = useState(false);
-  const [mobile, setMobile] = useState(false);
   const [sidebar, setSidebar] = useState(false);
 
-   console.log(window.innerWidth);
-  // if (window.innerWidth <= 600) {
-  //   setMobile(true);
-  // }
 
   const handleLogout = async () => {
     try {

@@ -296,7 +296,7 @@ const ChessBoard = ({
               ? "Winner Black"
               : "Draw Match"}
           </span>
-          <button onClick={()=>navigate("/games")}>Game Over</button>
+          <button onClick={handleNavigate}>Game Over</button>
         </div>
       )}
 
