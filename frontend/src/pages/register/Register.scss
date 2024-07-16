@@ -1,95 +1,107 @@
-.Register{
+.Register {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  min-height: 1000px;
+  .container {
+    margin: 100px 0px 0px 0px;
     display: flex;
-    align-items: center;
     justify-content: center;
-    flex-direction:column;
-    min-height:1000px;
-    .container{
-        margin: 100px 0px 0px 0px;
-        display:flex;
-        justify-content:center;
-        .left{
-            padding:0px 50px;
-            display: flex;
-            align-items: center;
-            flex-direction: column;
-            justify-content: center;
-            border: 3px solid black;
-            img{
-                width:350px;
-            }
-        }
-        form{
-            background-color: black;
-            width: 360px;
-            padding: 50px;
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            color: #ff69b4 ;
-            h1 {
-                margin-bottom: 20px;
-              }
-            label {
-                font-size: 1.2rem;
-            }  
-            input,textarea{
-             padding: 20px;
-             border: 1px solid rgb(216, 214, 214);
-            }    
-            button {
-                box-shadow: 3px 3px 10px 3px #ff69b4 inset;
-                padding: 20px;
-                color: #ff69b4;
-                font-size: 1.2rem;
-                font-weight: 500;
-                border: none;
-                border-radius: 10px;
-                background-color: transparent;
-                cursor: pointer;
-              }
-              button:hover {
-                color: white;
-                background-color: #ff69b4;
-              }
-          
-              span{
-                color: red;
-                font-size: 12px;
-              }
-        }
-    }
-    span{
-        color: grey;
-        font-size: 1rem;
-        padding: 30px 0px;
-        margin: 0px 0px 100px 0px;
+    .left {
+      padding: 0px 40px;
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+      justify-content: center;
+      border: 3px solid black;
+      img {
+        width: 320px;
       }
-      span:hover{
-        text-decoration: underline;
+    }
+    form {
+      background-color: black;
+      width: 360px;
+      padding: 50px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      color: #ff69b4;
+      h1 {
+        margin-bottom: 20px;
+      }
+      label {
+        font-size: 1.2rem;
+      }
+      input,
+      textarea {
+        padding: 20px;
+        border: 1px solid rgb(216, 214, 214);
+      }
+      button {
+        box-shadow: 3px 3px 10px 3px #ff69b4 inset;
+        padding: 20px;
+        color: #ff69b4;
+        font-size: 1.2rem;
+        font-weight: 500;
+        border: none;
+        border-radius: 10px;
+        background-color: transparent;
+        cursor: pointer;
+      }
+      button:hover {
+        color: white;
+        background-color: #ff69b4;
       }
 
-      @media only screen and (max-width: 600px) {
-        .container{
-        display: block;
-        min-height: 500px;
-        .left{
-          display: none;
+      span {
+        color: red;
+        font-size: 12px;
+      }
+    }
+  }
+  span {
+    color: grey;
+    font-size: 1rem;
+    padding: 30px 0px;
+    margin: 0px 0px 100px 0px;
+  }
+  span:hover {
+    text-decoration: underline;
+  }
+
+  @media only screen and (max-width: 768px) {
+    .container {
+      display: block;
+      min-height: 500px;
+      .left {
+        display: none;
+      }
+      form {
+        width: 400px;
+        padding: 30px;
+        label {
+          font-size: 1rem;
         }
-        form{
-          width: 320px;
-          padding: 30px;
-          label{
-            font-size: 1rem;
-          }
-          input{
-            padding: 15px;
-          }
-          button{
-            font-size: 1rem;
-            padding: 15px;
-          }
+        input {
+          padding: 15px;
+        }
+        button {
+          font-size: 1rem;
+          padding: 15px;
         }
       }
-        }
+    }
+  }
+}
+
+@media only screen and (max-width: 427px) {
+  .Register {
+    min-height: fit-content;
+    .container {
+      form {
+        width: 320px;
+      }
+    }
+  }
 }
