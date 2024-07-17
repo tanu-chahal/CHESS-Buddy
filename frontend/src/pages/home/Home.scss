@@ -2,159 +2,191 @@
 @import url("https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;600;700&family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800&family=Ubuntu:wght@300&display=swap");
 .Home {
   .container {
-    img {
+    min-height: 100%;
+    .hero {
       width: 100%;
       height: 70%;
-      object-fit: fill;
+      height: 650px;
       position: relative;
-      z-index: -1000;
-    }
-    .intro {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      background-color: transparent;
-      position: absolute;
-      top: 35%;
-      left: 35%;
-      gap: 30px;
-      padding: 40px;
-      -webkit-backdrop-filter: blur(10px) saturate(150%);
-      backdrop-filter: blur(10px) saturate(150%);
-      background-color: rgba(255, 255, 255, 0.091);
-      border-radius: 12px;
-      border: 1px solid rgba(209, 213, 219, 0.3);
-      max-width: 300px;
-      .logo {
-        font-size: 1.575rem;
-        .chess {
-          font-size: 2.825rem;
-        }
-        .buddy {
-          color: white;
-        }
+      .heroImg {
+        z-index: -1000;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: fill;
       }
-      .btn {
+      .intro {
+        padding: 40px 20px;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
         display: flex;
-        gap: 20px;
-        justify-content: center;
-        color: white;
+        flex-direction: column;
         align-items: center;
-        button {
-          box-shadow: 3px 3px 10px 3px #ff69b4 inset;
-          padding: 10px 20px;
-          color: #ff69b4;
-          font-size: 0.9rem;
-          font-weight: 500;
-          border: none;
-          border-radius: 10px;
-          background-color: transparent;
-          cursor: pointer;
+        justify-content: center;
+        gap: 10px;
+        background-color: transparent;
+        -webkit-backdrop-filter: blur(10px) saturate(150%);
+        backdrop-filter: blur(10px) saturate(150%);
+        background-color: rgba(255, 255, 255, 0.091);
+        border-radius: 12px;
+        border: 1px solid rgba(209, 213, 219, 0.3);
+        .logo {
+          font-size: 1.575rem;
+          .chess {
+            font-size: 2.825rem;
+          }
+          .buddy {
+            color: white;
+          }
         }
-        button:hover {
+        .btn {
+          display: flex;
+          gap: 20px;
+          justify-content: center;
           color: white;
-          background-color: #ff69b4;
+          align-items: center;
+          button {
+            box-shadow: 3px 3px 10px 3px #ff69b4 inset;
+            padding: 10px 20px;
+            color: #ff69b4;
+            font-size: 0.9rem;
+            font-weight: 500;
+            border: none;
+            border-radius: 10px;
+            background-color: transparent;
+            cursor: pointer;
+          }
+          button:hover {
+            color: white;
+            background-color: #ff69b4;
+          }
+        }
+        .msg {
+          color: white;
+          text-align: center;
+          font-size: 0.9rem;
+          max-width: 325px;
         }
       }
-      .msg {
+      .copy {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        max-width: 800px;
         color: white;
         text-align: center;
-        font-size: 0.9rem;
-      }
-    }
-    .copy{
-      position: absolute;
-      max-width:800px;
-      top: 45%;
-      left: 25%;
-      color:white;
-      text-align:center;
-      font-size: 1.5rem;
-      .logo {
-        .chess {
-          font-size: 4.2rem;
-          color:#ff69b4;
-        }
-        .buddy {
-          font-size: 3rem;
+        font-size: 1.5rem;
+        .logo {
+          .chess {
+            font-size: 4.2rem;
+            color: #ff69b4;
+          }
+          .buddy {
+            font-size: 3rem;
+          }
         }
       }
     }
-    .howToPlay{
+    .howToPlay {
       display: flex;
       width: 100%;
       align-items: center;
       justify-content: center;
       padding: 60px 0px;
       background-color: black;
-      min-height:600px;
-      gap:30px;
-      .left{
+      min-height: 600px;
+      gap: 30px;
+      .left {
         border: 2px white;
-        img{
+        img {
           object-fit: cover;
-          max-height:400px;
+          max-height: 400px;
           flex-shrink: 2;
-          z-index:0;
+          z-index: 0;
         }
-        
       }
-      .right{
+      .right {
         color: white;
         text-align: left;
         padding: 0px 40px;
-        min-height:500px;
-        display:flex;
+        min-height: 500px;
+        display: flex;
         flex-direction: column;
         align-items: flex-start;
         justify-content: center;
         max-width: 60%;
-        h1{
+        h1 {
           text-align: left;
           font-size: 3rem;
           padding: 20px 0px;
           font-weight: 600px;
         }
-        ol{
-          li{
+        ol {
+          li {
             padding: 10px;
             font-size: 1.3rem;
           }
         }
       }
     }
-    hr{
+    hr {
       width: 100%;
       height: 0px;
       border: 0.5px solid rgb(240, 237, 237);
     }
   }
-  @media only screen and (max-width: 600px) {
-  .container{
-    .howToPlay{
-    font-size: 0.5rem;
-    display: block;
-    .left{
-      display: none;
-    }
-    .right{
-      max-width: 100%;
-    }
-    h1{
-      font-size: 0.7rem;
+  @media only screen and (max-width: 768px) {
+    .container {
+      .hero {
+        height: 400px;
+        .intro{
+          padding: 20px 50px;
+          .btn{
+            flex-direction: column;
+            gap: 10px;
+          }
+        }
+      }
+      .howToPlay {
+        font-size: 0.5rem;
+        display: block;
+        .left {
+          display: none;
+        }
+        .right {
+          max-width: 100%;
+        }
+        h1 {
+          font-size: 0.7rem;
+        }
+      }
     }
   }
-  .copy, .intro{
-    visibility: hidden;
-  }
-}
-  }
-  
-  @media only screen and (min-width: 600px) and (max-width: 900px) {
-    .copy, .intro{
-      visibility: hidden;
+
+  @media only screen and (max-width: 427px) {
+    .container {
+      .hero {
+        height: 300px;
+        .intro{
+          gap: 5px;
+        }
+        .copy {
+          font-size: 1rem;
+          .logo {
+            .chess {
+              font-size: 3.2rem;
+            }
+            .buddy {
+              font-size: 2rem;
+            }
+          }
+        }
+      }
     }
   }
-  
 }

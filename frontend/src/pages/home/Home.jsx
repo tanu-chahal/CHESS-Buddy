@@ -5,11 +5,13 @@ import { Link } from "react-router-dom";
 
 const Home = () => {
   const currentUser = getCurrentUser();
+
   return (
     <div className="Home">
       <div className="container">
-        <img src="./img/chess-game.jpg" alt="CHESS-Buddy" />
-        {currentUser && (
+        <div className="hero">
+        <img className="heroImg" src="./img/chess-game.jpg" alt="CHESS-Buddy" />
+        {currentUser ? (
           <div className="copy">
             <h1>
               Play chess with your best buddies on{" "}
@@ -18,10 +20,9 @@ const Home = () => {
                 <span className="buddy">BUDDY</span>
               </span>
             </h1>
-          </div>
-        )}
-        {!currentUser && (
-          <div className="intro">
+          </div>)
+       :
+          (<div className="intro">
             <div className="msg">
               <p>Welcome to</p>
             </div>
@@ -43,7 +44,7 @@ const Home = () => {
             </div>
           </div>
         )}
-
+        </div>
         <div className="howToPlay">
           <div className="left">
             <img src="/img/illustration-2.png" alt=""/>
