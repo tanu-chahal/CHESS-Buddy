@@ -21,6 +21,7 @@ const Navbar = () => {
       await newRequest.post("/auth/logout");
       localStorage.setItem("currentUser", null);
       navigate("/");
+      console.log("Logged Out Successfully!")
     } catch (error) {
       console.log(error.message);
     }
@@ -103,12 +104,14 @@ const Navbar = () => {
           )}
         </div>
 
+          <div className="menuContainer">
           <img
-            src="/img/menu-1.png"
+            src="/img/menu.svg"
             alt="menu"
             className="menu"
             onClick={() => setSidebar(!sidebar)}
           />
+          </div>
        
       </div>
 

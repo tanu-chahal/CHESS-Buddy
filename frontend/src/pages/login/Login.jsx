@@ -7,16 +7,21 @@ const Login = () =>{
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [error, setError] = useState(null);
+    const [wait, setWait] = useState(false);
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault()
         try {
-          const res = await newRequest.post("/auth/login",{ email,password })
+            setWait(true)
+          const res = await newRequest.post("/auth/login",{ email, password })
           localStorage.setItem("currentUser",JSON.stringify(res.data))
-          navigate("/")
+          navigate("/");
+          console.log("Logged In Successfully.")
+          setWait(false);
         } catch (err) {
           setError(err.response.data)
+          setWait(false)
         }
       }
 
@@ -31,8 +36,8 @@ const Login = () =>{
                     <label htmlFor="email">Email</label>
                     <input name="email" type="email" id="email" placeholder="Email" autoComplete="email" onChange={(e)=>setEmail(e.target.value)}/>
                     <label htmlFor="password">Password</label>
-                    <input name="password" id="password" type="password" placeholder="Password" autoComplete="current-password" onChange={(e)=>setPassword(e.target.value)}/>
-                    <button type="submit">Log In</button>
+                    <input name="password" id="password" type="password" placeholder="Password" autoComplete="password" onChange={(e)=>setPassword(e.target.value)}/>
+                    <button type="submit" disabled={wait}>{wait ? "Logging In..." : "Log In"}</button>
                     {error && <span>{error}</span>}
                 </form>
             </div>

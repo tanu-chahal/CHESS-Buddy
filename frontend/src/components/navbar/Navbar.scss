@@ -28,6 +28,7 @@
       display: flex;
       padding: 0px 20px;
       gap: 20px;
+      justify-content: center;
       align-items: center;
       font-size: 1rem;
       .playBtn {
@@ -39,13 +40,17 @@
         border: none;
         border-radius: 10px;
         background-color: transparent;
+        display: flex;
+        align-items: center;
+        justify-content: center;
         cursor: pointer;
       }
-      button:hover {
+      .playBtn:hover {
         color: white;
         background-color: #ff69b4;
       }
       .profile {
+        margin-top: 10px;
         display: flex;
         align-items: center;
         gap: 10px;
@@ -131,7 +136,7 @@
       }
     }
 
-    .menu {
+    .menuContainer,.menu {
       display: none;
     }
   }
@@ -141,7 +146,7 @@
     border: 0.5px solid rgb(240, 237, 237);
   }
 
-  @media only screen and (max-width: 600px) {
+  @media only screen and (max-width: 427px) {
     .container {
       height: 60px;
       .other {
@@ -164,7 +169,12 @@
           color: white;
           cursor: pointer;
         }
+        .playBtn:hover {
+          color: white;
+          background-color: transparent;
+        }
         .profile {
+          margin-top: 0px;
           img {
             width: 20px;
             height: 20px;
@@ -187,10 +197,13 @@
           left: 10%;
         }
       }
-      .menu {
-        display: inline;
-        width: 20px;
-        padding: 10px 20px;
+      .menuContainer{
+        display: block;
+        width: 30px;
+        height: 30px;
+        .menu {
+          display: block;
+        }
       }
     }
   }

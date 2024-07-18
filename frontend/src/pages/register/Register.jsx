@@ -22,6 +22,7 @@ const Register = () =>{
     const handleSubmit = async (e) =>{
         e.preventDefault()
         try{
+            console.log(user)
             await newRequest.post("/auth/register",{...user})
             const res = await newRequest.post("/auth/login",{email: user.email,password: user.password})
             localStorage.setItem("currentUser",JSON.stringify(res.data))
@@ -38,8 +39,8 @@ const Register = () =>{
                 </div>
                 <form onSubmit={handleSubmit}>
                     <h1>Join / Sign Up</h1>
-                    <label htmlFor="name">Name</label>
-                    <input name="name" type="text" id="name" autoComplete="name" placeholder="Full Name" onChange={handleChange}/>
+                    <label htmlFor="fullName">Name</label>
+                    <input name="fullName" type="text" id="fullName" autoComplete="name" placeholder="Full Name" onChange={handleChange}/>
                     <label htmlFor="email">Email</label>
                     <input name="email" type="email" id="email" autoComplete="email" placeholder="Email" onChange={handleChange}/>
                     <label htmlFor="password">Password</label>

@@ -25,8 +25,15 @@ export const Login = async (req, res, next)=>{
 
 export const Register = async (req, res, next) => {
     try{
-        if(req.body.password.length <8 ) return next(createError(400, "Password length must be minimum 8 characters"))
-        const hash = bcrypt.hashSync(req.body.password,5)
+        const {fullName, email, password} = req.body;
+        if(password.length <8 ) return next(createError(400, "Password length must be minimum 8 characters."))
+        else if(!password) return next(createError(400, "Please set a password of minimum 8 characters."))
+        else if(!fullName) return next(createError(400, "Please enter you full name."))
+        else if(!email) return next(createError(400, "Please enter a valid email address."))
+        
+        const userQuery = Person.findOne({ 'email': email });
+        if(userQuery) return next(createError(400, "User already exists."))
+        const hash = bcrypt.hashSync(password,5)
         const newUser = new User({...req.body,
         password: hash})
 
