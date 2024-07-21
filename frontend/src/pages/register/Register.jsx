@@ -12,6 +12,7 @@ const Register = () =>{
     img: ""
     })
     const [error, setError] = useState(null);
+    const [wait, setWait] = useState(false);
 
     const handleChange = (e) =>{
         setUser((prev) =>{
@@ -22,13 +23,17 @@ const Register = () =>{
     const handleSubmit = async (e) =>{
         e.preventDefault()
         try{
+            setWait(true)
+            setError("")
             console.log(user)
             await newRequest.post("/auth/register",{...user})
             const res = await newRequest.post("/auth/login",{email: user.email,password: user.password})
             localStorage.setItem("currentUser",JSON.stringify(res.data))
             navigate("/")
+            setWait(false);
         }catch(err){
             setError(err.response.data)
+            setWait(false);
         }
     }
     return (
@@ -45,7 +50,7 @@ const Register = () =>{
                     <input name="email" type="email" id="email" autoComplete="email" placeholder="Email" onChange={handleChange}/>
                     <label htmlFor="password">Password</label>
                     <input name="password" type="password" id="password" autoComplete="new-password" placeholder="Password" onChange={handleChange}/>
-                    <button type="submit">Join</button>
+                    <button type="submit" disabled={wait}>{wait ? "Registering..." : "Join"}</button>
                     {error && <span>{error}</span>}
                 </form>
             </div>

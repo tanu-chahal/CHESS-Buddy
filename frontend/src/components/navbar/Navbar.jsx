@@ -14,6 +14,7 @@ const Navbar = () => {
   const [edit, setEdit] = useState(false);
   const [error, setError] = useState(false);
   const [sidebar, setSidebar] = useState(false);
+  const [wait, setWait] = useState(false);
 
 
   const handleLogout = async () => {
@@ -29,15 +30,23 @@ const Navbar = () => {
 
   const handleEdit = async (e) => {
     e.preventDefault();
+    if(!file){ 
+      setError("Please upload an image.")
+      return;
+    }
     try {
       setOpen(!open);
+      setWait(true)
+      setError("")
       const url = await upload(file);
       setEdit(!edit);
       const res = await newRequest.patch(`/user`, { img: url });
       localStorage.setItem("currentUser", JSON.stringify(res.data));
       navigate("/");
+      setWait(false);
     } catch (err) {
       setError(err.response.data);
+      setWait(false);
     }
   };
 
@@ -96,9 +105,9 @@ const Navbar = () => {
                   placeholder="Choose Picture"
                   onChange={(e) => setFile(e.target.files[0])}
                 />
-                <button type="submit">Upload</button>
+                <button type="submit" disabled={wait}>{wait ? "Uploading..." : "Upload"}</button>
                 <button onClick={() => setEdit(!edit)}>Close</button>
-                {error && <span>{error}</span>}
+                {error && <span className="error">{error}</span>}
               </form>
             </div>
           )}

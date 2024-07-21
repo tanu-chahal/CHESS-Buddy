@@ -93,9 +93,9 @@ const Games = () => {
   return (
     <div className="Games">
       {isLoading ? (
-        "loading..."
+        <span>loading...</span>
       ) : error ? (
-        "Something went wrong :( Try Reloading."
+        <span>Something went wrong :( Try Reloading.</span>
       ) : (
         <div className="container">
           <div className="title">

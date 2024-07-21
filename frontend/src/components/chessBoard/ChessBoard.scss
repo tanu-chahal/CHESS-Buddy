@@ -68,7 +68,7 @@
     }
   }
 
-  @media only screen and (max-width: 600px) {
+  @media only screen and (max-width: 768px) {
     .square {
       width: 45px;
       height: 45px;
@@ -78,5 +78,16 @@
       top: 50%;
       left:20%
     }
+}
+@media only screen and (max-width: 427px) {
+  .square {
+    width: 35px;
+    height: 35px;
+    font-size: 2rem;
+  }
+  .end{
+    top: 50%;
+    left:20%
+  }
 }
 }

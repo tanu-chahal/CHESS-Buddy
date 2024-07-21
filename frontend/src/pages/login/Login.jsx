@@ -13,7 +13,8 @@ const Login = () =>{
     const handleSubmit = async (e) => {
         e.preventDefault()
         try {
-            setWait(true)
+          setWait(true)
+          setError("")
           const res = await newRequest.post("/auth/login",{ email, password })
           localStorage.setItem("currentUser",JSON.stringify(res.data))
           navigate("/");

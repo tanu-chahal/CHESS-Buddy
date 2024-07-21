@@ -7,18 +7,25 @@ const NewGame = ({close, created}) => {
   const roomCode = generateRoomCode();
   const [email, setEmail] = useState("");
   const [msg, setMsg] = useState(null);
-  const [btn, setBtn] = useState(true);
+  const [wait, setWait] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if(!email){
+      setMsg("Enter your buddy's registered email.");
+      return
+    }
     try {
-      setBtn(false);
+      setWait(true);
+      setMsg("");
       const res = await newRequest.post("/match", { email, code: roomCode });
       setMsg(res.data +" Wait for a few seconds.");
       created(true)
       close(false)
+      setWait(false)
     } catch (err) {
       setMsg(err.response.data);
+      setWait(false)
     }
   };
   return (
@@ -31,7 +38,7 @@ const NewGame = ({close, created}) => {
           placeholder="Email"
           onChange={(e) => setEmail(e.target.value)}
         />
-        {btn && <button type="submit" className="btn">Create</button>}
+        <button type="submit" className="btn" disabled={wait}>{wait ? "Creating..." : "Create"}</button>
         <button className="btn" onClick={()=>close(false)}>Close</button>
         <span>Room Code: {roomCode}</span>
         {msg && <span className="msg">{msg}</span>}

@@ -1,72 +1,97 @@
-.Game{
-    color:white;
-    display:flex;
-    justify-content: center;
-    background-color:black;
-    min-height: 1000px;
-    .container{
-        padding: 50px;
-        display:flex;
-        gap:50px;
-        .left{
-            justify-self:flex-start;
-        }
-        .opponent, .me{
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items:center;
-            gap:10px;
-            img{
-                width: 100px;
-                height: 100px;
-                object-fit: contain;
-                padding: 2px;
-                border-radius: 50%;
-                border: 2px solid white;
-            }
-            span{
-                color: white;
-                font-size: 1.2rem;
-            }
-            button{
-                padding: 5px 10px;
-                background-color: #82ae61;
-                color: white;
-                border: none;
-                border-radius: 10px;
-            }
-            .online, .player{
-                color: #82ae61;
-                font-size: 0.8rem;
-                border: 0.1px solid #82ae61;
-                padding: 3px 10px;
-                border-radius: 10px;
-            } 
-        }
+.Game {
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: black;
+  min-height: 100vh;
+  width: 100%;
+  .container {
+    padding: 50px;
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    .left {
+      align-self: flex-start;
     }
+    .right {
+      align-self: center;
+    }
+    .me {
+      align-self: flex-end;
+    }
+    .opponent,
+    .me {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 20px;
+      .userInfo,
+      .additionalInfo {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+      }
+      img {
+        width: 100px;
+        height: 100px;
+        object-fit: contain;
+        padding: 2px;
+        border-radius: 50%;
+        border: 2px solid white;
+      }
+      span {
+        color: white;
+        font-size: 1.2rem;
+      }
+      button {
+        padding: 5px 10px;
+        background-color: #82ae61;
+        color: white;
+        border: none;
+        border-radius: 10px;
+      }
+      .online,
+      .player {
+        color: #82ae61;
+        font-size: 0.8rem;
+        border: 0.1px solid #82ae61;
+        padding: 3px 10px;
+        border-radius: 10px;
+      }
+    }
+  }
 
-    @media only screen and (max-width: 900px) {
-        width: 100%;
-        .container{
-         align-self: center;
-         flex-direction: column;
-         width: 90%;
-         .left{
-             align-self: flex-start;
-         }
-         .right{
-            align-self: center;
-         }
-          .opponent, .me{
-       
-             span{ 
-                 font-size: 1rem;
-             }
-         }
-         .me{
-             align-self: flex-end;
-         }
-     }
-     }
+  @media only screen and (max-width: 768px) {
+    width: 100%;
+    .container {
+      width: 100%;
+      .opponent,
+      .me {
+        span {
+          font-size: 1rem;
+        }
+      }
+    }
+  }
+  @media only screen and (max-width: 427px) {
+    .container {
+      width: 100%;
+      gap: 20px;
+      justify-self: start;
+      padding: 20px;
+      .opponent,
+      .me {
+        .userInfo {
+          img {
+            width: 75px;
+            height: 75px;
+          }
+        }
+      }
+    }
+  }
 }

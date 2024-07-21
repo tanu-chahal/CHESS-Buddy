@@ -8,7 +8,7 @@
       height: 70%;
       height: 650px;
       position: relative;
-      z-index: -100;
+      // z-index: -100;
       .heroImg {
         z-index: -1000;
         position: absolute;
@@ -172,6 +172,7 @@
   @media only screen and (max-width: 427px) {
     .container {
       .hero {
+        z-index: -1;
         height: 300px;
         .intro{
           gap: 5px;

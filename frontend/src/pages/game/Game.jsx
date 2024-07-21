@@ -34,10 +34,13 @@ const Game = () => {
       <div className="container">
         <div className="left">
           <div className="opponent">
+            <div className="userInfo">
             <img src={data.opponentImg || "/img/profile.png"} alt="" />
             <span>{data.opponentName || "Opponent"}</span>
-            <span className="online">{online ? "Online" : "Offline"}</span>
-            {pTurn !== currentUser?._id && <button>Turn</button>}
+            </div>
+           <div className="additionalInfo">
+           <span className="online">{online ? "Online" : "Offline"}</span>
+           {pTurn !== currentUser?._id && <button>Turn</button>}</div> 
           </div>
         </div>
         <div className="right">
@@ -59,10 +62,14 @@ const Game = () => {
           />
         </div>
         <div className="me">
-          {pTurn === currentUser?._id && <button>Turn</button>}
+          <div className="userInfo">
           <img src={currentUser?.img || "/img/profile.png"} alt="" />
           <span>{currentUser?.fullName || "Me"}</span>
+          </div>
+          <div className="additionalInfo">
           <span className="player">{data.white === currentUser?._id ? "White" : "Black"}</span>
+          {pTurn === currentUser?._id && <button>Turn</button>}
+          </div>
         </div>
       </div>
       }
