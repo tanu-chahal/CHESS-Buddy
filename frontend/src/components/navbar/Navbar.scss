@@ -1,4 +1,5 @@
 .Navbar {
+  z-index: 100;
   position: sticky;
   .container {
     width: 100%;
@@ -80,7 +81,6 @@
           top: 75px;
           justify-content: center;
           align-items: flex-start;
-
           span {
             display: flex;
             justify-content: center;
