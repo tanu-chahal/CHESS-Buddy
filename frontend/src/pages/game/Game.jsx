@@ -23,14 +23,18 @@ const Game = () => {
   if (isLoading || error) {
     return (
       <div className="Game">
-        <div className="container">Loading...</div>
+        <div className="processing">loading...</div>
       </div>
     );
   }
 
   return (
     <div className="Game">
-     {isLoading ? "loading..." : error ? "Something went wrong :( Try Refreshing" :
+     {isLoading ? (
+        <span className="processing">loading...</span>
+      ) : error ? (
+        <span className="processing">Something went wrong :( Try Reloading.</span>
+      ) :
       <div className="container">
         <div className="left">
           <div className="opponent">

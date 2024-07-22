@@ -171,11 +171,13 @@
 
   @media only screen and (max-width: 427px) {
     .container {
+      z-index: -100;
       .hero {
-        z-index: -1;
+        // z-index: -1;
         height: 300px;
         .intro{
           gap: 5px;
+          z-index: 5;
         }
         .copy {
           font-size: 1rem;
