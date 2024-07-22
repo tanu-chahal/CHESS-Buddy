@@ -10,7 +10,7 @@ Check out our [Preview Video](https://vimeo.com/855970301) to see the game in ac
 
 ## Live Site
 
-Check out the site live [here](https://chessbuddy.vercel.app/)
+Check out the site live [here](https://chessbuddy.vercel.app/) or https://chessbuddy.vercel.app/
 
 ## Getting Started
 
@@ -26,13 +26,15 @@ To get started with the game locally, follow these steps:
 
 ```yarn```
 
-3. Comment the current baseURL in frontend/src/utils/newRequest.js file and uncomment the localhost one.
-
-4. Do same for const socket = io("url") in frontend/src/components/chessBoard/ChessBoard.jsx
+3. Create two environment variables by making a `.env` in `frontend` directory
+```bash
+VITE_CLOUDINARY_API = <your-cloundinary-api-url>/image/upload
+VITE_CHESSBUDDY_API = <chess-buddy-backend-api-url>
+```
 
 4. Start the frontend app:
 
-```yarn dev```
+```yarn dev``` or ```npm run dev```
 
 The frontend app will be accessible at http://localhost:5173/
 
@@ -53,12 +55,12 @@ The frontend app will be accessible at http://localhost:5173/
 
 4. Install backend dependencies:
 
-```yarn```
+```yarn``` or ```npm install``` or ```npm i```
 
 
 5. Start the backend server:
 
-```yarn start```
+```yarn dev``` or ```npm run dev```
 
 
 The backend server will run at http://localhost:4000/.
@@ -89,7 +91,7 @@ We welcome contributions from the community! To contribute to the project:
 ## Technologies Used
 
 - **Frontend:** React, Socket.IO, Cloudinary, AXIOS, React Query
-- **Backend:** Node.js, Express, Mongoose, MongoDB, Socket.IO
+- **Backend:** Node.js, Express, JWT, Mongoose, MongoDB, Socket.IO
 
 ## Contact
 

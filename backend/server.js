@@ -37,7 +37,7 @@ const connect = async () => {
 };
 
 app.get("/", (req, res) => {
-  res.send("Hello, CHESSBuddy Server is running on port 4000!");
+  res.send("Hello, CHESSBuddy API Server is running!");
 });
 
 app.use("/api/auth", authRoute);

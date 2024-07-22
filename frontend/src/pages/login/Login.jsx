@@ -16,7 +16,6 @@ const Login = () =>{
           setWait(true)
           setError("")
           const res = await newRequest.post("/auth/login",{ email, password })
-          console.log(res.data)
           localStorage.setItem("currentUser",JSON.stringify(res.data.user))
           localStorage.setItem("accessToken",res.data.accessToken)
           navigate("/");
