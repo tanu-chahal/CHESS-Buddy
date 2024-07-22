@@ -1,11 +1,19 @@
+// import {
+//   isPieceWhite,
+//   isPieceBlack,
+//   findKingPosition,
+//   isValidMove,
+//   dangerousPositions,
+// } from "../../frontend/src/utils/chessUtils.js";
+// import { calculateAllowedSquares } from "../../frontend/src/utils/allowedSquares.js";
 import {
   isPieceWhite,
   isPieceBlack,
   findKingPosition,
   isValidMove,
   dangerousPositions,
-} from "../../frontend/src/utils/chessUtils.js";
-import { calculateAllowedSquares } from "../../frontend/src/utils/allowedSquares.js";
+} from "./chessUtils.js";
+import { calculateAllowedSquares } from "./allowedSquares.js";
 
 export const handleCheckAndCheckmate = (
   turnClr,
